@@ -60,7 +60,7 @@ function MakeChit(props) {
 
     const archivelink = Utils.newElem("a");
     archivelink.setAttribute("href", "#");
-    archivelink.innerHTML = "archive";
+    archivelink.innerHTML = "Archive";
     archivelink.addEventListener("click", onArchiveTap);
     cellarchive.append(archivelink);
 

@@ -15,7 +15,7 @@ function Sheet() {
 
   let tapHoldAni;
 
-  const toolbar_offset = 20;
+  const toolbar_offset = 24;
 
   const sheetMouseDown = (e) => {
     if (e.currentTarget.id === "sheet") {

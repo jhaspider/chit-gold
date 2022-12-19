@@ -1,6 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Antic+Slab&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Antic+Slab&family=Passion+One:wght@700&display=swap");
+
 :root {
   font-size: 14px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Antic Slab", serif;
 }
 
 body {
@@ -10,11 +13,12 @@ body {
 }
 
 h1 {
-  font-size: 3.2rem;
+  font-size: 3.4rem;
+  font-family: "Passion One", cursive !important;
 }
 
 h2 {
-  font-size: 1.2rem;
+  font-size: 2rem;
 }
 
 img {
@@ -31,14 +35,15 @@ div {
 }
 
 .toolbar {
-  height: 20px;
+  height: 24px;
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  background-color: #ff1212;
+  background-color: #21e73e;
   gap: 10px;
+  overflow: hidden;
 }
 
 .toolbar h1 {
@@ -47,6 +52,7 @@ div {
 
 .toolbar img {
   margin-left: 20px;
+  font-weight: 800;
 }
 
 .toolbar .btns {
@@ -74,7 +80,7 @@ div {
 #sheet {
   width: 100%;
   height: 100%;
-  background-color: #d3d3d3;
+  background-color: #856bde14;
 }
 
 .chit {
@@ -106,14 +112,14 @@ div {
 }
 
 .chit-archive {
-  padding: 4px 10px;
+  padding: 2px 4px;
   background-color: #effff0;
   display: flex;
   justify-content: center;
 }
 
 .chit-archive a {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   text-decoration: none;
   color: #000;
 }
