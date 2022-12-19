@@ -1,0 +1,128 @@
+:root {
+  font-size: 14px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  margin: 0;
+  border: 0;
+  border: 0;
+}
+
+h1 {
+  font-size: 3.2rem;
+}
+
+h2 {
+  font-size: 1.2rem;
+}
+
+img {
+  height: 32px;
+}
+
+div {
+  border: 0;
+}
+
+.builder-grid {
+  width: 100%;
+  /* height: 100vh; */
+}
+
+.toolbar {
+  height: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #ff1212;
+  gap: 10px;
+}
+
+.toolbar h1 {
+  flex-grow: 2;
+}
+
+.toolbar img {
+  margin-left: 20px;
+}
+
+.toolbar .btns {
+  display: flex;
+  margin-right: 20px;
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+#workarea {
+  position: relative;
+  width: 100%;
+  overflow: auto;
+  height: calc(100vh - 20px);
+  padding: 0;
+  margin: 0;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+#sheet {
+  width: 100%;
+  height: 100%;
+  background-color: #d3d3d3;
+}
+
+.chit {
+  background-color: #fff;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+
+  min-height: 18vh;
+  min-width: 22vh;
+  max-width: 40vh;
+  justify-content: flex-start;
+}
+
+.chit-title {
+  padding: 0;
+  margin: 16px 10px;
+}
+
+.chit-inner {
+  background-color: white;
+  width: calc(100% - 22px);
+  height: 100%;
+  padding: 10px 10px;
+
+  font-size: 1.2rem;
+  flex-grow: 1;
+}
+
+.chit-archive {
+  padding: 4px 10px;
+  background-color: #effff0;
+  display: flex;
+  justify-content: center;
+}
+
+.chit-archive a {
+  font-size: 0.7rem;
+  text-decoration: none;
+  color: #000;
+}
+
+[contenteditable] {
+  outline: 0px solid transparent;
+}
+
+.circular-anim {
+  /* transform: rotate(-90deg); */
+  position: absolute;
+}

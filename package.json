@@ -1,0 +1,33 @@
+{
+  "name": "chit-gold",
+  "version": "1.0.0",
+  "description": "Chit Gold",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "start": "rm ./dist/js/* | webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhaspider/wysiwyg-sheet.git"
+  },
+  "keywords": [
+    "Chit Gold"
+  ],
+  "author": "Amarjit Jha <jha.amarjit@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "html-webpack-plugin": "^5.5.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.9.3"
+  },
+  "dependencies": {
+    "css-loader": "^6.7.1",
+    "lodash": "^4.17.21",
+    "style-loader": "^3.3.1",
+    "uuid": "^9.0.0"
+  }
+}
