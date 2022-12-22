@@ -3,3 +3,4 @@ developer_note.md
 .DS_Store
 package-lock.json
 dist/js/*.js
+dist/js/*.json

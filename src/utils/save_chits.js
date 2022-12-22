@@ -16,9 +16,7 @@ function LoadChits() {
 }
 
 function archiveChit(all_chits, id) {
-  console.log(id);
   all_chits.find((chit) => {
-    console.log(chit);
     if (chit.props.id === id) {
       chit.props = {
         ...chit.props,
@@ -31,4 +29,14 @@ function archiveChit(all_chits, id) {
   SaveChits(all_chits);
 }
 
-export { SaveChits, LoadChits, archiveChit };
+function AddTopic(topic) {
+  const data = localStorage.getItem("topics");
+  let topics = [];
+  if (data) {
+    topics = JSON.parse(data);
+  }
+  topics = [topic, ...topics];
+  localStorage.setItem("topics", JSON.stringify(topics));
+}
+
+export { SaveChits, LoadChits, archiveChit, AddTopic };

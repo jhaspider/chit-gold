@@ -25,7 +25,6 @@ function TapHoldAnimation(props) {
     ctx.beginPath();
 
     factor += 0.025;
-    console.log(factor);
 
     ctx.arc(dimension / 2, dimension / 2, (dimension - 10) / 2, 0, factor * Math.PI);
 

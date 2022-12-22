@@ -10,11 +10,8 @@ function Sheet() {
 
   let selected_chit;
   let initCord;
-
   let new_sheet_start_time = 0;
-
   let tapHoldAni;
-
   const toolbar_offset = 24;
 
   const sheetMouseDown = (e) => {
@@ -29,7 +26,6 @@ function Sheet() {
   };
 
   const sheetMouseUp = (e) => {
-    console.log(e.currentTarget.id, new_sheet_start_time);
     if (e.currentTarget.id === "sheet") {
       // Remove listener
       sheet.removeEventListener("mousemove", sheetMouseMove);
@@ -45,7 +41,7 @@ function Sheet() {
       if (new_sheet_start_time > 0) {
         let diff = new Date().getTime() - new_sheet_start_time;
         new_sheet_start_time = 0;
-        console.log(diff);
+
         if (diff >= 500) {
           const chitProps = { left: e.clientX, top: e.clientY - toolbar_offset, title: `Chit ${all_chits.length + 1}` };
           addChit(chitProps);
