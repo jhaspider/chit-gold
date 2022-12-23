@@ -4,10 +4,9 @@ import Utils from "../utils/utils";
 import AddGroup from "./add-group";
 
 function Topics() {
-  let topics;
-
+  const all_topics = [];
   const removeGroupHandler = (topic) => {
-    renderTopics();
+    if (topic.props.id) renderTopics();
     document.body.removeChild(topic.dom);
   };
 
@@ -19,9 +18,8 @@ function Topics() {
   const selectTopicHandler = (e) => {
     document.dispatchEvent(new CustomEvent(Events.TOPIC_SELECT, { detail: { id: e.target.dataset.id } }));
   };
-  const renderTopics = () => {
-    topics = LoadTopics();
 
+  const renderTopics = () => {
     const topicDom = (topic) => {
       const topicDom = Utils.newElem("a");
       topicDom.setAttribute("href", "javascript:void(0)");
@@ -30,16 +28,20 @@ function Topics() {
       topicDom.addEventListener("click", selectTopicHandler);
       return topicDom;
     };
+
+    const topics = LoadTopics();
     if (topics.length <= 0) addGroupHandler();
     else {
       var parentNode = container.querySelector("#topics-list");
-      var childNodes = parentNode.childNodes;
-      for (var i = 0; i < childNodes.length; i++) {
-        parentNode.removeChild(childNodes[i]);
-      }
+      all_topics.forEach((t) => {
+        parentNode.removeChild(t);
+      });
+      all_topics.splice(0, all_topics.length);
 
       topics.forEach((topic) => {
-        container.querySelector("#topics-list").append(topicDom(topic));
+        const t = topicDom(topic);
+        all_topics.push(t);
+        parentNode.append(t);
       });
 
       setTimeout(() => {

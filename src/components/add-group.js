@@ -12,7 +12,8 @@ function AddGroup(props) {
       alert("Enter a topic name.");
       return;
     }
-    AddTopic({ id: uuidv4(), topicName });
+    topic.props = { id: uuidv4(), topicName };
+    AddTopic(topic.props);
     close(topic);
   };
 
