@@ -117,6 +117,7 @@ div {
   background-color: #effff0;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .chit-archive a {
@@ -132,6 +133,13 @@ div {
 .circular-anim {
   /* transform: rotate(-90deg); */
   position: absolute;
+}
+
+#topics-list {
+  padding: 4px 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
 }
 
 .add-group-container {

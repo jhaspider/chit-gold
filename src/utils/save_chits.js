@@ -6,27 +6,59 @@ function SaveChits(all_chits) {
   localStorage.setItem("chits", JSON.stringify(props));
 }
 
-function LoadChits() {
+function AddChit(chit) {
+  const data = localStorage.getItem("chits");
+  let chits = [];
+  if (data) {
+    chits = JSON.parse(data);
+  }
+  chits = [...chits, chit];
+  localStorage.setItem("chits", JSON.stringify(chits));
+}
+
+function UpdateChit(new_chit) {
+  const data = localStorage.getItem("chits");
+  let chits = [];
+  if (data) {
+    chits = JSON.parse(data);
+  }
+  let chitIndex = chits.findIndex((chit) => chit.id === new_chit.id);
+  if (chitIndex >= 0) {
+    let chit = chits[chitIndex];
+    chit = {
+      ...chit,
+      ...new_chit,
+    };
+    chits[chitIndex] = chit;
+    localStorage.setItem("chits", JSON.stringify(chits));
+  }
+}
+
+function LoadChits(topicId) {
   const data = localStorage.getItem("chits");
   const chits = JSON.parse(data);
   if (chits) {
-    const filtered_chits = chits.filter((chit) => !chit.archive);
+    const filtered_chits = chits.filter((chit) => !chit.archive && chit.topicId == topicId);
     return filtered_chits;
   }
 }
 
-function archiveChit(all_chits, id) {
-  all_chits.find((chit) => {
-    if (chit.props.id === id) {
-      chit.props = {
-        ...chit.props,
-        archive: chit.props.archive ? false : true,
-      };
-      return chit;
-    }
-  });
-
-  SaveChits(all_chits);
+function archiveChit(id) {
+  const data = localStorage.getItem("chits");
+  let chits = [];
+  if (data) {
+    chits = JSON.parse(data);
+  }
+  let chitIndex = chits.findIndex((chit) => chit.id === id);
+  if (chitIndex >= 0) {
+    let chit = chits[chitIndex];
+    chit = {
+      ...chit,
+      archive: chit.archive ? false : true,
+    };
+    chits[chitIndex] = chit;
+    localStorage.setItem("chits", JSON.stringify(chits));
+  }
 }
 
 function AddTopic(topic) {
@@ -35,8 +67,17 @@ function AddTopic(topic) {
   if (data) {
     topics = JSON.parse(data);
   }
-  topics = [topic, ...topics];
+  topics = [...topics, topic];
   localStorage.setItem("topics", JSON.stringify(topics));
 }
 
-export { SaveChits, LoadChits, archiveChit, AddTopic };
+function LoadTopics() {
+  const data = localStorage.getItem("topics");
+  let topics = [];
+  if (data) {
+    topics = JSON.parse(data);
+  }
+  return topics;
+}
+
+export { AddChit, LoadChits, UpdateChit, archiveChit, AddTopic, LoadTopics };

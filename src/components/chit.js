@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import Events from "../utils/events";
 
 function MakeChit(props) {
-  const { left, top, title, text = "", id = uuidv4(), onArchive } = props;
+  const { left, top, title, topicId, text = "", id = uuidv4(), onArchive } = props;
 
   let timer;
   const onTitleChangeHandler = (e) => {
@@ -30,10 +30,9 @@ function MakeChit(props) {
   };
 
   const onArchiveTap = (e) => {
-    if (onArchive) {
-      chit.dom.remove();
-      onArchive(id);
-    }
+    e.stopPropagation();
+    chit.dom.remove();
+    chit.dom.dispatchEvent(new CustomEvent(Events.ARCHIVE, { detail: { id: chit.props.id } }));
   };
 
   const getDom = () => {
@@ -54,17 +53,16 @@ function MakeChit(props) {
     div.append(cellInner);
 
     // Archive
-
     const cellarchive = Utils.newElem("div", null, "chit-archive");
     div.append(cellarchive);
 
     const archivelink = Utils.newElem("a");
     archivelink.setAttribute("href", "#");
     archivelink.innerHTML = "Archive";
-    archivelink.addEventListener("click", onArchiveTap);
     cellarchive.append(archivelink);
-
-    div.addEventListener("click", (e) => e.stopPropagation());
+    archivelink.addEventListener("click", onArchiveTap);
+    archivelink.addEventListener("mousedown", (e) => e.stopPropagation());
+    archivelink.addEventListener("mouseup", (e) => e.stopPropagation());
 
     return div;
   };
@@ -78,7 +76,11 @@ function MakeChit(props) {
     return {
       dom,
       props: {
-        ...props,
+        left,
+        top,
+        title,
+        text,
+        topicId,
         id,
       },
       position: positionChit,

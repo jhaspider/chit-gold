@@ -8,12 +8,11 @@ function AddGroup(props) {
   let topicName;
 
   const onSaveTap = (e) => {
-    console.log(`Topic name : ${topicName}`);
     if (!topicName) {
       alert("Enter a topic name.");
       return;
     }
-    AddTopic(topicName);
+    AddTopic({ id: uuidv4(), topicName });
     close(topic);
   };
 
