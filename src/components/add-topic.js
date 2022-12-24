@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import Events from "../utils/events";
 import { AddTopic } from "../utils/save_chits";
 
-function AddGroup(props) {
+function NewTopic(props) {
   let { close } = props;
   let topicName;
 
@@ -21,7 +21,7 @@ function AddGroup(props) {
     if (e.target.id === "bgcontainer") close(topic);
   };
 
-  const onContentChangeHandler = (e) => (topicName = e.target.value);
+  const onContentChangeHandler = (e) => (topicName = e.target.value.toUpperCase());
 
   const onKeyUpHandler = (e) => {
     if (e.code === "Enter") onSaveTap();
@@ -40,30 +40,31 @@ function AddGroup(props) {
     addGroup.append(heading);
 
     // Body
-    const topicName = Utils.newElem("input", null, "container");
+    const topicName = Utils.newElem("input", "topic_name", "container");
     topicName.addEventListener("input", onContentChangeHandler);
     topicName.addEventListener("keyup", onKeyUpHandler);
     topicName.setAttribute("type", "text");
     addGroup.append(topicName);
+    topicName.focus();
 
     // Archive
-    const cellarchive = Utils.newElem("div", null, "action");
-    cellarchive.addEventListener("click", onSaveTap);
-    addGroup.append(cellarchive);
-
     const archivelink = Utils.newElem("a");
-    archivelink.setAttribute("href", "#");
+    archivelink.setAttribute("href", "javascript:void(0)");
     archivelink.innerHTML = "SAVE";
-    cellarchive.append(archivelink);
+    archivelink.addEventListener("click", onSaveTap);
+    addGroup.append(archivelink);
 
     return groupContainer;
   };
+
+  const setFocus = () => topic.dom.querySelector("#topic_name").focus();
 
   const build = () => {
     const dom = getDom();
     return {
       dom,
       props: {},
+      focus: setFocus,
     };
   };
 
@@ -71,4 +72,13 @@ function AddGroup(props) {
   return topic;
 }
 
-export default AddGroup;
+function Topic({ topic, selectTopicHandler }) {
+  const topicDom = Utils.newElem("a");
+  topicDom.setAttribute("href", "javascript:void(0)");
+  topicDom.innerHTML = topic.topicName;
+  topicDom.dataset.id = topic.id;
+  topicDom.addEventListener("click", selectTopicHandler);
+  return topicDom;
+}
+
+export { NewTopic, Topic };

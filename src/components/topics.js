@@ -1,7 +1,7 @@
 import Events from "../utils/events";
 import { LoadTopics } from "../utils/save_chits";
 import Utils from "../utils/utils";
-import AddGroup from "./add-group";
+import { NewTopic, Topic } from "./add-topic";
 
 function Topics() {
   const all_topics = [];
@@ -10,9 +10,11 @@ function Topics() {
     document.body.removeChild(topic.dom);
   };
 
-  const addGroupHandler = (e) => {
-    const addGroup = AddGroup({ close: removeGroupHandler });
-    document.body.append(addGroup.dom);
+  const addNewTopicHandler = (e) => {
+    const newTopic = NewTopic({ close: removeGroupHandler });
+
+    document.body.append(newTopic.dom);
+    newTopic.focus();
   };
 
   const selectTopicHandler = (e) => {
@@ -20,18 +22,8 @@ function Topics() {
   };
 
   const renderTopics = () => {
-    const topicDom = (topic) => {
-      const topicDom = Utils.newElem("a");
-      topicDom.setAttribute("href", "javascript:void(0)");
-      topicDom.innerHTML = topic.topicName;
-      topicDom.dataset.id = topic.id;
-      topicDom.addEventListener("click", selectTopicHandler);
-      return topicDom;
-    };
-
     const topics = LoadTopics();
-    if (topics.length <= 0) addGroupHandler();
-    else {
+    if (topics.length > 0) {
       var parentNode = container.querySelector("#topics-list");
       all_topics.forEach((t) => {
         parentNode.removeChild(t);
@@ -39,14 +31,14 @@ function Topics() {
       all_topics.splice(0, all_topics.length);
 
       topics.forEach((topic) => {
-        const t = topicDom(topic);
+        const t = Topic({ topic, selectTopicHandler });
         all_topics.push(t);
         parentNode.append(t);
       });
 
       setTimeout(() => {
         document.dispatchEvent(new CustomEvent(Events.TOPIC_SELECT, { detail: { id: topics[topics.length - 1].id } }));
-      }, 1000);
+      }, 500);
     }
   };
 
@@ -59,7 +51,7 @@ function Topics() {
     const addTopicLink = Utils.newElem("a");
     addTopicLink.setAttribute("href", "javascript:void(0)");
     addTopicLink.innerHTML = "ADD TOPIC";
-    addTopicLink.addEventListener("click", addGroupHandler);
+    addTopicLink.addEventListener("click", addNewTopicHandler);
     topicsDom.append(addTopicLink);
 
     return topicsDom;
@@ -67,6 +59,7 @@ function Topics() {
 
   const container = buildTopicDom();
   renderTopics();
+  if (all_topics.length <= 0) addNewTopicHandler();
   return container;
 }
 
