@@ -18,7 +18,9 @@ function Topics() {
   };
 
   const selectTopicHandler = (e) => {
-    document.dispatchEvent(new CustomEvent(Events.TOPIC_SELECT, { detail: { id: e.target.dataset.id } }));
+    setTimeout(() => {
+      document.dispatchEvent(new CustomEvent(Events.TOPIC_SELECT));
+    }, 200);
   };
 
   const renderTopics = () => {
@@ -30,15 +32,20 @@ function Topics() {
       });
       all_topics.splice(0, all_topics.length);
 
-      topics.forEach((topic) => {
+      topics.forEach((topic, tindex) => {
         const t = Topic({ topic, selectTopicHandler });
         all_topics.push(t);
         parentNode.append(t);
-      });
 
-      setTimeout(() => {
-        document.dispatchEvent(new CustomEvent(Events.TOPIC_SELECT, { detail: { id: topics[topics.length - 1].id } }));
-      }, 500);
+        if (tindex == topics.length - 1) {
+          const queryString = window.location.hash;
+          const topicId = queryString.split("=")[1];
+          if (!topicId) {
+            console.log(`Latest Topic Id : ${topic.id}`);
+            t.click();
+          }
+        }
+      });
     }
   };
 

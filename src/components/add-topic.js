@@ -74,7 +74,7 @@ function NewTopic(props) {
 
 function Topic({ topic, selectTopicHandler }) {
   const topicDom = Utils.newElem("a");
-  topicDom.setAttribute("href", "javascript:void(0)");
+  topicDom.setAttribute("href", `#?topic_id=${topic.id}`);
   topicDom.innerHTML = topic.topicName;
   topicDom.dataset.id = topic.id;
   topicDom.addEventListener("click", selectTopicHandler);

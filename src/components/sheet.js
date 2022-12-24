@@ -111,13 +111,18 @@ function Sheet() {
     }
   };
 
-  const topicSelectHandler = (e) => {
-    topicId = e.detail.id;
-    renderOldChits(topicId);
+  const loadChitsHandler = () => {
+    const queryString = window.location.hash;
+    topicId = queryString.split("=")[1];
+    if (topicId) {
+      console.log(`Topic Id : ${topicId}`);
+      renderOldChits(topicId);
+    }
   };
 
   const sheet = build_sheet();
-  document.addEventListener(Events.TOPIC_SELECT, topicSelectHandler);
+  document.addEventListener(Events.TOPIC_SELECT, loadChitsHandler);
+  loadChitsHandler();
   return sheet;
 }
 
