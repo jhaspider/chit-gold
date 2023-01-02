@@ -50,7 +50,7 @@ function Topics() {
   };
 
   const buildTopicDom = () => {
-    const topicsDom = Utils.newElem("div", null, "chit-archive");
+    const topicsDom = Utils.newElem("div", "chit-topics", "chit-archive");
 
     const topicsList = Utils.newElem("div", "topics-list");
     topicsDom.append(topicsList);

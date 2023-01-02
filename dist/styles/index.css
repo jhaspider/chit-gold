@@ -2,13 +2,12 @@
 
 :root {
   --bg-color: #ffffff;
-  --bg-secondary-color: #f3f3f6;
+  --bg-secondary-color: #f9f8f3;
   --bg-dialog: #fee440;
   --font-color: #333333;
-  --color-primary: #00f5d4;
-  --color-action: #9b5de5;
+  --color-action: #6615c6;
 
-  --color-lightGrey: #d2d6dd;
+  --color-lightGrey: #f2f2f2;
   --color-grey: #747681;
   --color-darkGrey: #3f4144;
   --color-error: #d43939;
@@ -57,30 +56,21 @@ a {
   /* height: 100vh; */
 }
 
-.toolbar {
+#toolbar {
   height: 24px;
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  background-color: var(--color-primary);
+  background-color: var(--color-action);
   gap: 10px;
   overflow: hidden;
 }
 
-.toolbar h1 {
+#toolbar h1 {
   flex-grow: 2;
-}
-
-.toolbar img {
-  margin-left: 20px;
-  font-weight: 800;
-}
-
-.toolbar .btns {
-  display: flex;
-  margin-right: 20px;
+  margin-top: 46px;
 }
 
 .wrapper {
@@ -93,29 +83,31 @@ a {
   position: relative;
   width: 100%;
   overflow: auto;
-  height: calc(100vh - 20px);
+  /* height: calc(100vh - 24px); */
   padding: 0;
   margin: 0;
   z-index: 1;
-  flex-shrink: 0;
 }
 
 #sheet {
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 24px);
+  position: relative;
+  overflow: hidden;
   background-color: var(--bg-secondary-color);
 }
 
 .chit {
   background-color: var(--bg-color);
+  border: 1px solid var(--color-lightGrey);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   position: absolute;
 
-  min-height: 18vh;
-  min-width: 22vh;
-  max-width: 40vh;
+  min-height: 300px;
+  min-width: 240px;
+  max-width: 480px;
   justify-content: flex-start;
   border-radius: 8px;
   padding: 10px 20px;
@@ -136,8 +128,6 @@ a {
 }
 
 .chit-archive {
-  padding: 2px 4px;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -204,7 +194,7 @@ a {
   text-align: center;
   padding: 10px 10px;
   outline: 0px solid transparent;
-  color: #f15bb5;
+  color: var(--color-action);
 }
 
 .add-group .action {

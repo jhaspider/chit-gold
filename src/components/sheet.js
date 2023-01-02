@@ -12,16 +12,26 @@ function Sheet() {
   let initCord;
   let new_sheet_start_time = 0;
   let tapHoldAni;
-  const toolbar_offset = 24;
+  const toolbar_offset = Utils.getDomById("toolbar").clientHeight;
+  const chit_topics = Utils.getDomById("chit-topics").clientHeight;
+  const topOffset = toolbar_offset + chit_topics;
+
   let topicId;
+  let cords = {
+    center: null,
+    edA: null,
+    edB: null,
+    edC: null,
+    edD: null,
+  };
 
   const sheetMouseDown = (e) => {
     if (e.currentTarget.id === "sheet") {
+      // sheet.addEventListener("mousemove", sheetMouseMove);
       if (!tapHoldAni) {
-        tapHoldAni = TapHoldAnimation({ left: e.clientX, top: e.clientY - toolbar_offset });
+        tapHoldAni = TapHoldAnimation({ left: e.clientX, top: e.clientY - topOffset });
         sheet.append(tapHoldAni.dom);
       }
-
       new_sheet_start_time = new Date().getTime();
     }
   };
@@ -44,22 +54,28 @@ function Sheet() {
         new_sheet_start_time = 0;
 
         if (diff >= 500) {
-          const chitProps = { left: e.clientX, top: e.clientY - toolbar_offset, title: `Chit ${all_chits.length + 1}`, topicId };
+          const chitProps = { left: e.clientX, top: e.clientY - topOffset, title: `Chit ${all_chits.length + 1}`, topicId };
           const chit = addChit(chitProps);
 
           AddChit(chit.props);
           all_chits.push(chit);
         }
       } else {
-        UpdateChit(selected_chit.props);
+        if (selected_chit) {
+          UpdateChit(selected_chit.props);
+          // selected_chit = null;
+        }
       }
     }
   };
 
   const sheetMouseMove = (e) => {
     e.stopPropagation();
-    const cords = { left: e.clientX - initCord.offsetLeft, top: e.clientY - initCord.offsetTop - toolbar_offset };
-    selected_chit.position(cords);
+    console.log(e.clientX, e.clientY);
+    if (selected_chit) {
+      const cords = { left: e.clientX - initCord.offsetLeft, top: e.clientY - initCord.offsetTop - topOffset };
+      selected_chit.position(cords);
+    }
   };
 
   const chitMouseDown = (e) => {
@@ -85,12 +101,16 @@ function Sheet() {
     return chit;
   };
 
-  const chitContentChange = () => UpdateChit(selected_chit.props);
+  const chitContentChange = () => {
+    console.log(`Select Chit`, selected_chit);
+    UpdateChit(selected_chit.props);
+  };
 
   const build_sheet = () => {
     const sheetDom = Utils.newElem("div", "sheet");
     sheetDom.addEventListener("mousedown", sheetMouseDown);
     sheetDom.addEventListener("mouseup", sheetMouseUp);
+
     return sheetDom;
   };
 
@@ -122,6 +142,10 @@ function Sheet() {
 
   const sheet = build_sheet();
   document.addEventListener(Events.TOPIC_SELECT, loadChitsHandler);
+  setTimeout(() => {
+    sheet.style.height = window.innerHeight - topOffset;
+    console.log(sheet.getBoundingClientRect());
+  }, 500);
   loadChitsHandler();
   return sheet;
 }
