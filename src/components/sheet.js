@@ -24,21 +24,27 @@ function Sheet() {
     edC: null,
     edD: null,
   };
+  let actionAddChit = false;
 
   const sheetMouseDown = (e) => {
     if (e.currentTarget.id === "sheet") {
-      // sheet.addEventListener("mousemove", sheetMouseMove);
-      if (!tapHoldAni) {
-        tapHoldAni = TapHoldAnimation({ left: e.clientX, top: e.clientY - topOffset });
-        sheet.append(tapHoldAni.dom);
+      if (actionAddChit) {
+        if (!tapHoldAni) {
+          tapHoldAni = TapHoldAnimation({ left: e.clientX, top: e.clientY - topOffset });
+          sheet.append(tapHoldAni.dom);
+        }
+        new_sheet_start_time = new Date().getTime();
+      } else {
+        initCord = { x: e.clientX, y: e.clientY };
+        sheet.addEventListener("mousemove", sheetMouseMove);
       }
-      new_sheet_start_time = new Date().getTime();
     }
   };
 
   const sheetMouseUp = (e) => {
     if (e.currentTarget.id === "sheet") {
       // Remove listener
+      sheet.removeEventListener("mousemove", cheetSheetMouseMove);
       sheet.removeEventListener("mousemove", sheetMouseMove);
 
       // Remove animation
@@ -49,6 +55,7 @@ function Sheet() {
       }
 
       // Adds new looking at time
+      console.log(new_sheet_start_time);
       if (new_sheet_start_time > 0) {
         let diff = new Date().getTime() - new_sheet_start_time;
         new_sheet_start_time = 0;
@@ -63,7 +70,6 @@ function Sheet() {
       } else {
         if (selected_chit) {
           UpdateChit(selected_chit.props);
-          // selected_chit = null;
         }
       }
     }
@@ -71,7 +77,17 @@ function Sheet() {
 
   const sheetMouseMove = (e) => {
     e.stopPropagation();
-    console.log(e.clientX, e.clientY);
+    const xDragFactor = e.clientX - initCord.x;
+    const yDragFactor = e.clientY - initCord.y;
+    const factor = { left: xDragFactor, top: yDragFactor };
+    initCord = { x: e.clientX, y: e.clientY };
+    console.log(factor);
+    document.dispatchEvent(new CustomEvent(Events.ON_SHEET_DRAG, { detail: { factor } }));
+  };
+
+  const cheetSheetMouseMove = (e) => {
+    e.stopPropagation();
+    // console.log(e.clientX, e.clientY);
     if (selected_chit) {
       const cords = { left: e.clientX - initCord.offsetLeft, top: e.clientY - initCord.offsetTop - topOffset };
       selected_chit.position(cords);
@@ -80,7 +96,7 @@ function Sheet() {
 
   const chitMouseDown = (e) => {
     e.stopPropagation();
-    sheet.addEventListener("mousemove", sheetMouseMove);
+    sheet.addEventListener("mousemove", cheetSheetMouseMove);
 
     const orgCord = e.currentTarget.getBoundingClientRect();
     initCord = { offsetLeft: e.clientX - orgCord.x, offsetTop: e.clientY - orgCord.y };
@@ -95,6 +111,7 @@ function Sheet() {
   const addChit = (chitProps) => {
     const chit = MakeChit({ ...chitProps });
     sheet.append(chit.dom);
+    cursorDefault();
     chit.dom.addEventListener("mousedown", chitMouseDown);
     chit.dom.addEventListener(Events.CONTENT_SAVE, chitContentChange);
     chit.dom.addEventListener(Events.ARCHIVE, chitArchive);
@@ -140,8 +157,25 @@ function Sheet() {
     }
   };
 
+  const documentKeyPress = (e) => {
+    console.log(e);
+    cursorDefault();
+  };
+
+  const cursorDefault = () => {
+    sheet.style.cursor = "default";
+    actionAddChit = false;
+  };
+
+  const btnAddSelect = (e) => {
+    sheet.style.cursor = "crosshair";
+    actionAddChit = true;
+  };
+
   const sheet = build_sheet();
   document.addEventListener(Events.TOPIC_SELECT, loadChitsHandler);
+  document.addEventListener(Events.BTN_ADD_SELECT, btnAddSelect);
+  document.addEventListener("keydown", documentKeyPress);
   setTimeout(() => {
     sheet.style.height = window.innerHeight - topOffset;
     console.log(sheet.getBoundingClientRect());

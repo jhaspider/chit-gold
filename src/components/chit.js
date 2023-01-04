@@ -95,7 +95,21 @@ function MakeChit(props) {
     chit.props.top = top;
   };
 
+  const onSheetDrag = (e) => {
+    const { left, top } = e.detail.factor;
+
+    if (left > 0) chit.props.left += left;
+    else chit.props.left -= Math.abs(left);
+
+    if (top > 0) chit.props.top += top;
+    else chit.props.top -= Math.abs(top);
+
+    chit.dom.style.left = chit.props.left;
+    chit.dom.style.top = chit.props.top;
+  };
+
   const chit = buildChit();
+  document.addEventListener(Events.ON_SHEET_DRAG, onSheetDrag);
   return chit;
 }
 

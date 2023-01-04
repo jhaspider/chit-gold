@@ -71,6 +71,7 @@ a {
 #toolbar h1 {
   flex-grow: 2;
   margin-top: 46px;
+  color: var(--color-lightGrey);
 }
 
 .wrapper {
@@ -213,3 +214,25 @@ a {
   text-decoration: none;
   color: #000;
 } */
+
+#bottom-toolbar {
+  height: 40px;
+  width: 400px;
+  background-color: var(--color-lightGrey);
+  position: fixed;
+  bottom: 20px;
+  left: 0px;
+  right: 0px;
+  margin: auto;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-new {
+  height: 20px;
+  width: 20px;
+  background-color: var(--color-action);
+}
