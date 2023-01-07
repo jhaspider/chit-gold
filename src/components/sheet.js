@@ -17,13 +17,6 @@ function Sheet() {
   const topOffset = toolbar_offset + chit_topics;
 
   let topicId;
-  let cords = {
-    center: null,
-    edA: null,
-    edB: null,
-    edC: null,
-    edD: null,
-  };
   let actionAddChit = false;
 
   const sheetMouseDown = (e) => {
@@ -62,10 +55,11 @@ function Sheet() {
 
         if (diff >= 500) {
           const chitProps = { left: e.clientX, top: e.clientY - topOffset, title: `Chit ${all_chits.length + 1}`, topicId };
-          const chit = addChit(chitProps);
-
-          AddChit(chit.props);
-          all_chits.push(chit);
+          addChit(chitProps, (element) => {
+            console.log(`New item created.`);
+            AddChit(element.props);
+            all_chits.push(element);
+          });
         }
       } else {
         if (selected_chit) {
@@ -81,7 +75,7 @@ function Sheet() {
     const yDragFactor = e.clientY - initCord.y;
     const factor = { left: xDragFactor, top: yDragFactor };
     initCord = { x: e.clientX, y: e.clientY };
-    console.log(factor);
+
     document.dispatchEvent(new CustomEvent(Events.ON_SHEET_DRAG, { detail: { factor } }));
   };
 
@@ -108,14 +102,14 @@ function Sheet() {
     UpdateChit({ ...chit.props, archive: true });
   };
 
-  const addChit = (chitProps) => {
+  const addChit = (chitProps, callback) => {
     const chit = MakeChit({ ...chitProps });
     sheet.append(chit.dom);
     cursorDefault();
     chit.dom.addEventListener("mousedown", chitMouseDown);
     chit.dom.addEventListener(Events.CONTENT_SAVE, chitContentChange);
     chit.dom.addEventListener(Events.ARCHIVE, chitArchive);
-    return chit;
+    callback(chit);
   };
 
   const chitContentChange = () => {
@@ -142,8 +136,9 @@ function Sheet() {
     const chits = LoadChits(topicId);
     if (chits) {
       chits.forEach((chit) => {
-        const oldChit = addChit(chit);
-        all_chits.push(oldChit);
+        addChit(chit, (element) => {
+          all_chits.push(element);
+        });
       });
     }
   };
@@ -172,13 +167,21 @@ function Sheet() {
     actionAddChit = true;
   };
 
+  const onScroll = (e) => {
+    e.preventDefault();
+    if (e.ctrlKey || e.metaKey) {
+      document.dispatchEvent(new CustomEvent(Events.ON_ZOOM, { detail: { clientX: e.clientX, clientY: e.clientY, delta: e.deltaY } }));
+    }
+  };
+
   const sheet = build_sheet();
   document.addEventListener(Events.TOPIC_SELECT, loadChitsHandler);
   document.addEventListener(Events.BTN_ADD_SELECT, btnAddSelect);
   document.addEventListener("keydown", documentKeyPress);
+  document.addEventListener("mousewheel", onScroll, { passive: false });
+
   setTimeout(() => {
     sheet.style.height = window.innerHeight - topOffset;
-    console.log(sheet.getBoundingClientRect());
   }, 500);
   loadChitsHandler();
   return sheet;

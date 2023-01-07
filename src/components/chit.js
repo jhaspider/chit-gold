@@ -1,6 +1,7 @@
 import Utils from "../utils/utils";
 import { v4 as uuidv4 } from "uuid";
 import Events from "../utils/events";
+import { UpdateChit } from "../utils/save_chits";
 
 function MakeChit(props) {
   const { left, top, title, topicId, text = "", id = uuidv4(), onArchive } = props;
@@ -106,10 +107,31 @@ function MakeChit(props) {
 
     chit.dom.style.left = chit.props.left;
     chit.dom.style.top = chit.props.top;
+    UpdateChit(chit.props);
+  };
+
+  let scale = 1;
+  const onSheetZoom = (e) => {
+    const { clientX, clientY, delta } = e.detail;
+    var xs = (clientX - chit.props.left) / scale,
+      ys = (clientY - chit.props.top) / scale;
+
+    scale += delta * -0.0008;
+    setTransform(clientX - xs * scale, clientY - ys * scale, scale);
+  };
+
+  const setTransform = (x, y, scale = 1) => {
+    chit.dom.style.transform = "scale(" + scale + ")";
+    chit.dom.style.transformOrigin = `0px 0px`;
+    chit.props.left = x;
+    chit.props.top = y;
+    chit.dom.style.left = x;
+    chit.dom.style.top = y;
   };
 
   const chit = buildChit();
   document.addEventListener(Events.ON_SHEET_DRAG, onSheetDrag);
+  document.addEventListener(Events.ON_ZOOM, onSheetZoom);
   return chit;
 }
 
