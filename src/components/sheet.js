@@ -4,7 +4,7 @@ import { archiveChit, LoadChits, AddChit, UpdateChit } from "../utils/save_chits
 import Utils from "../utils/utils.js";
 import MakeChit from "./chit.js";
 import TapHoldAnimation from "./tap-hold-animation.js";
-import { NewTopic } from "./add-topic";
+import NewTopic from "./add-topic";
 
 function Sheet() {
   let all_chits = [];
@@ -122,12 +122,11 @@ function Sheet() {
     const sheetDom = Utils.newElem("div", "sheet");
     sheetDom.addEventListener("mousedown", sheetMouseDown);
     sheetDom.addEventListener("mouseup", sheetMouseUp);
-
+    sheetDom.style.height = window.innerHeight - topOffset;
     return sheetDom;
   };
 
   const renderOldChits = (topicId) => {
-    console.log(`Rendering Chits for Topic Id : ${topicId}`);
     // Flush previously loaded sheets
     all_chits.forEach((chit) => {
       sheet.removeChild(chit.dom);
@@ -147,7 +146,6 @@ function Sheet() {
 
   const loadChitsHandler = (e) => {
     topicId = e.detail.topicId;
-    // console.log(`Selected Topic Id : ${topicId}`);
     if (topicId) renderOldChits(topicId);
   };
 
@@ -168,11 +166,13 @@ function Sheet() {
     actionAddChit = true;
   };
 
-  const removeGroupHandler = (newTopic) => {
-    const topic = newTopic.props;
-    if (topic.id) document.dispatchEvent(new CustomEvent(Events.RENDER_TOPIC, { detail: { topic } }));
+  const removeGroupHandler = (topic) => {
+    if (topic && topic.id) {
+      document.dispatchEvent(new CustomEvent(Events.RENDER_TOPIC, { detail: { topic } }));
+    } else {
+      moveChits(false);
+    }
 
-    moveChits(false);
     document.body.removeChild(newTopic.dom);
   };
 
@@ -205,8 +205,9 @@ function Sheet() {
 
     // Add the capture topic
     newTopic = NewTopic({ close: removeGroupHandler });
+    console.log(newTopic.dom);
     document.body.append(newTopic.dom);
-    newTopic.focus();
+    // newTopic.focus();
   };
 
   const onScroll = (e) => {
@@ -222,8 +223,10 @@ function Sheet() {
   document.addEventListener(Events.BTN_ADD_TOPIC, onTopicAdd);
   document.addEventListener("keydown", documentKeyPress);
   document.addEventListener("mousewheel", onScroll, { passive: false });
+  setTimeout(() => {
+    sheet.style.height = window.innerHeight - topOffset;
+  }, 500);
 
-  sheet.style.height = window.innerHeight - topOffset;
   return sheet;
 }
 

@@ -12,16 +12,24 @@ function NewTopic(props) {
       alert("Enter a topic name.");
       return;
     }
-    topic.props = { id: uuidv4(), topicName };
-    AddTopic(topic.props);
-    close(topic);
+
+    const newTopic = { id: uuidv4(), topicName };
+    AddTopic(newTopic);
+    close(newTopic);
   };
 
   const backgroundTap = (e) => {
-    if (e.target.id === "bgcontainer") close(topic);
+    if (e.target.id === "bgcontainer") close();
   };
 
-  const onContentChangeHandler = (e) => (topicName = e.target.value.toUpperCase());
+  const onContentChangeHandler = (e) => {
+    topicName = e.target.value.toUpperCase();
+    if (topicName.length > 3) {
+      const pPrompt = document.querySelector("#enter-prompt");
+      pPrompt.innerHTML = `Hit "Enter" to save`;
+      Utils.blink(document.querySelector("#enter-prompt"));
+    }
+  };
 
   const onKeyUpHandler = (e) => {
     if (e.code === "Enter") onSaveTap();
@@ -36,7 +44,7 @@ function NewTopic(props) {
 
     // Title
     const heading = Utils.newElem("h2", null, "title");
-    heading.innerHTML = "Add Topic";
+    heading.innerHTML = "";
     addGroup.append(heading);
 
     // Body
@@ -44,34 +52,37 @@ function NewTopic(props) {
     topicName.addEventListener("input", onContentChangeHandler);
     topicName.addEventListener("keyup", onKeyUpHandler);
     topicName.setAttribute("type", "text");
+    topicName.setAttribute("placeholder", "Add a Topic");
     topicName.setAttribute("autocomplete", "off");
 
     addGroup.append(topicName);
     topicName.focus();
 
     // Archive
-    const archivelink = Utils.newElem("a");
-    archivelink.setAttribute("href", "javascript:void(0)");
-    archivelink.innerHTML = "SAVE";
-    archivelink.addEventListener("click", onSaveTap);
+    const archivelink = Utils.newElem("p", "enter-prompt");
     addGroup.append(archivelink);
 
     return groupContainer;
   };
 
-  const setFocus = () => topic.dom.querySelector("#topic_name").focus();
-
-  const build = () => {
-    const dom = getDom();
-    return {
-      dom,
-      props: {},
-      focus: setFocus,
-    };
-  };
-
-  const topic = build();
-  return topic;
+  return { dom: getDom(), props: {} };
 }
 
-export { NewTopic };
+const NewTopicMgmt = (props) => {
+  const topic = NewTopic(props);
+  const observer = new MutationObserver(function (mutations) {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        if (node.classList && node.classList.contains("add-group-container")) {
+          console.log(node.querySelector("#topic_name"));
+          node.querySelector("#topic_name").focus();
+        }
+      });
+    });
+  });
+
+  observer.observe(document.body, { childList: true });
+  return topic;
+};
+
+export default NewTopicMgmt;

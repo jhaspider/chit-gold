@@ -4,7 +4,6 @@ import Utils from "../utils/utils";
 
 function Topic({ topic, selectTopicHandler }) {
   const topicDom = Utils.newElem("a");
-  // topicDom.setAttribute("href", `#?topic_id=${topic.id}`);
   topicDom.innerHTML = topic.topicName;
 
   const li = Utils.newElem("li", null, "topic-items");
@@ -14,17 +13,20 @@ function Topic({ topic, selectTopicHandler }) {
   return li;
 }
 
-function Topics() {
+function Topics(props) {
   const all_topics = [];
+  let { topicId } = props;
 
   const selectTopicHandler = (e) => {
-    const topicId = e.currentTarget.dataset.id;
-    loadTopicChits(topicId);
+    topicId = e.currentTarget.dataset.id;
+    loadTopicChits();
   };
 
-  const loadTopicChits = (topicId) => {
-    history.pushState(null, null, `#?topic_id=${topicId}`);
-    document.dispatchEvent(new CustomEvent(Events.TOPIC_SELECT, { detail: { topicId } }));
+  const loadTopicChits = () => {
+    if (topicId) {
+      history.pushState(null, null, `#?topic_id=${topicId}`);
+      setTimeout(() => document.dispatchEvent(new CustomEvent(Events.TOPIC_SELECT, { detail: { topicId } })), 100);
+    }
   };
 
   const renderTopics = () => {
@@ -47,29 +49,28 @@ function Topics() {
     const t = Topic({ topic, selectTopicHandler });
     all_topics.push(t);
     topic_ui_list.append(t);
+    return t;
   };
 
   const topicAddHandler = (e) => {
     observer.disconnect();
     if (e.detail.topic) {
       const topic = e.detail.topic;
-      appendTopic(topic);
-      loadTopicChits(topic.id);
+      topicId = topic.id;
+      const newT = appendTopic(topic);
+      Utils.blink(newT);
+      loadTopicChits();
     }
   };
 
   const observer = new MutationObserver(function (mutations) {
-    const queryString = window.location.hash;
-    let topicId = queryString.split("=")[1];
-    if (topicId) loadTopicChits(topicId);
-
     let inc = 0;
     mutations.forEach((mutation) => {
       mutation.addedNodes.forEach((node) => {
         if (node.classList && node.classList.contains("topic-items")) {
           if (all_topics.length > 0 && inc == all_topics.length - 1 && !topicId) {
             topicId = all_topics[all_topics.length - 1].dataset.id;
-            loadTopicChits(topicId);
+            loadTopicChits();
           }
           inc++;
         }
@@ -88,10 +89,20 @@ function Topics() {
 
   const container = buildTopicDom();
   const topic_ui_list = container.querySelector("#topics-list");
-  document.addEventListener(Events.RENDER_TOPIC, topicAddHandler);
-  renderTopics();
-
-  return container;
+  return { dom: container, renderTopics, topicAddHandler, loadTopicChits };
 }
 
-export default Topics;
+const TopicMgmt = () => {
+  const queryString = window.location.hash;
+  let topicId = queryString.split("=")[1];
+
+  const topic = Topics({ topicId });
+  topic.renderTopics();
+  topic.loadTopicChits();
+
+  document.addEventListener(Events.RENDER_TOPIC, topic.topicAddHandler);
+
+  return topic.dom;
+};
+
+export default TopicMgmt;

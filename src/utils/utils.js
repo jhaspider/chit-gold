@@ -9,6 +9,8 @@ const Utils = {
     if (style) dom.classList.add(style);
     return dom;
   },
+
+  blink: (blinkElement) => blinkElement.classList.add("blink"),
 };
 
 export default Utils;
