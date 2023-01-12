@@ -4,7 +4,7 @@ import Events from "../utils/events";
 import { UpdateChit } from "../utils/save_chits";
 
 function MakeChit(props) {
-  const { left, top, title, topicId, text = "", id = uuidv4(), onArchive } = props;
+  let { left, top, title, scale = 1, topicId, text = "", id = uuidv4(), onArchive } = props;
 
   let timer;
   const onTitleChangeHandler = (e) => {
@@ -72,6 +72,8 @@ function MakeChit(props) {
     const dom = getDom();
     dom.style.top = top;
     dom.style.left = left;
+    dom.style.transformOrigin = `0px 0px`;
+    dom.style.transform = "scale(" + scale + ")";
     dom.dataset.id = id;
 
     return {
@@ -83,6 +85,7 @@ function MakeChit(props) {
         text,
         topicId,
         id,
+        scale,
       },
       position: positionChit,
     };
@@ -98,7 +101,7 @@ function MakeChit(props) {
 
   const onSheetDrag = (e) => {
     const { left, top } = e.detail.factor;
-
+    chit.dom.style.transition = "none";
     if (left > 0) chit.props.left += left;
     else chit.props.left -= Math.abs(left);
 
@@ -110,23 +113,29 @@ function MakeChit(props) {
     UpdateChit(chit.props);
   };
 
-  let scale = 1;
   const onSheetZoom = (e) => {
     const { clientX, clientY, delta } = e.detail;
     var xs = (clientX - chit.props.left) / scale,
       ys = (clientY - chit.props.top) / scale;
 
     scale += delta * -0.0008;
-    setTransform(clientX - xs * scale, clientY - ys * scale, scale);
+
+    chit.props.scale = scale;
+    chit.props.left = clientX - xs * scale;
+    chit.props.top = clientY - ys * scale;
+    setTransform();
+    UpdateChit(chit.props);
   };
 
-  const setTransform = (x, y, scale = 1) => {
-    chit.dom.style.transform = "scale(" + scale + ")";
+  const setTransform = () => {
+    // Scale
+    chit.dom.style.transition = "none";
+    chit.dom.style.transform = "scale(" + chit.props.scale + ")";
     chit.dom.style.transformOrigin = `0px 0px`;
-    chit.props.left = x;
-    chit.props.top = y;
-    chit.dom.style.left = x;
-    chit.dom.style.top = y;
+
+    // Position
+    chit.dom.style.left = chit.props.left;
+    chit.dom.style.top = chit.props.top;
   };
 
   const chit = buildChit();

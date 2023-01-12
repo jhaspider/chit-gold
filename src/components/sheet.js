@@ -4,6 +4,7 @@ import { archiveChit, LoadChits, AddChit, UpdateChit } from "../utils/save_chits
 import Utils from "../utils/utils.js";
 import MakeChit from "./chit.js";
 import TapHoldAnimation from "./tap-hold-animation.js";
+import { NewTopic } from "./add-topic";
 
 function Sheet() {
   let all_chits = [];
@@ -18,6 +19,7 @@ function Sheet() {
 
   let topicId;
   let actionAddChit = false;
+  let newTopic;
 
   const sheetMouseDown = (e) => {
     if (e.currentTarget.id === "sheet") {
@@ -48,7 +50,7 @@ function Sheet() {
       }
 
       // Adds new looking at time
-      console.log(new_sheet_start_time);
+
       if (new_sheet_start_time > 0) {
         let diff = new Date().getTime() - new_sheet_start_time;
         new_sheet_start_time = 0;
@@ -56,7 +58,6 @@ function Sheet() {
         if (diff >= 500) {
           const chitProps = { left: e.clientX, top: e.clientY - topOffset, title: `Chit ${all_chits.length + 1}`, topicId };
           addChit(chitProps, (element) => {
-            console.log(`New item created.`);
             AddChit(element.props);
             all_chits.push(element);
           });
@@ -126,6 +127,7 @@ function Sheet() {
   };
 
   const renderOldChits = (topicId) => {
+    console.log(`Rendering Chits for Topic Id : ${topicId}`);
     // Flush previously loaded sheets
     all_chits.forEach((chit) => {
       sheet.removeChild(chit.dom);
@@ -143,18 +145,17 @@ function Sheet() {
     }
   };
 
-  const loadChitsHandler = () => {
-    const queryString = window.location.hash;
-    topicId = queryString.split("=")[1];
-    if (topicId) {
-      console.log(`Topic Id : ${topicId}`);
-      renderOldChits(topicId);
-    }
+  const loadChitsHandler = (e) => {
+    topicId = e.detail.topicId;
+    // console.log(`Selected Topic Id : ${topicId}`);
+    if (topicId) renderOldChits(topicId);
   };
 
   const documentKeyPress = (e) => {
-    console.log(e);
-    cursorDefault();
+    if (e.code === "Escape") {
+      cursorDefault();
+      removeGroupHandler();
+    }
   };
 
   const cursorDefault = () => {
@@ -167,6 +168,47 @@ function Sheet() {
     actionAddChit = true;
   };
 
+  const removeGroupHandler = (newTopic) => {
+    const topic = newTopic.props;
+    if (topic.id) document.dispatchEvent(new CustomEvent(Events.RENDER_TOPIC, { detail: { topic } }));
+
+    moveChits(false);
+    document.body.removeChild(newTopic.dom);
+  };
+
+  const moveChits = (away = false) => {
+    const sheetRect = sheet.getBoundingClientRect();
+
+    // Move all chits away
+    all_chits.forEach((chit) => {
+      chit.dom.style.transition = "left .3s, top .3s";
+      if (away) {
+        let { left, top, width, height, bottom, right } = chit.dom.getBoundingClientRect();
+        bottom = sheetRect.height - bottom + topOffset;
+        right = sheetRect.width - right;
+
+        let lowestPath = Math.min(left, top - topOffset, bottom, right);
+
+        if (lowestPath === left) chit.dom.style.left = 0 - (width - topOffset) + "px";
+        if (lowestPath === top - topOffset) chit.dom.style.top = 0 - (height - topOffset) + "px";
+        if (lowestPath === right) chit.dom.style.left = sheetRect.width - topOffset + "px";
+        if (lowestPath === bottom) chit.dom.style.top = sheetRect.height - topOffset + "px";
+      } else {
+        chit.dom.style.left = chit.props.left;
+        chit.dom.style.top = chit.props.top;
+      }
+    });
+  };
+
+  const onTopicAdd = (e) => {
+    moveChits(true);
+
+    // Add the capture topic
+    newTopic = NewTopic({ close: removeGroupHandler });
+    document.body.append(newTopic.dom);
+    newTopic.focus();
+  };
+
   const onScroll = (e) => {
     e.preventDefault();
     if (e.ctrlKey || e.metaKey) {
@@ -177,13 +219,11 @@ function Sheet() {
   const sheet = build_sheet();
   document.addEventListener(Events.TOPIC_SELECT, loadChitsHandler);
   document.addEventListener(Events.BTN_ADD_SELECT, btnAddSelect);
+  document.addEventListener(Events.BTN_ADD_TOPIC, onTopicAdd);
   document.addEventListener("keydown", documentKeyPress);
   document.addEventListener("mousewheel", onScroll, { passive: false });
 
-  setTimeout(() => {
-    sheet.style.height = window.innerHeight - topOffset;
-  }, 500);
-  loadChitsHandler();
+  sheet.style.height = window.innerHeight - topOffset;
   return sheet;
 }
 
