@@ -7,6 +7,7 @@ const Events = {
   ON_SHEET_DRAG: "on_sheet_drag",
   ON_ZOOM: "on_zoom",
   RENDER_TOPIC: "render_topics",
+  UPDATE_TOPIC: "update_topic",
 };
 
 export default Events;

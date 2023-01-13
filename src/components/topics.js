@@ -1,5 +1,5 @@
 import Events from "../utils/events";
-import { LoadTopics } from "../utils/save_chits";
+import { LoadTopics, UpdateTopic } from "../utils/save_chits";
 import Utils from "../utils/utils";
 
 function Topic({ topic, selectTopicHandler }) {
@@ -25,7 +25,10 @@ function Topics(props) {
   const loadTopicChits = () => {
     if (topicId) {
       history.pushState(null, null, `#?topic_id=${topicId}`);
-      setTimeout(() => document.dispatchEvent(new CustomEvent(Events.TOPIC_SELECT, { detail: { topicId } })), 100);
+
+      let tp = all_topics.find((topic) => topic.topic.id === topicId);
+      if (!tp) return;
+      setTimeout(() => document.dispatchEvent(new CustomEvent(Events.TOPIC_SELECT, { detail: { topic: tp.topic } })), 100);
     }
   };
 
@@ -33,7 +36,7 @@ function Topics(props) {
     const topics = LoadTopics();
     if (topics.length > 0) {
       all_topics.forEach((t) => {
-        topic_ui_list.removeChild(t);
+        topic_ui_list.removeChild(t.dom);
       });
       all_topics.splice(0, all_topics.length);
 
@@ -47,7 +50,10 @@ function Topics(props) {
 
   const appendTopic = (topic) => {
     const t = Topic({ topic, selectTopicHandler });
-    all_topics.push(t);
+    all_topics.push({
+      dom: t,
+      topic,
+    });
     topic_ui_list.append(t);
     return t;
   };
@@ -69,7 +75,7 @@ function Topics(props) {
       mutation.addedNodes.forEach((node) => {
         if (node.classList && node.classList.contains("topic-items")) {
           if (all_topics.length > 0 && inc == all_topics.length - 1 && !topicId) {
-            topicId = all_topics[all_topics.length - 1].dataset.id;
+            topicId = all_topics[all_topics.length - 1].topic.id;
             loadTopicChits();
           }
           inc++;
@@ -77,6 +83,11 @@ function Topics(props) {
       });
     });
   });
+
+  const updateTopicHandler = (e) => {
+    const { id, scale } = e.detail;
+    UpdateTopic({ id, scale });
+  };
 
   const buildTopicDom = () => {
     const topicsDom = Utils.newElem("div", "chit-topics", "chit-archive");
@@ -89,7 +100,7 @@ function Topics(props) {
 
   const container = buildTopicDom();
   const topic_ui_list = container.querySelector("#topics-list");
-  return { dom: container, renderTopics, topicAddHandler, loadTopicChits };
+  return { dom: container, renderTopics, topicAddHandler, loadTopicChits, updateTopicHandler };
 }
 
 const TopicMgmt = () => {
@@ -101,6 +112,7 @@ const TopicMgmt = () => {
   topic.loadTopicChits();
 
   document.addEventListener(Events.RENDER_TOPIC, topic.topicAddHandler);
+  document.addEventListener(Events.UPDATE_TOPIC, topic.updateTopicHandler);
 
   return topic.dom;
 };

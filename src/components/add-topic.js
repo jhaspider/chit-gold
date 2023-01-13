@@ -13,7 +13,7 @@ function NewTopic(props) {
       return;
     }
 
-    const newTopic = { id: uuidv4(), topicName };
+    const newTopic = { id: uuidv4(), topicName, scale: 1 };
     AddTopic(newTopic);
     close(newTopic);
   };
@@ -24,7 +24,7 @@ function NewTopic(props) {
 
   const onContentChangeHandler = (e) => {
     topicName = e.target.value.toUpperCase();
-    if (topicName.length > 3) {
+    if (topicName.length > 2) {
       const pPrompt = document.querySelector("#enter-prompt");
       pPrompt.innerHTML = `Hit "Enter" to save`;
       Utils.blink(document.querySelector("#enter-prompt"));
@@ -74,7 +74,6 @@ const NewTopicMgmt = (props) => {
     mutations.forEach((mutation) => {
       mutation.addedNodes.forEach((node) => {
         if (node.classList && node.classList.contains("add-group-container")) {
-          console.log(node.querySelector("#topic_name"));
           node.querySelector("#topic_name").focus();
         }
       });

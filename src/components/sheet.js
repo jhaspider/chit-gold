@@ -2,7 +2,7 @@ import _ from "lodash";
 import Events from "../utils/events.js";
 import { archiveChit, LoadChits, AddChit, UpdateChit } from "../utils/save_chits.js";
 import Utils from "../utils/utils.js";
-import MakeChit from "./chit.js";
+import ChitMgmt from "./chit.js";
 import TapHoldAnimation from "./tap-hold-animation.js";
 import NewTopic from "./add-topic";
 
@@ -13,11 +13,9 @@ function Sheet() {
   let initCord;
   let new_sheet_start_time = 0;
   let tapHoldAni;
-  const toolbar_offset = Utils.getDomById("toolbar").clientHeight;
-  const chit_topics = Utils.getDomById("chit-topics").clientHeight;
-  const topOffset = toolbar_offset + chit_topics;
+  let topOffset = 0;
 
-  let topicId;
+  let selected_topic;
   let actionAddChit = false;
   let newTopic;
 
@@ -56,15 +54,15 @@ function Sheet() {
         new_sheet_start_time = 0;
 
         if (diff >= 500) {
-          const chitProps = { left: e.clientX, top: e.clientY - topOffset, title: `Chit ${all_chits.length + 1}`, topicId };
+          const chitProps = { left: e.clientX, top: e.clientY - topOffset, title: `Chit ${all_chits.length + 1}`, topicId: selected_topic?.id };
           addChit(chitProps, (element) => {
-            AddChit(element.props);
+            AddChit(element.chit.props);
             all_chits.push(element);
           });
         }
       } else {
         if (selected_chit) {
-          UpdateChit(selected_chit.props);
+          UpdateChit(selected_chit.chit.props);
         }
       }
     }
@@ -77,7 +75,10 @@ function Sheet() {
     const factor = { left: xDragFactor, top: yDragFactor };
     initCord = { x: e.clientX, y: e.clientY };
 
-    document.dispatchEvent(new CustomEvent(Events.ON_SHEET_DRAG, { detail: { factor } }));
+    all_chits.forEach((chit) => {
+      chit.drag(factor);
+    });
+    // document.dispatchEvent(new CustomEvent(Events.ON_SHEET_DRAG, { detail: { factor } }));
   };
 
   const cheetSheetMouseMove = (e) => {
@@ -95,7 +96,8 @@ function Sheet() {
 
     const orgCord = e.currentTarget.getBoundingClientRect();
     initCord = { offsetLeft: e.clientX - orgCord.x, offsetTop: e.clientY - orgCord.y };
-    selected_chit = all_chits.find((chit) => chit.props.id === e.currentTarget.dataset.id);
+
+    selected_chit = all_chits.find((chit) => chit.chit.props.id === e.currentTarget.dataset.id);
   };
 
   const chitArchive = (e) => {
@@ -104,18 +106,17 @@ function Sheet() {
   };
 
   const addChit = (chitProps, callback) => {
-    const chit = MakeChit({ ...chitProps });
-    sheet.append(chit.dom);
+    const chit = ChitMgmt({ ...chitProps, scale: selected_topic.scale });
+    sheet.append(chit.chit.dom);
     cursorDefault();
-    chit.dom.addEventListener("mousedown", chitMouseDown);
-    chit.dom.addEventListener(Events.CONTENT_SAVE, chitContentChange);
-    chit.dom.addEventListener(Events.ARCHIVE, chitArchive);
+    chit.chit.dom.addEventListener("mousedown", chitMouseDown);
+    chit.chit.dom.addEventListener(Events.CONTENT_SAVE, chitContentChange);
+    chit.chit.dom.addEventListener(Events.ARCHIVE, chitArchive);
     callback(chit);
   };
 
   const chitContentChange = () => {
-    console.log(`Select Chit`, selected_chit);
-    UpdateChit(selected_chit.props);
+    UpdateChit(selected_chit.chit.props);
   };
 
   const build_sheet = () => {
@@ -126,27 +127,29 @@ function Sheet() {
     return sheetDom;
   };
 
-  const renderOldChits = (topicId) => {
+  const renderOldChits = () => {
     // Flush previously loaded sheets
-    all_chits.forEach((chit) => {
-      sheet.removeChild(chit.dom);
-    });
-
-    all_chits.splice(0, all_chits.length);
-
-    const chits = LoadChits(topicId);
-    if (chits) {
-      chits.forEach((chit) => {
-        addChit(chit, (element) => {
-          all_chits.push(element);
-        });
+    if (selected_topic) {
+      all_chits.forEach((chit) => {
+        chit.remove();
       });
+
+      all_chits.splice(0, all_chits.length);
+
+      const chits = LoadChits(selected_topic.id);
+      if (chits) {
+        chits.forEach((chit) => {
+          addChit(chit, (element) => {
+            all_chits.push(element);
+          });
+        });
+      }
     }
   };
 
   const loadChitsHandler = (e) => {
-    topicId = e.detail.topicId;
-    if (topicId) renderOldChits(topicId);
+    selected_topic = e.detail.topic;
+    if (selected_topic) renderOldChits();
   };
 
   const documentKeyPress = (e) => {
@@ -173,7 +176,10 @@ function Sheet() {
       moveChits(false);
     }
 
-    document.body.removeChild(newTopic.dom);
+    if (newTopic) {
+      document.body.removeChild(newTopic.dom);
+      newTopic = null;
+    }
   };
 
   const moveChits = (away = false) => {
@@ -203,17 +209,20 @@ function Sheet() {
   const onTopicAdd = (e) => {
     moveChits(true);
 
-    // Add the capture topic
     newTopic = NewTopic({ close: removeGroupHandler });
-    console.log(newTopic.dom);
     document.body.append(newTopic.dom);
-    // newTopic.focus();
   };
 
   const onScroll = (e) => {
     e.preventDefault();
     if (e.ctrlKey || e.metaKey) {
-      document.dispatchEvent(new CustomEvent(Events.ON_ZOOM, { detail: { clientX: e.clientX, clientY: e.clientY, delta: e.deltaY } }));
+      selected_topic.scale += e.deltaY * -0.0008;
+
+      all_chits.forEach((chit) => {
+        chit.scale({ clientX: e.clientX, clientY: e.clientY, delta: e.deltaY });
+      });
+      // document.dispatchEvent(new CustomEvent(Events.ON_ZOOM, { detail: { clientX: e.clientX, clientY: e.clientY, delta: e.deltaY } }));
+      document.dispatchEvent(new CustomEvent(Events.UPDATE_TOPIC, { detail: { ...selected_topic, scale: selected_topic.scale } }));
     }
   };
 
@@ -224,6 +233,9 @@ function Sheet() {
   document.addEventListener("keydown", documentKeyPress);
   document.addEventListener("mousewheel", onScroll, { passive: false });
   setTimeout(() => {
+    let toolbar_offset = Utils.getDomById("toolbar").clientHeight;
+    let chit_topics = Utils.getDomById("chit-topics").clientHeight;
+    topOffset = toolbar_offset + chit_topics;
     sheet.style.height = window.innerHeight - topOffset;
   }, 500);
 

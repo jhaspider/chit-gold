@@ -71,6 +71,24 @@ function AddTopic(topic) {
   localStorage.setItem("topics", JSON.stringify(topics));
 }
 
+function UpdateTopic(update_topic) {
+  const data = localStorage.getItem("topics");
+  let topics = [];
+  if (data) {
+    topics = JSON.parse(data);
+  }
+  let tpIndex = topics.findIndex((topic) => topic.id === update_topic.id);
+  if (tpIndex >= 0) {
+    let topic = topics[tpIndex];
+    topic = {
+      ...topic,
+      scale: update_topic.scale,
+    };
+    topics[tpIndex] = topic;
+    localStorage.setItem("topics", JSON.stringify(topics));
+  }
+}
+
 function LoadTopics() {
   const data = localStorage.getItem("topics");
   let topics = [];
@@ -80,4 +98,4 @@ function LoadTopics() {
   return topics;
 }
 
-export { AddChit, LoadChits, UpdateChit, archiveChit, AddTopic, LoadTopics };
+export { AddChit, LoadChits, UpdateChit, archiveChit, AddTopic, LoadTopics, UpdateTopic };

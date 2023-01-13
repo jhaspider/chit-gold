@@ -3,10 +3,12 @@ import { v4 as uuidv4 } from "uuid";
 import Events from "../utils/events";
 import { UpdateChit } from "../utils/save_chits";
 
-function MakeChit(props) {
+function Chit(props) {
   let { left, top, title, scale = 1, topicId, text = "", id = uuidv4(), onArchive } = props;
 
   let timer;
+  let chit;
+
   const onTitleChangeHandler = (e) => {
     chit.props = {
       ...chit.props,
@@ -27,7 +29,7 @@ function MakeChit(props) {
     if (timer) clearInterval(timer);
     timer = setTimeout(() => {
       chit.dom.dispatchEvent(new CustomEvent(Events.CONTENT_SAVE));
-    }, 2000);
+    }, 500);
   };
 
   const onArchiveTap = (e) => {
@@ -87,7 +89,6 @@ function MakeChit(props) {
         id,
         scale,
       },
-      position: positionChit,
     };
   };
 
@@ -99,38 +100,38 @@ function MakeChit(props) {
     chit.props.top = top;
   };
 
-  const onSheetDrag = (e) => {
-    const { left, top } = e.detail.factor;
-    chit.dom.style.transition = "none";
-    if (left > 0) chit.props.left += left;
-    else chit.props.left -= Math.abs(left);
+  const onSheetDrag = ({ left, top }) => {
+    if (chit) {
+      chit.dom.style.transition = "none";
+      if (left > 0) chit.props.left += left;
+      else chit.props.left -= Math.abs(left);
 
-    if (top > 0) chit.props.top += top;
-    else chit.props.top -= Math.abs(top);
+      if (top > 0) chit.props.top += top;
+      else chit.props.top -= Math.abs(top);
 
-    chit.dom.style.left = chit.props.left;
-    chit.dom.style.top = chit.props.top;
-    UpdateChit(chit.props);
+      chit.dom.style.left = chit.props.left;
+      chit.dom.style.top = chit.props.top;
+      UpdateChit(chit.props);
+    }
   };
 
-  const onSheetZoom = (e) => {
-    const { clientX, clientY, delta } = e.detail;
-    var xs = (clientX - chit.props.left) / scale,
-      ys = (clientY - chit.props.top) / scale;
+  const onSheetZoom = ({ clientX, clientY, delta }) => {
+    if (chit) {
+      var xs = (clientX - chit.props.left) / scale,
+        ys = (clientY - chit.props.top) / scale;
 
-    scale += delta * -0.0008;
-
-    chit.props.scale = scale;
-    chit.props.left = clientX - xs * scale;
-    chit.props.top = clientY - ys * scale;
-    setTransform();
-    UpdateChit(chit.props);
+      scale += delta * -0.0008;
+      chit.props.left = clientX - xs * scale;
+      chit.props.top = clientY - ys * scale;
+      setTransform();
+      UpdateChit(chit.props);
+    }
   };
 
   const setTransform = () => {
     // Scale
     chit.dom.style.transition = "none";
-    chit.dom.style.transform = "scale(" + chit.props.scale + ")";
+    chit.dom.style.transform = "scale(" + scale + ")";
     chit.dom.style.transformOrigin = `0px 0px`;
 
     // Position
@@ -138,10 +139,19 @@ function MakeChit(props) {
     chit.dom.style.top = chit.props.top;
   };
 
-  const chit = buildChit();
-  document.addEventListener(Events.ON_SHEET_DRAG, onSheetDrag);
-  document.addEventListener(Events.ON_ZOOM, onSheetZoom);
-  return chit;
+  const removeChit = () => {
+    if (chit && chit.dom) {
+      chit.dom.remove();
+      chit = null;
+    }
+  };
+
+  chit = buildChit();
+  return { chit, remove: removeChit, position: positionChit, drag: onSheetDrag, scale: onSheetZoom };
 }
 
-export default MakeChit;
+const ChitMgmt = (props) => {
+  const chit = Chit(props);
+  return chit;
+};
+export default ChitMgmt;
