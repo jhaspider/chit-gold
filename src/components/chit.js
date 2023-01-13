@@ -2,6 +2,12 @@ import Utils from "../utils/utils";
 import { v4 as uuidv4 } from "uuid";
 import Events from "../utils/events";
 import { UpdateChit } from "../utils/save_chits";
+import { remove } from "lodash";
+
+export const ORDER = {
+  TOP: "top",
+  BOTTOM: "bottom",
+};
 
 function Chit(props) {
   let { left, top, title, scale = 1, topicId, text = "", id = uuidv4(), onArchive } = props;
@@ -34,15 +40,16 @@ function Chit(props) {
 
   const onArchiveTap = (e) => {
     e.stopPropagation();
-    chit.dom.remove();
+    console.log(chit.props);
     chit.dom.dispatchEvent(new CustomEvent(Events.ARCHIVE, { detail: { id: chit.props.id } }));
+    removeChit();
   };
 
   const getDom = () => {
     const div = Utils.newElem("div", null, "chit");
 
     // Title
-    const chitTitle = Utils.newElem("h2", null, "chit-title");
+    const chitTitle = Utils.newElem("h2", "chit-title", "chit-title");
     chitTitle.contentEditable = true;
     chitTitle.innerHTML = title;
     chitTitle.addEventListener("input", onTitleChangeHandler);
@@ -60,7 +67,7 @@ function Chit(props) {
     div.append(cellarchive);
 
     const archivelink = Utils.newElem("a");
-    archivelink.setAttribute("href", "#");
+    archivelink.setAttribute("href", "javascript:void(0)");
     archivelink.innerHTML = "Archive";
     cellarchive.append(archivelink);
     archivelink.addEventListener("click", onArchiveTap);
@@ -146,12 +153,29 @@ function Chit(props) {
     }
   };
 
+  const setOrder = (index) => {
+    if (chit && chit.dom) chit.dom.style.zIndex = index;
+  };
+
+  const setFocus = () => {
+    if (chit && chit.dom) {
+      const chitTitle = chit.dom.querySelector("#chit-title");
+      var range = document.createRange();
+      range.selectNodeContents(chitTitle);
+      range.collapse(false);
+      var selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  };
+
   chit = buildChit();
-  return { chit, remove: removeChit, position: positionChit, drag: onSheetDrag, scale: onSheetZoom };
+  return { chit, remove: removeChit, position: positionChit, drag: onSheetDrag, scale: onSheetZoom, order: setOrder, focus: setFocus };
 }
 
 const ChitMgmt = (props) => {
   const chit = Chit(props);
   return chit;
 };
+
 export default ChitMgmt;

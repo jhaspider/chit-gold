@@ -1,8 +1,8 @@
 import _ from "lodash";
 import Events from "../utils/events.js";
-import { archiveChit, LoadChits, AddChit, UpdateChit } from "../utils/save_chits.js";
+import { LoadChits, AddChit, UpdateChit } from "../utils/save_chits.js";
 import Utils from "../utils/utils.js";
-import ChitMgmt from "./chit.js";
+import ChitMgmt, { ORDER } from "./chit.js";
 import TapHoldAnimation from "./tap-hold-animation.js";
 import NewTopic from "./add-topic";
 
@@ -48,7 +48,6 @@ function Sheet() {
       }
 
       // Adds new looking at time
-
       if (new_sheet_start_time > 0) {
         let diff = new Date().getTime() - new_sheet_start_time;
         new_sheet_start_time = 0;
@@ -56,8 +55,10 @@ function Sheet() {
         if (diff >= 500) {
           const chitProps = { left: e.clientX, top: e.clientY - topOffset, title: `Chit ${all_chits.length + 1}`, topicId: selected_topic?.id };
           addChit(chitProps, (element) => {
+            element.focus();
             AddChit(element.chit.props);
             all_chits.push(element);
+            selected_chit = element;
           });
         }
       } else {
@@ -83,7 +84,6 @@ function Sheet() {
 
   const cheetSheetMouseMove = (e) => {
     e.stopPropagation();
-    // console.log(e.clientX, e.clientY);
     if (selected_chit) {
       const cords = { left: e.clientX - initCord.offsetLeft, top: e.clientY - initCord.offsetTop - topOffset };
       selected_chit.position(cords);
@@ -97,21 +97,24 @@ function Sheet() {
     const orgCord = e.currentTarget.getBoundingClientRect();
     initCord = { offsetLeft: e.clientX - orgCord.x, offsetTop: e.clientY - orgCord.y };
 
+    if (selected_chit) selected_chit.order("auto");
     selected_chit = all_chits.find((chit) => chit.chit.props.id === e.currentTarget.dataset.id);
+    selected_chit.order(all_chits.length);
   };
 
   const chitArchive = (e) => {
-    const chit = all_chits.find((chit) => chit.props.id == e.detail.id);
+    const { chit } = all_chits.find(({ chit }) => chit.props.id == e.detail.id);
     UpdateChit({ ...chit.props, archive: true });
   };
 
   const addChit = (chitProps, callback) => {
     const chit = ChitMgmt({ ...chitProps, scale: selected_topic.scale });
-    sheet.append(chit.chit.dom);
+    const { dom } = chit.chit;
+    sheet.append(dom);
     cursorDefault();
-    chit.chit.dom.addEventListener("mousedown", chitMouseDown);
-    chit.chit.dom.addEventListener(Events.CONTENT_SAVE, chitContentChange);
-    chit.chit.dom.addEventListener(Events.ARCHIVE, chitArchive);
+    dom.addEventListener("mousedown", chitMouseDown);
+    dom.addEventListener(Events.CONTENT_SAVE, chitContentChange);
+    dom.addEventListener(Events.ARCHIVE, chitArchive);
     callback(chit);
   };
 
@@ -186,7 +189,7 @@ function Sheet() {
     const sheetRect = sheet.getBoundingClientRect();
 
     // Move all chits away
-    all_chits.forEach((chit) => {
+    all_chits.forEach(({ chit }) => {
       chit.dom.style.transition = "left .3s, top .3s";
       if (away) {
         let { left, top, width, height, bottom, right } = chit.dom.getBoundingClientRect();
@@ -232,6 +235,7 @@ function Sheet() {
   document.addEventListener(Events.BTN_ADD_TOPIC, onTopicAdd);
   document.addEventListener("keydown", documentKeyPress);
   document.addEventListener("mousewheel", onScroll, { passive: false });
+
   setTimeout(() => {
     let toolbar_offset = Utils.getDomById("toolbar").clientHeight;
     let chit_topics = Utils.getDomById("chit-topics").clientHeight;

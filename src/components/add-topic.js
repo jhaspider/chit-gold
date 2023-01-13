@@ -42,11 +42,6 @@ function NewTopic(props) {
     const addGroup = Utils.newElem("div", null, "add-group");
     groupContainer.append(addGroup);
 
-    // Title
-    const heading = Utils.newElem("h2", null, "title");
-    heading.innerHTML = "";
-    addGroup.append(heading);
-
     // Body
     const topicName = Utils.newElem("input", "topic_name", "container");
     topicName.addEventListener("input", onContentChangeHandler);
@@ -54,9 +49,7 @@ function NewTopic(props) {
     topicName.setAttribute("type", "text");
     topicName.setAttribute("placeholder", "Add a Topic");
     topicName.setAttribute("autocomplete", "off");
-
     addGroup.append(topicName);
-    topicName.focus();
 
     // Archive
     const archivelink = Utils.newElem("p", "enter-prompt");

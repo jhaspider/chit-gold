@@ -47,7 +47,7 @@ div {
 a {
   text-transform: uppercase;
   font-weight: 500;
-
+  color: var(--color-action);
   text-decoration: none;
 }
 
@@ -261,7 +261,7 @@ a {
   animation: blink 1.5s alternate 2;
   border-radius: 10px;
   margin: 0 10px;
-  padding: 0 10px;
+  padding: 2px 10px;
 }
 
 @keyframes blink {
