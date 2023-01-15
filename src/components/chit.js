@@ -129,17 +129,17 @@ function Chit(props) {
 
       if (delta) scale += delta * -0.0008;
       if (new_scale) scale = new_scale;
-      // console.log(`X : ${xs}, Y : ${ys}, ${scale}`);
+
       chit.props.left = clientX - xs * scale;
       chit.props.top = clientY - ys * scale;
-      setTransform();
+      setTransform(delta ? true : false);
       UpdateChit(chit.props);
     }
   };
 
-  const setTransform = () => {
+  const setTransform = (transition) => {
     // Scale
-    chit.dom.style.transition = "none";
+    chit.dom.style.transition = transition ? "none" : "all 0.5s";
     chit.dom.style.transform = "scale(" + scale + ")";
     chit.dom.style.transformOrigin = `0px 0px`;
 

@@ -46,15 +46,10 @@ function Toolbar() {
   };
 
   const zoomInHandler = (type) => {
-    let factor = zoomFactor;
-    while (percent > factor) {
-      factor += zoomFactor;
-    }
-
-    if (type) {
-      percent = percent < factor ? factor : factor + zoomFactor;
+    if (percent % zoomFactor != 0) {
+      percent = type ? Math.ceil(percent / zoomFactor) * zoomFactor : Math.floor(percent / zoomFactor) * zoomFactor;
     } else {
-      percent = factor - zoomFactor;
+      percent = type ? percent + zoomFactor : percent - zoomFactor;
     }
 
     setPercent();
