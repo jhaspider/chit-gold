@@ -150,8 +150,9 @@ function Sheet() {
     }
   };
 
-  const loadChitsHandler = (e) => {
+  const onTopicSelect = (e) => {
     selected_topic = e.detail.topic;
+    document.dispatchEvent(new CustomEvent(Events.UPDATE_ZOOM, { detail: { scale: selected_topic.scale } }));
     if (selected_topic) renderOldChits();
   };
 
@@ -224,17 +225,33 @@ function Sheet() {
       all_chits.forEach((chit) => {
         chit.scale({ clientX: e.clientX, clientY: e.clientY, delta: e.deltaY });
       });
-      // document.dispatchEvent(new CustomEvent(Events.ON_ZOOM, { detail: { clientX: e.clientX, clientY: e.clientY, delta: e.deltaY } }));
+      document.dispatchEvent(new CustomEvent(Events.UPDATE_ZOOM, { detail: { scale: selected_topic.scale } }));
       document.dispatchEvent(new CustomEvent(Events.UPDATE_TOPIC, { detail: { ...selected_topic, scale: selected_topic.scale } }));
     }
   };
 
+  const onZoom = (e) => {
+    const new_scale = e.detail.percent / 100;
+    if (selected_topic) {
+      // Save zoom level to topics
+      selected_topic.scale = new_scale;
+      document.dispatchEvent(new CustomEvent(Events.UPDATE_TOPIC, { detail: { ...selected_topic, scale: selected_topic.scale } }));
+
+      // Re-scale chits
+      all_chits.forEach((chit) => {
+        const { width, height } = sheet.getBoundingClientRect();
+        chit.scale({ clientX: width / 2, clientY: height / 2, new_scale });
+      });
+    }
+  };
+
   const sheet = build_sheet();
-  document.addEventListener(Events.TOPIC_SELECT, loadChitsHandler);
+  document.addEventListener(Events.TOPIC_SELECT, onTopicSelect);
   document.addEventListener(Events.BTN_ADD_SELECT, btnAddSelect);
   document.addEventListener(Events.BTN_ADD_TOPIC, onTopicAdd);
   document.addEventListener("keydown", documentKeyPress);
   document.addEventListener("mousewheel", onScroll, { passive: false });
+  document.addEventListener(Events.ON_ZOOM, onZoom);
 
   setTimeout(() => {
     let toolbar_offset = Utils.getDomById("toolbar").clientHeight;

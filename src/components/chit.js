@@ -122,12 +122,14 @@ function Chit(props) {
     }
   };
 
-  const onSheetZoom = ({ clientX, clientY, delta }) => {
+  const onSheetZoom = ({ clientX, clientY, delta, new_scale }) => {
     if (chit) {
       var xs = (clientX - chit.props.left) / scale,
         ys = (clientY - chit.props.top) / scale;
 
-      scale += delta * -0.0008;
+      if (delta) scale += delta * -0.0008;
+      if (new_scale) scale = new_scale;
+      // console.log(`X : ${xs}, Y : ${ys}, ${scale}`);
       chit.props.left = clientX - xs * scale;
       chit.props.top = clientY - ys * scale;
       setTransform();

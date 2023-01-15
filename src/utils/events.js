@@ -6,6 +6,7 @@ const Events = {
   BTN_ADD_TOPIC: "btn_add_topic",
   ON_SHEET_DRAG: "on_sheet_drag",
   ON_ZOOM: "on_zoom",
+  UPDATE_ZOOM: "update_zoom",
   RENDER_TOPIC: "render_topics",
   UPDATE_TOPIC: "update_topic",
 };
