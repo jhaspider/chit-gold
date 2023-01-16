@@ -223,7 +223,7 @@ function Sheet() {
       selected_topic.scale += e.deltaY * -0.0008;
 
       all_chits.forEach((chit) => {
-        chit.scale({ clientX: e.clientX, clientY: e.clientY, delta: e.deltaY });
+        chit.scale({ clientX: e.clientX, clientY: e.clientY, new_scale: selected_topic.scale });
       });
       document.dispatchEvent(new CustomEvent(Events.UPDATE_ZOOM, { detail: { scale: selected_topic.scale } }));
       document.dispatchEvent(new CustomEvent(Events.UPDATE_TOPIC, { detail: { ...selected_topic, scale: selected_topic.scale } }));
@@ -240,7 +240,7 @@ function Sheet() {
       // Re-scale chits
       all_chits.forEach((chit) => {
         const { width, height } = sheet.getBoundingClientRect();
-        chit.scale({ clientX: width / 2, clientY: height / 2, new_scale });
+        chit.scale({ clientX: width / 2, clientY: height / 2, new_scale, source: true });
       });
     }
   };

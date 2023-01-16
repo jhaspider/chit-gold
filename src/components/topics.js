@@ -6,7 +6,7 @@ function Topic({ topic, selectTopicHandler }) {
   const topicDom = Utils.newElem("a");
   topicDom.innerHTML = topic.topicName;
 
-  const li = Utils.newElem("li", null, "topic-items");
+  const li = Utils.newElem("li", `topic-id-${topic.id}`, "topic-items");
   li.addEventListener("click", selectTopicHandler);
   li.dataset.id = topic.id;
   li.append(topicDom);
@@ -18,7 +18,9 @@ function Topics(props) {
   let { topicId } = props;
 
   const selectTopicHandler = (e) => {
+    unselectPrevious();
     topicId = e.currentTarget.dataset.id;
+    e.currentTarget.classList.add("topic-select");
     loadTopicChits();
   };
 
@@ -30,6 +32,11 @@ function Topics(props) {
       if (!tp) return;
       setTimeout(() => document.dispatchEvent(new CustomEvent(Events.TOPIC_SELECT, { detail: { topic: tp.topic } })), 100);
     }
+  };
+
+  const unselectPrevious = () => {
+    const prevTopicNode = container.querySelector(`#topic-id-${topicId}`);
+    prevTopicNode.classList.remove("topic-select");
   };
 
   const renderTopics = () => {
@@ -60,17 +67,21 @@ function Topics(props) {
 
   const topicAddHandler = (e) => {
     observer.disconnect();
+    unselectPrevious();
     if (e.detail.topic) {
       const topic = e.detail.topic;
       topicId = topic.id;
       const newT = appendTopic(topic);
-      Utils.blink(newT);
+      // Utils.blink(newT);
+      const prevTopicNode = container.querySelector(`#topic-id-${topicId}`);
+      prevTopicNode.classList.add("topic-select");
       loadTopicChits();
     }
   };
 
   const observer = new MutationObserver(function (mutations) {
     let inc = 0;
+    console.log(`Selected Topic : ${topicId}`);
     mutations.forEach((mutation) => {
       mutation.addedNodes.forEach((node) => {
         if (node.classList && node.classList.contains("topic-items")) {
@@ -78,6 +89,7 @@ function Topics(props) {
             topicId = all_topics[all_topics.length - 1].topic.id;
             loadTopicChits();
           }
+          if (topicId === node.dataset.id) node.classList.add("topic-select");
           inc++;
         }
       });

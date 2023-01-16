@@ -10,6 +10,8 @@ function Toolbar() {
   const onAddTopic = (e) => document.dispatchEvent(new CustomEvent(Events.BTN_ADD_TOPIC));
 
   const buildToolbar = () => {
+    const toolbar_container = Utils.newElem("div", "toolbar-container");
+
     const bottomToolbar = Utils.newElem("div", "bottom-toolbar");
 
     const btnAdd = Utils.newElem("button", null, "add-new-chit");
@@ -41,10 +43,20 @@ function Toolbar() {
 
     container.appendChild(rightButton);
     bottomToolbar.append(container);
+    toolbar_container.append(bottomToolbar);
 
-    return bottomToolbar;
+    const topicLabel = Utils.newElem("h2", "topic-label");
+    topicLabel.innerHTML = "";
+
+    toolbar_container.append(topicLabel);
+
+    return toolbar_container;
   };
 
+  const onTopicSelect = (e) => {
+    const topic = e.detail.topic;
+    container.querySelector("#topic-label").innerHTML = topic.topicName;
+  };
   const zoomInHandler = (type) => {
     if (percent % zoomFactor != 0) {
       percent = type ? Math.ceil(percent / zoomFactor) * zoomFactor : Math.floor(percent / zoomFactor) * zoomFactor;
@@ -55,6 +67,7 @@ function Toolbar() {
     setPercent();
     document.dispatchEvent(new CustomEvent(Events.ON_ZOOM, { detail: { percent } }));
   };
+
   const scaleHandler = (e) => {
     percent = e.detail.scale * 100;
     setPercent();
@@ -66,6 +79,7 @@ function Toolbar() {
 
   const container = buildToolbar();
   document.addEventListener(Events.UPDATE_ZOOM, scaleHandler);
+  document.addEventListener(Events.TOPIC_SELECT, onTopicSelect);
   return container;
 }
 

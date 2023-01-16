@@ -122,24 +122,23 @@ function Chit(props) {
     }
   };
 
-  const onSheetZoom = ({ clientX, clientY, delta, new_scale }) => {
+  const onSheetZoom = ({ clientX, clientY, new_scale, source }) => {
     if (chit) {
       var xs = (clientX - chit.props.left) / scale,
         ys = (clientY - chit.props.top) / scale;
 
-      if (delta) scale += delta * -0.0008;
-      if (new_scale) scale = new_scale;
+      scale = new_scale;
 
       chit.props.left = clientX - xs * scale;
       chit.props.top = clientY - ys * scale;
-      setTransform(delta ? true : false);
+      setTransform(source ? true : false);
       UpdateChit(chit.props);
     }
   };
 
   const setTransform = (transition) => {
     // Scale
-    chit.dom.style.transition = transition ? "none" : "all 0.5s";
+    chit.dom.style.transition = transition ? "all 0.5s" : "none";
     chit.dom.style.transform = "scale(" + scale + ")";
     chit.dom.style.transformOrigin = `0px 0px`;
 
