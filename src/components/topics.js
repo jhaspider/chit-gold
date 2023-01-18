@@ -36,7 +36,7 @@ function Topics(props) {
 
   const unselectPrevious = () => {
     const prevTopicNode = container.querySelector(`#topic-id-${topicId}`);
-    prevTopicNode.classList.remove("topic-select");
+    if (prevTopicNode) prevTopicNode.classList.remove("topic-select");
   };
 
   const renderTopics = () => {
