@@ -1,0 +1,332 @@
+[debug] [2023-01-18T11:02:46.329Z] ----------------------------------------------------------------------
+[debug] [2023-01-18T11:02:46.332Z] Command:       /usr/local/bin/node /usr/local/bin/firebase emulators:start
+[debug] [2023-01-18T11:02:46.332Z] CLI Version:   11.20.0
+[debug] [2023-01-18T11:02:46.332Z] Platform:      darwin
+[debug] [2023-01-18T11:02:46.332Z] Node Version:  v14.18.0
+[debug] [2023-01-18T11:02:46.340Z] Time:          Wed Jan 18 2023 16:32:46 GMT+0530 (India Standard Time)
+[debug] [2023-01-18T11:02:46.340Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-01-18T11:02:46.403Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-01-18T11:02:46.403Z] > authorizing via signed-in user (admin@99shards.xyz)
+[debug] [2023-01-18T11:02:46.591Z] openjdk version "17.0.2" 2022-01-18
+
+[debug] [2023-01-18T11:02:46.592Z] OpenJDK Runtime Environment Temurin-17.0.2+8 (build 17.0.2+8)
+OpenJDK 64-Bit Server VM Temurin-17.0.2+8 (build 17.0.2+8, mixed mode, sharing)
+
+[debug] [2023-01-18T11:02:46.596Z] Parsed Java major version: 17
+[info] i  emulators: Starting emulators: auth, functions, firestore, database, hosting {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions, firestore, database, hosting"}}
+[debug] [2023-01-18T11:02:47.367Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-01-18T11:02:47.368Z] [auth] Authentication Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-01-18T11:02:47.368Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-01-18T11:02:47.368Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-01-18T11:02:47.368Z] [database] Database Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-01-18T11:02:47.368Z] [hosting] Hosting Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-01-18T11:02:47.369Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8080}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"database":[{"address":"127.0.0.1","family":"IPv4","port":9000}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2023-01-18T11:02:47.375Z] [hub] writing locator at /var/folders/n9/y0n1j9_505xdn74mg6s30k1r0000gn/T/hub-cheat-sheet-62dad.json
+[debug] [2023-01-18T11:02:47.555Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-01-18T11:02:47.555Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-01-18T11:02:47.556Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8080}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"database":[{"address":"127.0.0.1","family":"IPv4","port":9000}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] ⚠  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: pubsub, storage {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mpubsub, storage\u001b[22m"}}
+[warn] ⚠  Your requested "node" version "16" doesn't match your global version "14". Using node@14 from host. {"metadata":{"emulator":{"name":"functions"},"message":"Your requested \"node\" version \"16\" doesn't match your global version \"14\". Using node@14 from host."}}
+[debug] [2023-01-18T11:02:47.566Z] defaultcredentials: writing to file /Users/amarjit/.config/firebase/admin_99shards_xyz_application_default_credentials.json
+[debug] [2023-01-18T11:02:47.569Z] Setting GAC to /Users/amarjit/.config/firebase/admin_99shards_xyz_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /Users/amarjit/.config/firebase/admin_99shards_xyz_application_default_credentials.json"}}
+[debug] [2023-01-18T11:02:47.573Z] > refreshing access token with scopes: []
+[debug] [2023-01-18T11:02:47.575Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-01-18T11:02:47.575Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-01-18T11:02:47.772Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-01-18T11:02:47.773Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-01-18T11:02:47.821Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/cheat-sheet-62dad/adminSdkConfig [none]
+[debug] [2023-01-18T11:02:48.265Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/cheat-sheet-62dad/adminSdkConfig 200
+[debug] [2023-01-18T11:02:48.265Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/cheat-sheet-62dad/adminSdkConfig {"projectId":"cheat-sheet-62dad","storageBucket":"cheat-sheet-62dad.appspot.com","locationId":"asia-south1"}
+[debug] [2023-01-18T11:02:48.294Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2023-01-18T11:02:48.294Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
+[debug] [2023-01-18T11:02:48.294Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","/Users/amarjit/.cache/firebase/emulators/cloud-firestore-emulator-v1.15.1.jar","--host","127.0.0.1","--port",8080,"--websocket_port",9150,"--project_id","cheat-sheet-62dad","--rules","/Users/amarjit/Projects/chit-gold/firestore.rules","--single_project_mode",true,"--functions_emulator","127.0.0.1:5001"],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"/Users/amarjit/.cache/firebase/emulators/cloud-firestore-emulator-v1.15.1.jar\",\"--host\",\"127.0.0.1\",\"--port\",8080,\"--websocket_port\",9150,\"--project_id\",\"cheat-sheet-62dad\",\"--rules\",\"/Users/amarjit/Projects/chit-gold/firestore.rules\",\"--single_project_mode\",true,\"--functions_emulator\",\"127.0.0.1:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false}"}}
+[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
+[debug] [2023-01-18T11:02:49.481Z] Jan 18, 2023 4:32:49 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
+INFO: Started WebSocket server on ws://127.0.0.1:9150
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 4:32:49 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\nINFO: Started WebSocket server on ws://127.0.0.1:9150\n"}}
+[debug] [2023-01-18T11:02:49.504Z] API endpoint: http://127.0.0.1:8080
+ {"metadata":{"emulator":{"name":"firestore"},"message":"API endpoint: http://127.0.0.1:8080\n"}}
+[debug] [2023-01-18T11:02:49.505Z] If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:
+
+   export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080
+
+Dev App Server is now running.
+
+ {"metadata":{"emulator":{"name":"firestore"},"message":"If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:\n\n   export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080\n\nDev App Server is now running.\n\n"}}
+[info] ✔  firestore: Firestore Emulator UI websocket is running on 9150. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator UI websocket is running on 9150."}}
+[debug] [2023-01-18T11:02:49.568Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/cheat-sheet-62dad [none]
+[debug] [2023-01-18T11:02:50.008Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/cheat-sheet-62dad 200
+[debug] [2023-01-18T11:02:50.008Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/cheat-sheet-62dad {"projectId":"cheat-sheet-62dad","projectNumber":"689405364498","displayName":"cheat-sheet","name":"projects/cheat-sheet-62dad","resources":{"hostingSite":"cheat-sheet-62dad","storageBucket":"cheat-sheet-62dad.appspot.com","locationId":"asia-south1"},"state":"ACTIVE","etag":"1_f98521f1-ba96-49f5-87f9-634a3d983ab4"}
+[debug] [2023-01-18T11:02:50.009Z] database rules config:  []
+[warn] ⚠  database: Did not find a Realtime Database rules file specified in a firebase.json config file. The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration. {"metadata":{"emulator":{"name":"database"},"message":"Did not find a Realtime Database rules file specified in a firebase.json config file. The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration."}}
+[debug] [2023-01-18T11:02:50.014Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2023-01-18T11:02:50.014Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2023-01-18T11:02:50.015Z] Ignoring unsupported arg: rules {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: rules"}}
+[debug] [2023-01-18T11:02:50.015Z] Starting Database Emulator with command {"binary":"java","args":["-Duser.language=en","-jar","/Users/amarjit/.cache/firebase/emulators/firebase-database-emulator-v4.11.0.jar","--host","127.0.0.1","--port",9000,"--single_project_mode","Warning","--functions_emulator_host","127.0.0.1","--functions_emulator_port",5001],"optionalArgs":["port","host","functions_emulator_port","functions_emulator_host","single_project_mode"],"joinArgs":false} {"metadata":{"emulator":{"name":"database"},"message":"Starting Database Emulator with command {\"binary\":\"java\",\"args\":[\"-Duser.language=en\",\"-jar\",\"/Users/amarjit/.cache/firebase/emulators/firebase-database-emulator-v4.11.0.jar\",\"--host\",\"127.0.0.1\",\"--port\",9000,\"--single_project_mode\",\"Warning\",\"--functions_emulator_host\",\"127.0.0.1\",\"--functions_emulator_port\",5001],\"optionalArgs\":[\"port\",\"host\",\"functions_emulator_port\",\"functions_emulator_host\",\"single_project_mode\"],\"joinArgs\":false}"}}
+[info] i  database: Database Emulator logging to database-debug.log {"metadata":{"emulator":{"name":"database"},"message":"Database Emulator logging to \u001b[1mdatabase-debug.log\u001b[22m"}}
+[debug] [2023-01-18T11:02:51.232Z] 16:32:51.231 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+ {"metadata":{"emulator":{"name":"database"},"message":"16:32:51.231 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started\n"}}
+[debug] [2023-01-18T11:02:51.429Z] 16:32:51.428 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000
+ {"metadata":{"emulator":{"name":"database"},"message":"16:32:51.428 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000\n"}}
+[debug] [2023-01-18T11:02:58.129Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/cheat-sheet-62dad/sites 
+[debug] [2023-01-18T11:02:59.121Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/cheat-sheet-62dad/sites 200
+[debug] [2023-01-18T11:02:59.121Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/cheat-sheet-62dad/sites {"sites":[{"name":"projects/cheat-sheet-62dad/sites/cheat-sheet-62dad","defaultUrl":"https://cheat-sheet-62dad.web.app","appId":"1:689405364498:web:e50209c5e2f0b18c180bcb","type":"DEFAULT_SITE"}]}
+[debug] [2023-01-18T11:02:59.122Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/cheat-sheet-62dad/webApps/1:689405364498:web:e50209c5e2f0b18c180bcb/config [none]
+[debug] [2023-01-18T11:03:00.453Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/cheat-sheet-62dad/webApps/1:689405364498:web:e50209c5e2f0b18c180bcb/config 200
+[debug] [2023-01-18T11:03:00.453Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/cheat-sheet-62dad/webApps/1:689405364498:web:e50209c5e2f0b18c180bcb/config {"projectId":"cheat-sheet-62dad","appId":"1:689405364498:web:e50209c5e2f0b18c180bcb","storageBucket":"cheat-sheet-62dad.appspot.com","locationId":"asia-south1","apiKey":"AIzaSyDc5HJ3SIwrWKJGRjn67JDXjuP_sSb_Gp4","authDomain":"cheat-sheet-62dad.firebaseapp.com","messagingSenderId":"689405364498","measurementId":"G-GBXK6YQPZJ"}
+[debug] [2023-01-18T11:03:00.480Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/cheat-sheet-62dad [none]
+[debug] [2023-01-18T11:03:00.965Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/cheat-sheet-62dad 200
+[debug] [2023-01-18T11:03:00.966Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/cheat-sheet-62dad {"projectId":"cheat-sheet-62dad","projectNumber":"689405364498","displayName":"cheat-sheet","name":"projects/cheat-sheet-62dad","resources":{"hostingSite":"cheat-sheet-62dad","storageBucket":"cheat-sheet-62dad.appspot.com","locationId":"asia-south1"},"state":"ACTIVE","etag":"1_f98521f1-ba96-49f5-87f9-634a3d983ab4"}
+[info] i  hosting[cheat-sheet-62dad]: Serving hosting files from: build {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mbuild\u001b[22m"}}
+[info] ✔  hosting[cheat-sheet-62dad]: Local server: http://127.0.0.1:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://127.0.0.1:5000\u001b[22m\u001b[24m"}}
+[debug] [2023-01-18T11:03:01.050Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2023-01-18T11:03:01.050Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2023-01-18T11:03:01.051Z] Starting Emulator UI with command {"binary":"node","args":["/Users/amarjit/.cache/firebase/emulators/ui-v1.11.2/server/server.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"/Users/amarjit/.cache/firebase/emulators/ui-v1.11.2/server/server.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+[info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
+[debug] [2023-01-18T11:03:01.163Z] Web / API server started at 127.0.0.1:4000
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at 127.0.0.1:4000\n"}}
+[debug] [2023-01-18T11:03:01.163Z] Web / API server started at ::1:4000
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at ::1:4000\n"}}
+[info] i  functions: Watching "/Users/amarjit/Projects/chit-gold/functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"/Users/amarjit/Projects/chit-gold/functions\" for Cloud Functions..."}}
+[debug] [2023-01-18T11:03:01.322Z] Validating nodejs source
+[warn] ⚠  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] ⚠  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2023-01-18T11:03:02.388Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^10.0.2",
+    "firebase-functions": "^3.18.0"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2023-01-18T11:03:02.388Z] Building nodejs source
+[debug] [2023-01-18T11:03:02.392Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-01-18T11:03:02.596Z] Serving at port 9005
+
+[debug] [2023-01-18T11:03:02.681Z] Got response from /__/functions.yaml {"endpoints":{"helloWorld":{"platform":"gcfv1","httpsTrigger":{},"entryPoint":"helloWorld"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-01-18T11:03:02.686Z] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions: Loaded functions definitions from source: helloWorld. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: helloWorld."}}
+[info] ✔  functions[us-central1-helloWorld]: http function initialized (http://127.0.0.1:5001/cheat-sheet-62dad/us-central1/helloWorld). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/cheat-sheet-62dad/us-central1/helloWorld)."}}
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌────────────────┬────────────────┬─────────────────────────────────┐
+│ Emulator       │ Host:Port      │ View in Emulator UI             │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Authentication │ 127.0.0.1:9099 │ http://127.0.0.1:4000/auth      │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Functions      │ 127.0.0.1:5001 │ http://127.0.0.1:4000/functions │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Firestore      │ 127.0.0.1:8080 │ http://127.0.0.1:4000/firestore │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Database       │ 127.0.0.1:9000 │ http://127.0.0.1:4000/database  │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Hosting        │ 127.0.0.1:5000 │ n/a                             │
+└────────────────┴────────────────┴─────────────────────────────────┘
+  Emulator Hub running at 127.0.0.1:4400
+  Other reserved ports: 4500, 9150
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[debug] [2023-01-18T11:03:23.050Z] Jan 18, 2023 4:33:23 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 4:33:23 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[warn] ⚠  Received a signed JWT. Auth Emulator does not validate JWTs and IS NOT SECURE {"metadata":{"emulator":{"name":"auth"},"message":"Received a signed JWT. Auth Emulator does not validate JWTs and IS NOT SECURE"}}
+[debug] [2023-01-18T11:06:07.048Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:06:07.048Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"c7072570-8fe3-4ed9-a5f5-e2ae573d4c47","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:06:07.045Z","data":{"uid":"etV0SHuCgMhp0Td3bvMkvc9uwbG8","metadata":{"creationTime":"2023-01-18T11:06:07.038Z","lastSignInTime":"2023-01-18T11:06:07.038Z"},"customClaims":{}}}
+[debug] [2023-01-18T11:06:07.072Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:06:07.072Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:08:04.122Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:08:04.124Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"ae8e4258-91d5-4f80-a30e-b52906743d53","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:08:04.122Z","data":{"uid":"vAmrKrmUUM09wrDsqLtms28LQ4ED","metadata":{"creationTime":"2023-01-18T11:08:04.121Z","lastSignInTime":"2023-01-18T11:08:04.121Z"},"customClaims":{}}}
+[debug] [2023-01-18T11:08:04.129Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:08:04.130Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:16:46.810Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:16:46.812Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"25d87a2e-00ab-4f9d-9865-608cd7276e37","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:16:46.810Z","data":{"uid":"GxRR6SmO1hBUvEhMJgbti9jFEJAk","email":"grass.olive.107@example.com","emailVerified":true,"displayName":"Grass Olive","metadata":{"creationTime":"2023-01-18T11:16:46.808Z","lastSignInTime":"2023-01-18T11:16:46.808Z"},"customClaims":{},"providerData":[{"providerId":"google.com","rawId":"8780834874231664113708382252044651466820","federatedId":"8780834874231664113708382252044651466820","displayName":"Grass Olive","email":"grass.olive.107@example.com","screenName":"olive_grass"}]}}
+[debug] [2023-01-18T11:16:46.822Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:16:46.822Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:16:55.216Z] Jan 18, 2023 4:46:55 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 4:46:55 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2023-01-18T11:16:55.431Z] Jan 18, 2023 4:46:55 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 4:46:55 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2023-01-18T11:17:08.629Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:17:08.629Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"b99aeab1-d4d2-4663-b7eb-8728fc0832b7","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:17:08.628Z","data":{"uid":"4Bl6zJG29IRA4HpdG4Q0LHlXnkIM","metadata":{"creationTime":"2023-01-18T11:17:08.628Z","lastSignInTime":"2023-01-18T11:17:08.628Z"},"customClaims":{}}}
+[debug] [2023-01-18T11:17:08.634Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:17:08.635Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:17:12.201Z] Jan 18, 2023 4:47:12 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 4:47:12 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2023-01-18T11:17:12.371Z] Jan 18, 2023 4:47:12 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 4:47:12 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2023-01-18T11:20:21.524Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:20:21.524Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"13f17d3f-ec56-4d55-b201-943e66dbde44","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:20:21.524Z","data":{"uid":"UZrHW8aeigBb6nZoOVOPhN2Nv4xl","email":"algae.peach.373@example.com","emailVerified":true,"displayName":"Algae Peach","metadata":{"creationTime":"2023-01-18T11:20:21.524Z","lastSignInTime":"2023-01-18T11:20:21.524Z"},"customClaims":{},"providerData":[{"providerId":"google.com","rawId":"9932225766110121386918794636052661253600","federatedId":"9932225766110121386918794636052661253600","displayName":"Algae Peach","email":"algae.peach.373@example.com","screenName":"peach_algae"}]}}
+[debug] [2023-01-18T11:20:21.528Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:20:21.529Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:21:03.090Z] Jan 18, 2023 4:51:03 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 4:51:03 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2023-01-18T11:21:03.289Z] Jan 18, 2023 4:51:03 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 4:51:03 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2023-01-18T11:22:47.298Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:22:47.298Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"cedc45b8-d966-4caa-85fb-5066c56bc2a6","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:22:47.297Z","data":{"uid":"6oPnctlma6vnHSfrExr6tArauZwz","metadata":{"creationTime":"2023-01-18T11:22:47.297Z","lastSignInTime":"2023-01-18T11:22:47.297Z"},"customClaims":{}}}
+[debug] [2023-01-18T11:22:47.301Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:22:47.301Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:23:26.393Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:23:26.394Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"f8668aec-80e8-41ce-ae35-526d6d46bfd7","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:23:26.393Z","data":{"uid":"YSWGtvQm2iF0CU63KHqbYsIbsCSR","metadata":{"creationTime":"2023-01-18T11:23:26.393Z","lastSignInTime":"2023-01-18T11:23:26.393Z"},"customClaims":{}}}
+[debug] [2023-01-18T11:23:26.397Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:23:26.397Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:23:33.891Z] Jan 18, 2023 4:53:33 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 4:53:33 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2023-01-18T11:23:34.074Z] Jan 18, 2023 4:53:34 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 4:53:34 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2023-01-18T11:23:36.108Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:23:36.108Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"3318d6e7-152a-4a08-a0b3-5008cf0207db","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:23:36.108Z","data":{"uid":"QRAbt8e0b5oNQ15mybmlGGxiKSk4","metadata":{"creationTime":"2023-01-18T11:23:36.107Z","lastSignInTime":"2023-01-18T11:23:36.107Z"},"customClaims":{}}}
+[debug] [2023-01-18T11:23:36.113Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:23:36.114Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:23:50.256Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:23:50.256Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"6fe0e9e7-4c2c-4d1b-b522-dbfaffcc3c31","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:23:50.256Z","data":{"uid":"CAvPlAVQxxlh56m9fTKOqy0Ac8kV","email":"algae.mountain.815@example.com","emailVerified":true,"displayName":"Algae Mountain","metadata":{"creationTime":"2023-01-18T11:23:50.255Z","lastSignInTime":"2023-01-18T11:23:50.255Z"},"customClaims":{},"providerData":[{"providerId":"google.com","rawId":"1025901533759388521455683463176221864330","federatedId":"1025901533759388521455683463176221864330","displayName":"Algae Mountain","email":"algae.mountain.815@example.com","screenName":"mountain_algae"}]}}
+[debug] [2023-01-18T11:23:50.262Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:23:50.262Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:25:12.395Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:25:12.395Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"8ba5a728-d8d9-4738-abbf-fbbc6f1243b5","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:25:12.395Z","data":{"uid":"Bl5rwxhA9Jck2dm1RtBGMjCR2fOT","metadata":{"creationTime":"2023-01-18T11:25:12.395Z","lastSignInTime":"2023-01-18T11:25:12.395Z"},"customClaims":{}}}
+[debug] [2023-01-18T11:25:12.402Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:25:12.403Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:25:18.757Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:25:18.757Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"d914ca38-2e5e-4963-a4df-2925a8b6a96a","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:25:18.754Z","data":{"uid":"fMG0oanZavMJxbTOJZL6TpJeRKAt","metadata":{"creationTime":"2023-01-18T11:25:18.754Z","lastSignInTime":"2023-01-18T11:25:18.754Z"},"customClaims":{}}}
+[debug] [2023-01-18T11:25:18.760Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:25:18.760Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:25:31.828Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:25:31.828Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"30e9ea5e-c5f5-4675-ba74-d9edd3484a6d","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:25:31.828Z","data":{"uid":"rhXBq5bdo28ND4YCjUsYjMyTRZWV","email":"raccoon.otter.38@example.com","emailVerified":true,"displayName":"Raccoon Otter","metadata":{"creationTime":"2023-01-18T11:25:31.828Z","lastSignInTime":"2023-01-18T11:25:31.828Z"},"customClaims":{},"providerData":[{"providerId":"google.com","rawId":"9690762710181883784145759643821978624750","federatedId":"9690762710181883784145759643821978624750","displayName":"Raccoon Otter","email":"raccoon.otter.38@example.com","screenName":"otter_raccoon"}]}}
+[debug] [2023-01-18T11:25:31.832Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:25:31.832Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:26:42.134Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:26:42.134Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"9a375137-5ab0-41d8-bc8c-1c9b5dd5a9cf","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:26:42.134Z","data":{"uid":"mdizRyeteL7vpFk5CPDM3gQNSLv6","metadata":{"creationTime":"2023-01-18T11:26:42.133Z","lastSignInTime":"2023-01-18T11:26:42.133Z"},"customClaims":{}}}
+[debug] [2023-01-18T11:26:42.136Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:26:42.137Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:27:00.411Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:27:00.411Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"eb290daa-84aa-4c08-b704-e0f3e599ae09","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:27:00.411Z","data":{"uid":"eKDTcuWvBTUxowibTazJ7ctbikTM","email":"orange.peach.523@example.com","emailVerified":true,"displayName":"Orange Peach","metadata":{"creationTime":"2023-01-18T11:27:00.411Z","lastSignInTime":"2023-01-18T11:27:00.411Z"},"customClaims":{},"providerData":[{"providerId":"google.com","rawId":"6347698299911944537127803304278887714359","federatedId":"6347698299911944537127803304278887714359","displayName":"Orange Peach","email":"orange.peach.523@example.com","screenName":"peach_orange"}]}}
+[debug] [2023-01-18T11:27:00.414Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:27:00.414Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:37:16.084Z] Jan 18, 2023 5:07:16 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:07:16 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2023-01-18T11:38:10.386Z] Jan 18, 2023 5:08:10 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:08:10 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2023-01-18T11:44:25.718Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:44:25.720Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"876a787c-98a3-4b01-a2ca-a139e3dd5663","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:44:25.717Z","data":{"uid":"UoPVE6rTCX9cJu1bBW5Y8rj5Ssnp","metadata":{"creationTime":"2023-01-18T11:44:25.716Z","lastSignInTime":"2023-01-18T11:44:25.716Z"},"customClaims":{}}}
+[debug] [2023-01-18T11:44:25.726Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:44:25.726Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:44:42.636Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:44:42.636Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"d6860100-2f96-4bec-9216-f061ee7793e3","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:44:42.636Z","data":{"uid":"7TO6a8m6P0ja1rUeHEkr38d9JMxm","email":"peach.algae.439@example.com","emailVerified":true,"displayName":"Peach Algae","metadata":{"creationTime":"2023-01-18T11:44:42.636Z","lastSignInTime":"2023-01-18T11:44:42.636Z"},"customClaims":{},"providerData":[{"providerId":"google.com","rawId":"3878687080312904014707579051061396275387","federatedId":"3878687080312904014707579051061396275387","displayName":"Peach Algae","email":"peach.algae.439@example.com","screenName":"algae_peach"}]}}
+[debug] [2023-01-18T11:44:42.640Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:44:42.640Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:52:07.499Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:52:07.500Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"5dec8855-c09e-4491-ac02-524ff9f772e4","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:52:07.497Z","data":{"uid":"B8qiew4fp6auZnR3pxwTMCH6EbyS","metadata":{"creationTime":"2023-01-18T11:52:07.493Z","lastSignInTime":"2023-01-18T11:52:07.493Z"},"customClaims":{}}}
+[debug] [2023-01-18T11:52:07.511Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:52:07.511Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:52:28.548Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:52:28.548Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"5077096e-e471-4612-b824-a77290cca900","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:52:28.548Z","data":{"uid":"SxoV6W37MgZHO7vWswoFVArY86GW","metadata":{"creationTime":"2023-01-18T11:52:28.548Z","lastSignInTime":"2023-01-18T11:52:28.548Z"},"customClaims":{}}}
+[debug] [2023-01-18T11:52:28.553Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:52:28.553Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:55:38.086Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:55:38.087Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"6efcdfbd-b35c-4204-9e83-25eefa4d9990","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:55:38.086Z","data":{"uid":"lIcjbLgGPRu0rtKLMf4ZoN5AhK39","metadata":{"creationTime":"2023-01-18T11:55:38.086Z","lastSignInTime":"2023-01-18T11:55:38.086Z"},"customClaims":{}}}
+[debug] [2023-01-18T11:55:38.091Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:55:38.092Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T11:56:13.182Z] Jan 18, 2023 5:26:13 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:26:13 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2023-01-18T11:56:13.365Z] Jan 18, 2023 5:26:13 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:26:13 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2023-01-18T11:56:54.410Z] Jan 18, 2023 5:26:54 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:26:54 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2023-01-18T11:56:54.539Z] Jan 18, 2023 5:26:54 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:26:54 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2023-01-18T11:57:59.104Z] Jan 18, 2023 5:27:59 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:27:59 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2023-01-18T11:57:59.284Z] Jan 18, 2023 5:27:59 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:27:59 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2023-01-18T11:58:12.252Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T11:58:12.254Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"750aa4d5-2f41-4f95-b99f-1d4fba6aaf58","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T11:58:12.251Z","data":{"uid":"QQxgvMRf4CilKLrd01BE24qeKuKK","metadata":{"creationTime":"2023-01-18T11:58:12.251Z","lastSignInTime":"2023-01-18T11:58:12.251Z"},"customClaims":{}}}
+[debug] [2023-01-18T11:58:12.258Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T11:58:12.259Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T12:01:56.976Z] Jan 18, 2023 5:31:56 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:31:56 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2023-01-18T12:01:57.152Z] Jan 18, 2023 5:31:57 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:31:57 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2023-01-18T12:08:24.204Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T12:08:24.205Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"ddae4fee-27a7-4638-8c13-cc57c96fa705","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T12:08:24.201Z","data":{"uid":"GX2F2jPIYK5i5cj0GMDxmbQdaGKd","metadata":{"creationTime":"2023-01-18T12:08:24.200Z","lastSignInTime":"2023-01-18T12:08:24.200Z"},"customClaims":{}}}
+[debug] [2023-01-18T12:08:24.214Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T12:08:24.215Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-01-18T12:08:28.395Z] Jan 18, 2023 5:38:28 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:38:28 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2023-01-18T12:08:28.587Z] Jan 18, 2023 5:38:28 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:38:28 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2023-01-18T12:08:29.432Z] Jan 18, 2023 5:38:29 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:38:29 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2023-01-18T12:08:29.570Z] Jan 18, 2023 5:38:29 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:38:29 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2023-01-18T12:08:59.179Z] Jan 18, 2023 5:38:59 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:38:59 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2023-01-18T12:08:59.363Z] Jan 18, 2023 5:38:59 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:38:59 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2023-01-18T12:09:00.055Z] Jan 18, 2023 5:39:00 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:39:00 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2023-01-18T12:09:00.222Z] Jan 18, 2023 5:39:00 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:39:00 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2023-01-18T12:09:05.776Z] Jan 18, 2023 5:39:05 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:39:05 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2023-01-18T12:09:05.965Z] Jan 18, 2023 5:39:05 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:39:05 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2023-01-18T12:09:06.449Z] Jan 18, 2023 5:39:06 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:39:06 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2023-01-18T12:09:06.541Z] Jan 18, 2023 5:39:06 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jan 18, 2023 5:39:06 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2023-01-18T12:11:07.859Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast [none]
+[debug] [2023-01-18T12:11:07.860Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"eventId":"e63d543a-f836-4608-a75f-bd0d3b68ead7","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/cheat-sheet-62dad","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2023-01-18T12:11:07.858Z","data":{"uid":"K2cZsCWLbjSNgccLElRydJ37QBxT","metadata":{"creationTime":"2023-01-18T12:11:07.858Z","lastSignInTime":"2023-01-18T12:11:07.858Z"},"customClaims":{}}}
+[debug] [2023-01-18T12:11:07.866Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast 200
+[debug] [2023-01-18T12:11:07.866Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/cheat-sheet-62dad/trigger_multicast {"status":"multicast_acknowledged"}
