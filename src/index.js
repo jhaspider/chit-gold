@@ -9,8 +9,6 @@ import { getAuth, signInAnonymously, onAuthStateChanged, connectAuthEmulator } f
 const auth = getAuth();
 connectAuthEmulator(auth, "http://127.0.0.1:9099");
 
-const loggedInuser = auth.currentUser;
-
 onAuthStateChanged(auth, (user) => {
   if (user) {
     loadApp(user);
@@ -27,7 +25,6 @@ onAuthStateChanged(auth, (user) => {
 });
 
 function loadApp(user) {
-  console.log(user);
   const workarea = Utils.getDomById("workarea");
   workarea.append(Topics());
   workarea.append(Sheet());
