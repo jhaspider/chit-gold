@@ -15,6 +15,7 @@ function Topic({ topic, selectTopicHandler }) {
 
 function Topics(props) {
   const all_topics = [];
+  let container, topic_ui_list;
   let { topicId } = props;
 
   const selectTopicHandler = (e) => {
@@ -29,6 +30,7 @@ function Topics(props) {
       history.pushState(null, null, `#?topic_id=${topicId}`);
 
       let tp = all_topics.find((topic) => topic.topic.id === topicId);
+
       if (!tp) return;
       setTimeout(() => document.dispatchEvent(new CustomEvent(Events.TOPIC_SELECT, { detail: { topic: tp.topic } })), 100);
     }
@@ -39,8 +41,8 @@ function Topics(props) {
     if (prevTopicNode) prevTopicNode.classList.remove("topic-select");
   };
 
-  const renderTopics = () => {
-    const topics = LoadTopics();
+  const renderTopics = async () => {
+    const topics = await LoadTopics();
     if (topics.length > 0) {
       all_topics.forEach((t) => {
         topic_ui_list.removeChild(t.dom);
@@ -81,7 +83,7 @@ function Topics(props) {
 
   const observer = new MutationObserver(function (mutations) {
     let inc = 0;
-    console.log(`Selected Topic : ${topicId}`);
+
     mutations.forEach((mutation) => {
       mutation.addedNodes.forEach((node) => {
         if (node.classList && node.classList.contains("topic-items")) {
@@ -102,7 +104,7 @@ function Topics(props) {
   };
 
   const buildTopicDom = () => {
-    const topicsDom = Utils.newElem("div", "chit-topics", "chit-archive");
+    const topicsDom = Utils.newElem("div", "chit-topics");
     const topicsList = Utils.newElem("ul", "topics-list");
     topicsDom.append(topicsList);
     observer.observe(topicsList, { childList: true });
@@ -110,9 +112,15 @@ function Topics(props) {
     return topicsDom;
   };
 
-  const container = buildTopicDom();
-  const topic_ui_list = container.querySelector("#topics-list");
-  return { dom: container, renderTopics, topicAddHandler, loadTopicChits, updateTopicHandler };
+  const init = async () => {
+    await renderTopics();
+    loadTopicChits();
+  };
+
+  container = buildTopicDom();
+  topic_ui_list = container.querySelector("#topics-list");
+
+  return { dom: container, init, renderTopics, topicAddHandler, loadTopicChits, updateTopicHandler };
 }
 
 const TopicMgmt = () => {
@@ -120,8 +128,7 @@ const TopicMgmt = () => {
   let topicId = queryString.split("=")[1];
 
   const topic = Topics({ topicId });
-  topic.renderTopics();
-  topic.loadTopicChits();
+  topic.init();
 
   document.addEventListener(Events.RENDER_TOPIC, topic.topicAddHandler);
   document.addEventListener(Events.UPDATE_TOPIC, topic.updateTopicHandler);

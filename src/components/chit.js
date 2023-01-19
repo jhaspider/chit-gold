@@ -10,7 +10,7 @@ export const ORDER = {
 };
 
 function Chit(props) {
-  let { left, top, title, scale = 1, topicId, text = "", id = uuidv4(), onArchive } = props;
+  let { left, top, title, scale = 1, topicId, text = "", id } = props;
 
   let timer;
   let chit;
@@ -39,9 +39,9 @@ function Chit(props) {
   };
 
   const onArchiveTap = (e) => {
+    console.log(`Archive chit : ${chit.id}`);
     e.stopPropagation();
-    console.log(chit.props);
-    chit.dom.dispatchEvent(new CustomEvent(Events.ARCHIVE, { detail: { id: chit.props.id } }));
+    chit.dom.dispatchEvent(new CustomEvent(Events.ARCHIVE, { detail: { id: chit.id } }));
     removeChit();
   };
 
@@ -87,14 +87,15 @@ function Chit(props) {
 
     return {
       dom,
+      id,
       props: {
         left,
         top,
         title,
         text,
         topicId,
-        id,
         scale,
+        archive: false,
       },
     };
   };
@@ -118,7 +119,6 @@ function Chit(props) {
 
       chit.dom.style.left = chit.props.left;
       chit.dom.style.top = chit.props.top;
-      UpdateChit(chit.props);
     }
   };
 
@@ -132,7 +132,6 @@ function Chit(props) {
       chit.props.left = clientX - xs * scale;
       chit.props.top = clientY - ys * scale;
       setTransform(source ? true : false);
-      UpdateChit(chit.props);
     }
   };
 
@@ -170,8 +169,14 @@ function Chit(props) {
     }
   };
 
+  const setId = (id) => {
+    chit.id = id;
+    chit.dom.dataset.id = id;
+    console.log(`Id is set : ${id}`);
+  };
+
   chit = buildChit();
-  return { chit, remove: removeChit, position: positionChit, drag: onSheetDrag, scale: onSheetZoom, order: setOrder, focus: setFocus };
+  return { chit, remove: removeChit, position: positionChit, drag: onSheetDrag, scale: onSheetZoom, order: setOrder, focus: setFocus, setId };
 }
 
 const ChitMgmt = (props) => {

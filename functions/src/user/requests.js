@@ -4,21 +4,22 @@ const router = require("express").Router(); // eslint-disable-line
 const db = admin.firestore();
 
 const { validateUser, deleteUser } = require("../utils/session");
-const { SEARCH_TERMS, USER_TERMS, USERS, TERM_COLLECTIONS, USER_THAROOR } = require("../utils/collections");
+const { USERS } = require("../utils/collections");
 const { err } = require("../utils/helpers");
 
-const X_SESSION_ID = "x-session-id";
+const X_SESSION_ID = "x-cheat-user-id";
 
 /**
  * USER
  * - Userful from chrome extendion
  */
 router.post("/register", async (request, response) => {
-  console.log("Register function called");
   if (request.method !== "POST") {
     response.status(400).send(err.post_method_only);
     return;
   }
+
+  const sessionId = request.headers[X_SESSION_ID];
 
   const uid = request.body["uid"];
   const displayName = request.body["displayName"];

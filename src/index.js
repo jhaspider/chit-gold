@@ -11,12 +11,11 @@ connectAuthEmulator(auth, "http://127.0.0.1:9099");
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
+    localStorage.setItem("cheat-user-id", user.uid);
     loadApp(user);
   } else {
     signInAnonymously(auth)
-      .then(() => {
-        console.log(`Anonymous login acquired.`);
-      })
+      .then((user) => {})
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;

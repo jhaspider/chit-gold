@@ -1,101 +1,105 @@
-function SaveChits(all_chits) {
-  const props = [];
-  all_chits.forEach((chit) => {
-    props.push(chit.props);
+import axios from "../utils/axios";
+import EndPoints from "./endpoints";
+
+function Register(currentUser) {
+  const data = {
+    uid: currentUser.uid,
+    displayName: currentUser.displayName,
+    email: currentUser.email,
+    metadata: currentUser.metadata,
+    provider: currentUser.providerData.length > 0 ? currentUser.providerData[0] : null,
+  };
+  axios({
+    method: "post",
+    url: EndPoints.REGISTER,
+    data,
+  }).then(function (response) {});
+}
+
+async function AddChit(chit) {
+  return axios({
+    method: "post",
+    url: EndPoints.CHITS_ADD,
+    data: {
+      chit,
+    },
+  }).then(function (response) {
+    console.log(response);
+    return response.data.new_chit_id;
   });
-  localStorage.setItem("chits", JSON.stringify(props));
 }
 
-function AddChit(chit) {
-  const data = localStorage.getItem("chits");
-  let chits = [];
-  if (data) {
-    chits = JSON.parse(data);
-  }
-  chits = [...chits, chit];
-  localStorage.setItem("chits", JSON.stringify(chits));
+function UpdateAllChits(updateChits) {
+  return axios({
+    method: "post",
+    url: EndPoints.CHITS_UPDATE_ALL,
+    data: {
+      all_chits: updateChits,
+    },
+  }).then(function (response) {
+    console.log(response);
+    return response;
+  });
 }
 
-function UpdateChit(new_chit) {
-  const data = localStorage.getItem("chits");
-  let chits = [];
-  if (data) {
-    chits = JSON.parse(data);
-  }
-  let chitIndex = chits.findIndex((chit) => chit.id === new_chit.id);
-  if (chitIndex >= 0) {
-    let chit = chits[chitIndex];
-    chit = {
-      ...chit,
-      ...new_chit,
-    };
-    chits[chitIndex] = chit;
-    localStorage.setItem("chits", JSON.stringify(chits));
-  }
+function UpdateChit(chitId, chit) {
+  return axios({
+    method: "put",
+    url: EndPoints.CHITS_UPDATE,
+    data: {
+      chitId,
+      chit,
+    },
+  }).then(function (response) {
+    return response;
+  });
 }
 
-function LoadChits(topicId) {
-  const data = localStorage.getItem("chits");
-  const chits = JSON.parse(data);
-  if (chits) {
-    const filtered_chits = chits.filter((chit) => !chit.archive && chit.topicId == topicId);
-    return filtered_chits;
-  }
+async function LoadChits(topicId) {
+  return axios({
+    method: "get",
+    url: EndPoints.CHITS,
+    params: {
+      topicId,
+    },
+  }).then(function (response) {
+    return response.data.chits;
+  });
 }
 
-function archiveChit(id) {
-  const data = localStorage.getItem("chits");
-  let chits = [];
-  if (data) {
-    chits = JSON.parse(data);
-  }
-  let chitIndex = chits.findIndex((chit) => chit.id === id);
-  if (chitIndex >= 0) {
-    let chit = chits[chitIndex];
-    chit = {
-      ...chit,
-      archive: chit.archive ? false : true,
-    };
-    chits[chitIndex] = chit;
-    localStorage.setItem("chits", JSON.stringify(chits));
-  }
+async function AddTopic(topic) {
+  return axios({
+    method: "post",
+    url: EndPoints.TOPICS_ADD,
+    data: {
+      topic,
+    },
+  }).then(function (response) {
+    const { new_topics_id } = response.data;
+    return new_topics_id;
+  });
 }
 
-function AddTopic(topic) {
-  const data = localStorage.getItem("topics");
-  let topics = [];
-  if (data) {
-    topics = JSON.parse(data);
-  }
-  topics = [...topics, topic];
-  localStorage.setItem("topics", JSON.stringify(topics));
+function UpdateTopic(topic) {
+  return axios({
+    method: "put",
+    url: EndPoints.TOPICS_UPDATE,
+    data: {
+      topic,
+    },
+  }).then(function (response) {
+    return response;
+  });
 }
 
-function UpdateTopic(update_topic) {
-  const data = localStorage.getItem("topics");
-  let topics = [];
-  if (data) {
-    topics = JSON.parse(data);
-  }
-  let tpIndex = topics.findIndex((topic) => topic.id === update_topic.id);
-  if (tpIndex >= 0) {
-    let topic = topics[tpIndex];
-    topic = {
-      ...topic,
-      scale: update_topic.scale,
-    };
-    topics[tpIndex] = topic;
-    localStorage.setItem("topics", JSON.stringify(topics));
-  }
+async function LoadTopics() {
+  return axios({
+    method: "get",
+    url: EndPoints.TOPICS,
+  }).then(function (response) {
+    const { status, topics } = response.data;
+    return status ? topics : [];
+  });
 }
 
-function LoadTopics() {
-  const data = localStorage.getItem("topics");
-  let topics = [];
-  if (data) {
-    topics = JSON.parse(data);
-  }
-  return topics;
-}
-
-export { AddChit, LoadChits, UpdateChit, archiveChit, AddTopic, LoadTopics, UpdateTopic };
+export { Register, AddChit, LoadChits, UpdateChit, UpdateAllChits, AddTopic, LoadTopics, UpdateTopic };

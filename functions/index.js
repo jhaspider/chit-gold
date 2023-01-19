@@ -15,9 +15,13 @@ app.use(cors(corsOptions));
 
 const awake = require("./src/awake/awake");
 const user = require("./src/user/user");
+const topics = require("./src/topics/topics");
+const chits = require("./src/chits/chits");
 //
 //
 exports.apis = {
   awake,
   user,
+  topics,
+  chits,
 };

@@ -1,6 +1,6 @@
 import _ from "lodash";
 import Events from "../utils/events.js";
-import { LoadChits, AddChit, UpdateChit } from "../utils/save_chits.js";
+import { LoadChits, AddChit, UpdateChit, UpdateAllChits } from "../utils/save_chits.js";
 import Utils from "../utils/utils.js";
 import ChitMgmt, { ORDER } from "./chit.js";
 import TapHoldAnimation from "./tap-hold-animation.js";
@@ -54,21 +54,26 @@ function Sheet() {
 
         if (diff >= 500) {
           const chitProps = { left: e.clientX, top: e.clientY - topOffset, title: `Chit ${all_chits.length + 1}`, topicId: selected_topic?.id };
-          addChit(chitProps, (element) => {
+          addChit(chitProps, async (element) => {
             element.focus();
-            AddChit(element.chit.props);
+            const newChitId = await AddChit(element.chit.props);
+            console.log(element);
+            element.setId(newChitId);
+            console.log(`New Chit Id : ${newChitId}`);
+
             all_chits.push(element);
             selected_chit = element;
           });
         }
       } else {
         if (selected_chit) {
-          UpdateChit(selected_chit.chit.props);
+          UpdateChit(selected_chit.chit.id, selected_chit.chit.props);
         }
       }
     }
   };
 
+  let timer;
   const sheetMouseMove = (e) => {
     e.stopPropagation();
     const xDragFactor = e.clientX - initCord.x;
@@ -79,6 +84,19 @@ function Sheet() {
     all_chits.forEach((chit) => {
       chit.drag(factor);
     });
+
+    if (timer) clearInterval(timer);
+    timer = setTimeout(() => {
+      const updateChits = [];
+      all_chits.forEach(({ chit }) => {
+        updateChits.push({
+          chitId: chit.id,
+          props: chit.props,
+        });
+      });
+      UpdateAllChits(updateChits);
+    }, 700);
+
     // document.dispatchEvent(new CustomEvent(Events.ON_SHEET_DRAG, { detail: { factor } }));
   };
 
@@ -98,13 +116,13 @@ function Sheet() {
     initCord = { offsetLeft: e.clientX - orgCord.x, offsetTop: e.clientY - orgCord.y };
 
     if (selected_chit) selected_chit.order("auto");
-    selected_chit = all_chits.find((chit) => chit.chit.props.id === e.currentTarget.dataset.id);
+    selected_chit = all_chits.find(({ chit }) => chit.id === e.currentTarget.dataset.id);
     selected_chit.order(all_chits.length);
   };
 
   const chitArchive = (e) => {
-    const { chit } = all_chits.find(({ chit }) => chit.props.id == e.detail.id);
-    UpdateChit({ ...chit.props, archive: true });
+    const { chit } = all_chits.find(({ chit }) => chit.id == e.detail.id);
+    UpdateChit(chit.id, { ...chit.props, archive: true });
   };
 
   const addChit = (chitProps, callback) => {
@@ -119,7 +137,7 @@ function Sheet() {
   };
 
   const chitContentChange = () => {
-    UpdateChit(selected_chit.chit.props);
+    UpdateChit(selected_chit.chit.id, selected_chit.chit.props);
   };
 
   const build_sheet = () => {
@@ -130,7 +148,7 @@ function Sheet() {
     return sheetDom;
   };
 
-  const renderOldChits = () => {
+  const renderOldChits = async () => {
     // Flush previously loaded sheets
     if (selected_topic) {
       all_chits.forEach((chit) => {
@@ -139,7 +157,7 @@ function Sheet() {
 
       all_chits.splice(0, all_chits.length);
 
-      const chits = LoadChits(selected_topic.id);
+      const chits = await LoadChits(selected_topic.id);
       if (chits) {
         chits.forEach((chit) => {
           addChit(chit, (element) => {
@@ -152,6 +170,7 @@ function Sheet() {
 
   const onTopicSelect = (e) => {
     selected_topic = e.detail.topic;
+
     document.dispatchEvent(new CustomEvent(Events.UPDATE_ZOOM, { detail: { scale: selected_topic.scale } }));
     if (selected_topic) renderOldChits();
   };
@@ -174,6 +193,7 @@ function Sheet() {
   };
 
   const removeGroupHandler = (topic) => {
+    console.log(`Topic Added`, topic);
     if (topic && topic.id) {
       document.dispatchEvent(new CustomEvent(Events.RENDER_TOPIC, { detail: { topic } }));
     } else {
@@ -225,8 +245,24 @@ function Sheet() {
       all_chits.forEach((chit) => {
         chit.scale({ clientX: e.clientX, clientY: e.clientY, new_scale: selected_topic.scale });
       });
+
+      if (timer) clearInterval(timer);
+      timer = setTimeout(() => {
+        const updateChits = [];
+        all_chits.forEach(({ chit }) => {
+          updateChits.push({
+            chitId: chit.id,
+            props: chit.props,
+          });
+        });
+        UpdateAllChits(updateChits);
+
+        // Update topic at db level
+        document.dispatchEvent(new CustomEvent(Events.UPDATE_TOPIC, { detail: { ...selected_topic, scale: selected_topic.scale } }));
+      }, 700);
+
+      // Updates zoom scale on the toolbar
       document.dispatchEvent(new CustomEvent(Events.UPDATE_ZOOM, { detail: { scale: selected_topic.scale } }));
-      document.dispatchEvent(new CustomEvent(Events.UPDATE_TOPIC, { detail: { ...selected_topic, scale: selected_topic.scale } }));
     }
   };
 
@@ -254,11 +290,12 @@ function Sheet() {
   document.addEventListener(Events.ON_ZOOM, onZoom);
 
   setTimeout(() => {
+    console.log(`Orientation adjusted...`);
     let toolbar_offset = Utils.getDomById("toolbar").clientHeight;
     let chit_topics = Utils.getDomById("chit-topics").clientHeight;
     topOffset = toolbar_offset + chit_topics;
     sheet.style.height = window.innerHeight - topOffset;
-  }, 500);
+  }, 10 * 1000);
 
   return sheet;
 }

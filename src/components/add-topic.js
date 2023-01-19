@@ -7,15 +7,15 @@ function NewTopic(props) {
   let { close } = props;
   let topicName;
 
-  const onSaveTap = (e) => {
+  const onSaveTap = async (e) => {
     if (!topicName) {
       alert("Enter a topic name.");
       return;
     }
 
-    const newTopic = { id: uuidv4(), topicName, scale: 1 };
-    AddTopic(newTopic);
-    close(newTopic);
+    const newTopic = { topicName, scale: 1 };
+    const id = await AddTopic(newTopic);
+    close({ ...newTopic, id });
   };
 
   const backgroundTap = (e) => {
