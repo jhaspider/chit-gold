@@ -27,6 +27,7 @@
   "dependencies": {
     "axios": "^1.2.3",
     "css-loader": "^6.7.1",
+    "dotenv-webpack": "^8.0.1",
     "firebase": "^9.15.0",
     "lodash": "^4.17.21",
     "style-loader": "^3.3.1",

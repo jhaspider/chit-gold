@@ -236,8 +236,7 @@ p {
   color: #000;
 } */
 #toolbar-container {
-  height: 60px;
-
+  height: 100px;
   left: 0px;
   right: 0px;
   bottom: 0px;

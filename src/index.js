@@ -7,12 +7,12 @@ import "./firebase";
 import { getAuth, signInAnonymously, onAuthStateChanged, connectAuthEmulator } from "firebase/auth";
 
 const auth = getAuth();
-connectAuthEmulator(auth, "http://127.0.0.1:9099");
+if (process.env.NODE_ENV === "development") connectAuthEmulator(auth, "http://127.0.0.1:9099");
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
     localStorage.setItem("cheat-user-id", user.uid);
-    loadApp(user);
+    loadApp();
   } else {
     signInAnonymously(auth)
       .then((user) => {})
@@ -23,7 +23,7 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-function loadApp(user) {
+function loadApp() {
   const workarea = Utils.getDomById("workarea");
   workarea.append(Topics());
   workarea.append(Sheet());
