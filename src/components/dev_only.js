@@ -1,3 +1,4 @@
+import React from "react";
 import "../firebase";
 import { getAuth } from "firebase/auth";
 import Utils from "../utils/utils";
@@ -6,8 +7,6 @@ const auth = getAuth();
 
 function DevOnly() {
   const clearLocalData = () => {
-    localStorage.clear();
-    sessionStorage.clear();
     auth.signOut();
     window.location = "/";
   };
@@ -18,18 +17,14 @@ function DevOnly() {
     clearLocalData();
   };
 
-  const buildDom = () => {
-    const container = Utils.newElem("div", null, "dev-only");
-
-    const link = Utils.newElem("a");
-    link.setAttribute("href", "javascript:void(0)");
-    link.innerHTML = "Flush Local Settings";
-    link.addEventListener("click", flushSettings);
-    container.append(link);
-    return container;
-  };
-
-  if (process.env.NODE_ENV === "development") return buildDom();
+  if (process.env.NODE_ENV === "development")
+    return (
+      <div className="dev-only">
+        <a href="" onClick={flushSettings}>
+          Flush Local Settings
+        </a>
+      </div>
+    );
   else return null;
 }
 

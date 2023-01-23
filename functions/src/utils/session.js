@@ -3,13 +3,16 @@ const auth = admin.auth();
 
 // - Verify the session id
 const validateUser = async (sessionId) => {
+  console.log(`session id - ${sessionId}`);
   return new Promise((resolve, reject) => {
     auth
       .getUser(sessionId)
       .then((data) => {
+        console.log(data);
         return resolve(data);
       })
       .catch((error) => {
+        console.log(error);
         return reject(error);
       });
   });

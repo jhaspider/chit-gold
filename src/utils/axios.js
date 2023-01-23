@@ -8,7 +8,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   function (config) {
-    const uid = Utils.getUId();
+    const { uid } = Utils.getUId();
     config.headers["x-cheat-user-id"] = uid;
     return config;
   },

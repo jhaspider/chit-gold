@@ -1,3 +1,4 @@
+import React, { useEffect, useRef, useState } from "react";
 import Utils from "../utils/utils";
 import { v4 as uuidv4 } from "uuid";
 import Events from "../utils/events";
@@ -7,74 +8,66 @@ function NewTopic(props) {
   let { close } = props;
   let topicName;
 
+  const [mode, setMode] = useState(false);
+  const promptRef = useRef(null);
+
+  useEffect(() => {
+    document.addEventListener(Events.BTN_ADD_TOPIC, onTopicAdd);
+    return () => {
+      document.removeEventListener(Events.BTN_ADD_TOPIC, onTopicAdd);
+    };
+  });
+
+  const onTopicAdd = (e) => {
+    console.log(`Got Here.`);
+    setMode((oldMode) => !oldMode);
+  };
+
   const onSaveTap = async (e) => {
     if (!topicName) {
-      alert("Enter a topic name.");
+      prompt(`Enter a topic name`);
       return;
     }
 
     const newTopic = { topicName, scale: 1 };
     const id = await AddTopic(newTopic);
+    setMode((oldMode) => !oldMode);
+    document.dispatchEvent(new CustomEvent(Events.RENDER_TOPIC, { detail: { topic: { ...newTopic, id } } }));
     close({ ...newTopic, id });
   };
 
   const backgroundTap = (e) => {
-    if (e.target.id === "bgcontainer") close();
+    if (e.target.id === "bgcontainer") {
+      setMode((oldMode) => !oldMode);
+      close();
+    }
   };
 
   const onContentChangeHandler = (e) => {
     topicName = e.target.value.toUpperCase();
-    if (topicName.length > 2) {
-      const pPrompt = document.querySelector("#enter-prompt");
-      pPrompt.innerHTML = `Hit "Enter" to save`;
-      Utils.blink(document.querySelector("#enter-prompt"));
+    if (topicName.length > 2 && promptRef.current) {
+      prompt(`Hit "Enter" to save`);
     }
+  };
+
+  const prompt = (msg) => {
+    promptRef.current.innerHTML = msg;
+    Utils.blink(promptRef.current);
   };
 
   const onKeyUpHandler = (e) => {
     if (e.code === "Enter") onSaveTap();
   };
 
-  const getDom = () => {
-    // Background
-    const groupContainer = Utils.newElem("div", "bgcontainer", "add-group-container");
-    groupContainer.addEventListener("click", backgroundTap);
-    const addGroup = Utils.newElem("div", null, "add-group");
-    groupContainer.append(addGroup);
-
-    // Body
-    const topicName = Utils.newElem("input", "topic_name", "container");
-    topicName.addEventListener("input", onContentChangeHandler);
-    topicName.addEventListener("keyup", onKeyUpHandler);
-    topicName.setAttribute("type", "text");
-    topicName.setAttribute("placeholder", "Add a Topic");
-    topicName.setAttribute("autocomplete", "off");
-    addGroup.append(topicName);
-
-    // Archive
-    const archivelink = Utils.newElem("p", "enter-prompt");
-    addGroup.append(archivelink);
-
-    return groupContainer;
-  };
-
-  return { dom: getDom(), props: {} };
+  if (!mode) return null;
+  return (
+    <div id="bgcontainer" className="add-group-container" onClick={backgroundTap}>
+      <div className="add-group">
+        <input id="topic_name" type={"text"} placeholder="Add a Topic" autoComplete={"off"} className="container" onInput={onContentChangeHandler} onKeyUp={onKeyUpHandler}></input>
+        <p id="enter-prompt" ref={promptRef}></p>
+      </div>
+    </div>
+  );
 }
 
-const NewTopicMgmt = (props) => {
-  const topic = NewTopic(props);
-  const observer = new MutationObserver(function (mutations) {
-    mutations.forEach((mutation) => {
-      mutation.addedNodes.forEach((node) => {
-        if (node.classList && node.classList.contains("add-group-container")) {
-          node.querySelector("#topic_name").focus();
-        }
-      });
-    });
-  });
-
-  observer.observe(document.body, { childList: true });
-  return topic;
-};
-
-export default NewTopicMgmt;
+export default NewTopic;

@@ -1,3 +1,5 @@
+import "../firebase";
+import { getAuth } from "firebase/auth";
 const Utils = {
   getDomById: (id) => {
     return document.getElementById(id);
@@ -10,11 +12,17 @@ const Utils = {
     return dom;
   },
 
-  blink: (blinkElement) => blinkElement.classList.add("blink"),
+  blink: (blinkElement) => {
+    blinkElement.classList.add("blink");
+
+    setTimeout(() => {
+      blinkElement.classList.remove("blink");
+    }, 2000);
+  },
 
   getUId: () => {
-    const uid = localStorage.getItem("cheat-user-id");
-    return uid;
+    const auth = getAuth();
+    return auth.currentUser;
   },
 };
 

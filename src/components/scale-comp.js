@@ -1,56 +1,53 @@
+import React, { useEffect, useState } from "react";
 import Events from "../utils/events";
 import Utils from "../utils/utils";
 
 function ScaleComp() {
-  let percent;
+  const [percent, setPercent] = useState(0);
   const zoomFactor = 10;
 
-  const buildDom = () => {
-    const container = Utils.newElem("div", null, "scale-container");
+  const [scale, setScale] = useState(0);
 
-    // create the left button
-    const leftButton = Utils.newElem("button", null, "left-button");
-    leftButton.addEventListener("click", (e) => zoomInHandler(0));
-    leftButton.innerHTML = "-";
-    container.appendChild(leftButton);
+  useEffect(() => {
+    document.addEventListener(Events.UPDATE_ZOOM, scaleHandler);
+    return () => {
+      document.removeEventListener(Events.UPDATE_ZOOM, scaleHandler);
+    };
+  }, []);
 
-    // create the middle text
-    var middleText = Utils.newElem("p", "scale", "middle-text");
-    middleText.innerHTML = "";
-    container.appendChild(middleText);
-
-    // create the right button
-    const rightButton = Utils.newElem("button", null, "right-button");
-    rightButton.addEventListener("click", (e) => zoomInHandler(1));
-    rightButton.innerHTML = "+";
-
-    container.appendChild(rightButton);
-    return container;
-  };
+  useEffect(() => {
+    document.dispatchEvent(new CustomEvent(Events.ON_ZOOM, { detail: { percent } }));
+    setScale(`${percent % 1 === 0 ? percent : percent.toFixed(1)}%`);
+  }, [percent]);
 
   const zoomInHandler = (type) => {
+    let new_percent = percent;
     if (percent % zoomFactor != 0) {
-      percent = type ? Math.ceil(percent / zoomFactor) * zoomFactor : Math.floor(percent / zoomFactor) * zoomFactor;
+      new_percent = type ? Math.ceil(percent / zoomFactor) * zoomFactor : Math.floor(percent / zoomFactor) * zoomFactor;
     } else {
-      percent = type ? percent + zoomFactor : percent - zoomFactor;
+      new_percent = type ? percent + zoomFactor : percent - zoomFactor;
     }
 
-    setPercent();
-    document.dispatchEvent(new CustomEvent(Events.ON_ZOOM, { detail: { percent } }));
+    setPercent(new_percent);
   };
 
   const scaleHandler = (e) => {
-    percent = e.detail.scale * 100;
-    setPercent();
+    setPercent(e.detail.scale * 100);
   };
 
-  const setPercent = () => {
-    container.querySelector("#scale").innerHTML = `${percent % 1 === 0 ? percent : percent.toFixed(1)}%`;
-  };
-
-  const container = buildDom();
-  document.addEventListener(Events.UPDATE_ZOOM, scaleHandler);
-  return { dom: container };
+  return (
+    <div className="scale-container">
+      <button className="left-button" onClick={(e) => zoomInHandler(0)}>
+        -
+      </button>
+      <p id="scale" className="middle-text">
+        {scale}
+      </p>
+      <button className="left-button" onClick={(e) => zoomInHandler(1)}>
+        +
+      </button>
+    </div>
+  );
 }
 
 export default ScaleComp;

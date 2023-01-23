@@ -16,6 +16,7 @@ router.get("/topics", async (request, response) => {
   }
 
   const sessionId = request.headers[X_SESSION_ID];
+
   try {
     await validateUser(sessionId);
   } catch (e) {
