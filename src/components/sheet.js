@@ -193,7 +193,6 @@ function Sheet() {
   };
 
   const removeGroupHandler = (topic) => {
-    console.log(`Topic Added`, topic);
     if (topic && topic.id) {
       document.dispatchEvent(new CustomEvent(Events.RENDER_TOPIC, { detail: { topic } }));
     } else {

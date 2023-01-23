@@ -11,6 +11,11 @@ const Utils = {
   },
 
   blink: (blinkElement) => blinkElement.classList.add("blink"),
+
+  getUId: () => {
+    const uid = localStorage.getItem("cheat-user-id");
+    return uid;
+  },
 };
 
 export default Utils;

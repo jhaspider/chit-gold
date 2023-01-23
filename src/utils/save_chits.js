@@ -80,6 +80,15 @@ async function AddTopic(topic) {
   });
 }
 
+async function LoadTopicDetails(topicId) {
+  const endpoint = EndPoints.TOPICS_BY_ID(topicId);
+  return axios({
+    method: "get",
+    url: endpoint,
+  }).then(function (response) {
+    return response.data;
+  });
+}
 function UpdateTopic(topic) {
   return axios({
     method: "put",
@@ -102,4 +111,4 @@ async function LoadTopics() {
   });
 }
 
-export { Register, AddChit, LoadChits, UpdateChit, UpdateAllChits, AddTopic, LoadTopics, UpdateTopic };
+export { Register, AddChit, LoadChits, UpdateChit, UpdateAllChits, AddTopic, LoadTopics, UpdateTopic, LoadTopicDetails };

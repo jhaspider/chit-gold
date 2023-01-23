@@ -1,10 +1,5 @@
 import axios from "axios";
-
-const getUId = () => {
-  const uid = localStorage.getItem("cheat-user-id");
-
-  return uid;
-};
+import Utils from "./utils";
 
 const instance = axios.create({
   baseURL: "http://127.0.0.1:5001/cheat-sheet-62dad/asia-south1/",
@@ -13,7 +8,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   function (config) {
-    const uid = getUId();
+    const uid = Utils.getUId();
     config.headers["x-cheat-user-id"] = uid;
     return config;
   },

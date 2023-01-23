@@ -24,10 +24,10 @@ router.get("/topics", async (request, response) => {
   }
 
   const user_terms = await db.collection(TOPICS);
-  let query = user_terms.where("uid", "==", sessionId);
+  let query = user_terms.where("uid", "==", sessionId).orderBy("createdAt", "asc");
   const snapshot = await query.get();
   if (snapshot.empty) {
-    response.status(200).send({ status: false });
+    response.status(200).send({ status: false, topics: [] });
   } else {
     const data = [];
     snapshot.forEach((doc) => {
@@ -52,6 +52,44 @@ router.get("/topics", async (request, response) => {
     response.status(200).send({
       status: true,
       topics: data,
+    });
+    return;
+  }
+
+  return;
+});
+
+router.get(`/topics/:id`, async (request, response) => {
+  if (request.method !== "GET") {
+    response.status(400).send(err.post_method_only);
+    return;
+  }
+
+  const sessionId = request.headers[X_SESSION_ID];
+  try {
+    await validateUser(sessionId);
+  } catch (e) {
+    response.status(400).send(err.not_valid_session);
+    return;
+  }
+
+  const topicId = request.params.id;
+
+  const topics_col = await db.collection(TOPICS);
+  const topicDoc = await topics_col.doc(topicId);
+  const data = await topicDoc.get();
+  if (!data.exists) {
+    response.status(400).send({
+      status: false,
+    });
+    return;
+  } else {
+    response.status(200).send({
+      status: true,
+      topic: {
+        ...data.data(),
+        id: topicId,
+      },
     });
     return;
   }
@@ -90,6 +128,7 @@ router.post("/topics/add", async (request, response) => {
   const data = {
     ...topic,
     uid: sessionId,
+    createdAt: new Date().getTime(),
   };
   await topics_col_doc_ref.set(data);
   const new_topics_id = topics_col_doc_ref.id;
@@ -133,4 +172,5 @@ router.put("/topics/update", async (request, response) => {
   response.status(200).send("Update");
   return;
 });
+
 module.exports = router;

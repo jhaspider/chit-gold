@@ -1,5 +1,5 @@
 import Events from "../utils/events";
-import { LoadTopics, UpdateTopic } from "../utils/save_chits";
+import { LoadTopics, UpdateTopic, LoadTopicDetails } from "../utils/save_chits";
 import Utils from "../utils/utils";
 
 function Topic({ topic, selectTopicHandler }) {
@@ -14,55 +14,54 @@ function Topic({ topic, selectTopicHandler }) {
 }
 
 function Topics(props) {
-  const all_topics = [];
+  let all_topics = [];
   let container, topic_ui_list;
-  let { topicId } = props;
+  let selectedTopic;
 
   const selectTopicHandler = (e) => {
     unselectPrevious();
-    topicId = e.currentTarget.dataset.id;
+    let topicId = e.currentTarget.dataset.id;
+    selectedTopic = all_topics.find((topic) => topic.id === topicId);
     e.currentTarget.classList.add("topic-select");
     loadTopicChits();
   };
 
   const loadTopicChits = () => {
-    if (topicId) {
-      history.pushState(null, null, `#?topic_id=${topicId}`);
-
-      let tp = all_topics.find((topic) => topic.topic.id === topicId);
-
-      if (!tp) return;
-      setTimeout(() => document.dispatchEvent(new CustomEvent(Events.TOPIC_SELECT, { detail: { topic: tp.topic } })), 100);
+    if (selectedTopic) {
+      history.pushState(null, null, `#?topic_id=${selectedTopic.id}`);
+      setTimeout(() => document.dispatchEvent(new CustomEvent(Events.TOPIC_SELECT, { detail: { topic: selectedTopic } })), 100);
     }
   };
 
   const unselectPrevious = () => {
-    const prevTopicNode = container.querySelector(`#topic-id-${topicId}`);
-    if (prevTopicNode) prevTopicNode.classList.remove("topic-select");
+    if (selectedTopic) {
+      const prevTopicNode = container.querySelector(`#topic-id-${selectedTopic.id}`);
+      if (prevTopicNode) prevTopicNode.classList.remove("topic-select");
+    }
   };
 
   const renderTopics = async () => {
-    const topics = await LoadTopics();
-    if (topics.length > 0) {
-      all_topics.forEach((t) => {
-        topic_ui_list.removeChild(t.dom);
-      });
-      all_topics.splice(0, all_topics.length);
+    if (all_topics.length > 0) {
+      try {
+        all_topics.forEach((t) => {
+          topic_ui_list.removeChild(t.dom);
+        });
+      } catch (e) {
+        console.log(`Topic removal failed.`);
+      }
 
-      topics.forEach((topic) => {
-        appendTopic(topic);
+      all_topics.forEach((topic) => {
+        const dom = appendTopic(topic);
+        topic = {
+          dom,
+          topic,
+        };
       });
-    } else {
-      setTimeout(() => document.dispatchEvent(new CustomEvent(Events.BTN_ADD_TOPIC)), 100);
     }
   };
 
   const appendTopic = (topic) => {
     const t = Topic({ topic, selectTopicHandler });
-    all_topics.push({
-      dom: t,
-      topic,
-    });
     topic_ui_list.append(t);
     return t;
   };
@@ -71,11 +70,9 @@ function Topics(props) {
     observer.disconnect();
     unselectPrevious();
     if (e.detail.topic) {
-      const topic = e.detail.topic;
-      topicId = topic.id;
-      const newT = appendTopic(topic);
-      // Utils.blink(newT);
-      const prevTopicNode = container.querySelector(`#topic-id-${topicId}`);
+      selectedTopic = e.detail.topic;
+      const newT = appendTopic(selectedTopic);
+      const prevTopicNode = container.querySelector(`#topic-id-${selectedTopic.id}`);
       prevTopicNode.classList.add("topic-select");
       loadTopicChits();
     }
@@ -87,11 +84,14 @@ function Topics(props) {
     mutations.forEach((mutation) => {
       mutation.addedNodes.forEach((node) => {
         if (node.classList && node.classList.contains("topic-items")) {
-          if (all_topics.length > 0 && inc == all_topics.length - 1 && !topicId) {
-            topicId = all_topics[all_topics.length - 1].topic.id;
+          // Select the last item
+          if (all_topics.length > 0 && inc == all_topics.length - 1 && !selectedTopic) {
+            selectedTopic = all_topics[all_topics.length - 1];
             loadTopicChits();
           }
-          if (topicId === node.dataset.id) node.classList.add("topic-select");
+
+          // Underline/mark selected the selected topic
+          if (selectedTopic && selectedTopic.id === node.dataset.id) node.classList.add("topic-select");
           inc++;
         }
       });
@@ -112,9 +112,28 @@ function Topics(props) {
     return topicsDom;
   };
 
+  const loadTopicDetails = async () => {
+    const queryString = window.location.hash;
+    let topicId = queryString.split("=")[1];
+    if (topicId) {
+      const { status, topic } = await LoadTopicDetails(topicId);
+      if (status) selectedTopic = topic;
+    }
+  };
+
+  const loadAllTopics = async () => {
+    const topics = await LoadTopics();
+    all_topics = [...all_topics, ...topics];
+  };
+
   const init = async () => {
+    await loadTopicDetails();
+    await loadAllTopics();
     await renderTopics();
-    loadTopicChits();
+    if (!selectedTopic) {
+      setTimeout(() => document.dispatchEvent(new CustomEvent(Events.BTN_ADD_TOPIC)), 100);
+    }
+    await loadTopicChits();
   };
 
   container = buildTopicDom();
@@ -124,10 +143,7 @@ function Topics(props) {
 }
 
 const TopicMgmt = () => {
-  const queryString = window.location.hash;
-  let topicId = queryString.split("=")[1];
-
-  const topic = Topics({ topicId });
+  const topic = Topics();
   topic.init();
 
   document.addEventListener(Events.RENDER_TOPIC, topic.topicAddHandler);

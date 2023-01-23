@@ -11,6 +11,7 @@ if (process.env.NODE_ENV === "development") connectAuthEmulator(auth, "http://12
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
+    console.log(user);
     localStorage.setItem("cheat-user-id", user.uid);
     loadApp();
   } else {

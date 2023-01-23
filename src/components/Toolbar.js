@@ -1,5 +1,6 @@
 import Events from "../utils/events";
 import Utils from "../utils/utils";
+import DevOnly from "./dev_only";
 import ScaleComp from "./scale-comp";
 import UserComp from "./user-comp";
 
@@ -11,9 +12,12 @@ function Toolbar() {
   const buildToolbar = () => {
     const toolbar_container = Utils.newElem("div", "toolbar-container");
 
+    const upper_container = Utils.newElem("div", null, "upper-container");
+    toolbar_container.append(upper_container);
+
     // Left
     const userComp = UserComp();
-    toolbar_container.append(userComp.dom);
+    upper_container.append(userComp.dom);
 
     // Middle
     const bottomToolbar = Utils.newElem("div", "bottom-toolbar");
@@ -27,13 +31,16 @@ function Toolbar() {
 
     const scaleComp = ScaleComp();
     bottomToolbar.append(scaleComp.dom);
-    toolbar_container.append(bottomToolbar);
+    upper_container.append(bottomToolbar);
 
     // Right
-    const topicLabel = Utils.newElem("h2", "topic-label");
-    topicLabel.innerHTML = "";
+    const wrapper = Utils.newElem("div", null, "tool-topic");
+    const dom = Utils.newElem("h2", "topic-label");
+    dom.innerHTML = "Hello";
+    wrapper.append(dom);
+    upper_container.append(wrapper);
 
-    toolbar_container.append(topicLabel);
+    toolbar_container.append(DevOnly());
 
     return toolbar_container;
   };

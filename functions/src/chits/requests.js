@@ -25,10 +25,10 @@ router.get("/chits", async (request, response) => {
 
   // const topicId = request.params.topicId;
   const topicId = request.query["topicId"];
-  console.log(`Topic Id : ${topicId}`);
+  console.log(`Chits by Topic Id : ${topicId}`);
 
   const user_terms = await db.collection(CHITS);
-  let query = user_terms.where("uid", "==", sessionId).where("topicId", "==", topicId).where("archive", "==", false);
+  let query = user_terms.where("topicId", "==", topicId).where("archive", "==", false);
   const snapshot = await query.get();
   if (snapshot.empty) {
     response.status(200).send({ status: false });
