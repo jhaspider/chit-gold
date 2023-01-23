@@ -41,8 +41,6 @@ function Topics(props) {
 
   useEffect(() => {
     if (selectedTopic) {
-      console.log(`Selected Topic Id : ${selectedTopic.id}`);
-
       const queryString = window.location.hash;
       let topicId = queryString.split("=")[1];
       if (topicId !== selectedTopic.id) history.pushState(null, null, `#?topic_id=${selectedTopic.id}`);

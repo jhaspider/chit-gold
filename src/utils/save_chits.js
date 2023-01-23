@@ -24,7 +24,6 @@ async function AddChit(chit) {
       chit,
     },
   }).then(function (response) {
-    console.log(response);
     return response.data.new_chit_id;
   });
 }
@@ -37,7 +36,6 @@ function UpdateAllChits(updateChits) {
       all_chits: updateChits,
     },
   }).then(function (response) {
-    console.log(response);
     return response;
   });
 }

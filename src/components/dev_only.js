@@ -13,7 +13,6 @@ function DevOnly() {
 
   const flushSettings = (e) => {
     e.preventDefault();
-    console.log(e);
     clearLocalData();
   };
 

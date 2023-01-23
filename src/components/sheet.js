@@ -11,47 +11,38 @@ let actionAddChit = false;
 let selected_chit;
 let timer;
 const all_chits = [];
-
-/**
- * TODOS
- * - Try adding a topic, escape press does not remove the "Add New Topic" panel
- * @returns asdsa
- */
+let initCord;
+let new_sheet_start_time = 0;
+let tapHoldAni;
 
 function Sheet() {
-  let initCord;
-  let new_sheet_start_time = 0;
-  let tapHoldAni;
   const topOffset = 48;
   const [selected_topic, setSelectedTopic] = useState(null);
   const sheetRef = useRef(null);
-
-  console.log(`Render`);
 
   useEffect(() => {
     if (sheetRef.current) {
       sheetRef.current.style.height = window.innerHeight - topOffset;
     }
   }, []);
+
   useEffect(() => {
-    document.addEventListener(Events.TOPIC_SELECT, onTopicSelect); // DONE
-    document.addEventListener(Events.BTN_ADD_SELECT, btnAddSelect); // DONE
-    document.addEventListener(Events.BTN_ADD_TOPIC, onTopicAdd); // DONE
-    document.addEventListener("keydown", documentKeyPress); // DONE
-    document.addEventListener("mousewheel", onScroll, { passive: false }); // DONE
+    document.addEventListener(Events.TOPIC_SELECT, onTopicSelect);
+    document.addEventListener(Events.BTN_ADD_SELECT, btnAddSelect);
+    document.addEventListener(Events.BTN_ADD_TOPIC, onTopicAdd);
+    document.addEventListener("keydown", documentKeyPress);
+    document.addEventListener("mousewheel", onScroll, { passive: false });
     document.addEventListener(Events.ON_ZOOM, onZoom);
 
     return () => {
-      document.removeEventListener(Events.TOPIC_SELECT, onTopicSelect); // DONE
-      document.removeEventListener(Events.BTN_ADD_SELECT, btnAddSelect); // DONE
-      document.removeEventListener(Events.BTN_ADD_TOPIC, onTopicAdd); // DONE
-      document.removeEventListener("keydown", documentKeyPress); // DONE
-      document.removeEventListener("mousewheel", onScroll, { passive: false }); // DONE
+      document.removeEventListener(Events.TOPIC_SELECT, onTopicSelect);
+      document.removeEventListener(Events.BTN_ADD_SELECT, btnAddSelect);
+      document.removeEventListener(Events.BTN_ADD_TOPIC, onTopicAdd);
+      document.removeEventListener("keydown", documentKeyPress);
+      document.removeEventListener("mousewheel", onScroll, { passive: false });
       document.removeEventListener(Events.ON_ZOOM, onZoom);
     };
   });
-
-  // useEffect(() => {}, [all_chits]);
 
   useEffect(() => {
     if (selected_topic) {
@@ -59,7 +50,6 @@ function Sheet() {
     }
   }, [selected_topic]);
 
-  // DONE
   const sheetMouseDown = (e) => {
     if (e.currentTarget.id === "sheet") {
       if (actionAddChit) {
@@ -75,7 +65,6 @@ function Sheet() {
     }
   };
 
-  // DONE
   const sheetMouseUp = (e) => {
     if (e.currentTarget.id === "sheet") {
       // Remove listener
@@ -99,12 +88,8 @@ function Sheet() {
           addChit(chitProps, async (element) => {
             element.focus();
             const newChitId = await AddChit(element.chit.props);
-
             element.setId(newChitId);
-            console.log(`New Chit Id : ${newChitId}`);
-
             all_chits.push(element);
-            // setAllChits((prevChits) => [...prevChits, element]);
             selected_chit = element;
           });
         }
@@ -137,12 +122,11 @@ function Sheet() {
         });
       });
       UpdateAllChits(updateChits);
-    }, 700);
 
-    // document.dispatchEvent(new CustomEvent(Events.ON_SHEET_DRAG, { detail: { factor } }));
+      UpdateTopic({ id: selected_topic.id, scale: selected_topic.scale });
+    }, 700);
   };
 
-  // DONE
   const cheetSheetMouseMove = (e) => {
     e.stopPropagation();
     if (selected_chit) {
@@ -151,7 +135,6 @@ function Sheet() {
     }
   };
 
-  // DONE
   const chitMouseDown = (e) => {
     e.stopPropagation();
 
@@ -161,19 +144,15 @@ function Sheet() {
     initCord = { offsetLeft: e.clientX - orgCord.x, offsetTop: e.clientY - orgCord.y };
 
     if (selected_chit) selected_chit.order("auto");
-    console.log(`Selected Chit :: ${e.currentTarget.dataset.id}`);
     selected_chit = all_chits.find(({ chit }) => chit.id === e.currentTarget.dataset.id);
-    console.log(selected_chit);
     selected_chit.order(all_chits.length);
   };
 
-  // DONE
   const chitArchive = (e) => {
     const { chit } = all_chits.find(({ chit }) => chit.id == e.detail.id);
     UpdateChit(chit.id, { ...chit.props, archive: true });
   };
 
-  // DONE
   const addChit = (chitProps, callback) => {
     const chit = ChitMgmt({ ...chitProps, scale: selected_topic.scale });
 
@@ -186,12 +165,10 @@ function Sheet() {
     callback(chit);
   };
 
-  // DONE
   const chitContentChange = () => {
     UpdateChit(selected_chit.chit.id, selected_chit.chit.props);
   };
 
-  // DONE
   const renderOldChits = async () => {
     if (selected_topic) {
       all_chits.forEach(({ chit }) => {
@@ -211,14 +188,12 @@ function Sheet() {
     }
   };
 
-  // DONE
   const onTopicSelect = (e) => {
     const topic = e.detail.topic;
     setSelectedTopic(topic);
     document.dispatchEvent(new CustomEvent(Events.UPDATE_ZOOM, { detail: { scale: topic.scale } }));
   };
 
-  // DONE
   const documentKeyPress = (e) => {
     if (e.code === "Escape") {
       cursorDefault();
@@ -226,22 +201,18 @@ function Sheet() {
     }
   };
 
-  // DONE
   const cursorDefault = () => {
     sheet.style.cursor = "default";
     actionAddChit = false;
   };
 
-  // DONE
   const btnAddSelect = (e) => {
     sheet.style.cursor = "crosshair";
     actionAddChit = true;
   };
 
-  // DONE
   const removeGroupHandler = (topic) => moveChits(false);
 
-  // DONE
   const moveChits = (away = false) => {
     const sheetRect = sheetRef.current.getBoundingClientRect();
 
@@ -266,10 +237,8 @@ function Sheet() {
     });
   };
 
-  // DONE
   const onTopicAdd = (e) => moveChits(true);
 
-  // DONE
   const onScroll = (e) => {
     e.preventDefault();
     if (e.ctrlKey || e.metaKey) {
@@ -298,19 +267,31 @@ function Sheet() {
     }
   };
 
-  // DONE
   const onZoom = (e) => {
     const new_scale = e.detail.percent / 100;
     if (selected_topic) {
       // Save zoom level to topics
       selected_topic.scale = new_scale;
-      UpdateTopic({ id: selected_topic.id, scale: selected_topic.scale });
 
       // Re-scale chits
       all_chits.forEach((chit) => {
         const { width, height } = sheet.getBoundingClientRect();
         chit.scale({ clientX: width / 2, clientY: height / 2, new_scale, source: true });
       });
+
+      if (timer) clearInterval(timer);
+      timer = setTimeout(() => {
+        const updateChits = [];
+        all_chits.forEach(({ chit }) => {
+          updateChits.push({
+            chitId: chit.id,
+            props: chit.props,
+          });
+        });
+        UpdateAllChits(updateChits);
+
+        UpdateTopic({ id: selected_topic.id, scale: selected_topic.scale });
+      }, 700);
     }
   };
 

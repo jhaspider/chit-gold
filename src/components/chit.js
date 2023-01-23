@@ -39,7 +39,6 @@ function Chit(props) {
   };
 
   const onArchiveTap = (e) => {
-    console.log(`Archive chit : ${chit.id}`);
     e.stopPropagation();
     chit.dom.dispatchEvent(new CustomEvent(Events.ARCHIVE, { detail: { id: chit.id } }));
     removeChit();
@@ -102,6 +101,7 @@ function Chit(props) {
 
   const positionChit = (new_props) => {
     const { left, top } = new_props;
+    chit.dom.style.transition = "none";
     chit.dom.style.left = left;
     chit.dom.style.top = top;
     chit.props.left = left;
@@ -129,6 +129,7 @@ function Chit(props) {
 
       scale = new_scale;
 
+      chit.props.scale = scale;
       chit.props.left = clientX - xs * scale;
       chit.props.top = clientY - ys * scale;
       setTransform(source ? true : false);
@@ -172,7 +173,6 @@ function Chit(props) {
   const setId = (id) => {
     chit.id = id;
     chit.dom.dataset.id = id;
-    console.log(`Id is set : ${id}`);
   };
 
   chit = buildChit();

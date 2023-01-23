@@ -19,7 +19,6 @@ function NewTopic(props) {
   });
 
   const onTopicAdd = (e) => {
-    console.log(`Got Here.`);
     setMode((oldMode) => !oldMode);
   };
 
