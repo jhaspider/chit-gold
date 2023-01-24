@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   mode: "development",
@@ -17,19 +18,27 @@ module.exports = {
     devMiddleware: {
       writeToDisk: true,
     },
+    port: 3000,
+    historyApiFallback: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
       title: "Chit Gold",
       filename: "../index.html",
-      publicPath: "./",
+      publicPath: "/js/",
       template: "public/index.html",
       inject: "body",
       chunks: ["index"],
     }),
+    new Dotenv(),
   ],
   module: {
     rules: [
+      {
+        test: /.js$/,
+        exclude: /node_modules/,
+        use: "babel-loader",
+      },
       {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],

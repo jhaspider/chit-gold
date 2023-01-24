@@ -1,86 +1,60 @@
+import React, { useEffect, useRef, useState } from "react";
+import { useChitContext } from "../chit-provider";
 import Events from "../utils/events";
 import Utils from "../utils/utils";
+import DevOnly from "./dev_only";
+import ScaleComp from "./scale-comp";
+import UserComp from "./user-comp";
 
+const promptText = "Read only sheet. You can play around but the edits don't save.";
 function Toolbar() {
-  let percent;
-  const zoomFactor = 10;
+  const [topic, setTopic] = useState("");
+  const { user } = useChitContext();
+  const promptRef = useRef(null);
 
-  const onAddChit = (e) => document.dispatchEvent(new CustomEvent(Events.BTN_ADD_SELECT));
+  useEffect(() => {
+    document.addEventListener(Events.TOPIC_SELECT, onTopicSelect);
+    return () => document.removeEventListener(Events.TOPIC_SELECT, onTopicSelect);
+  }, []);
+
+  const onAddChit = (e) => {
+    if (topic.uid === user.uid) document.dispatchEvent(new CustomEvent(Events.BTN_ADD_SELECT));
+    else prompt(promptText);
+  };
 
   const onAddTopic = (e) => document.dispatchEvent(new CustomEvent(Events.BTN_ADD_TOPIC));
 
-  const buildToolbar = () => {
-    const toolbar_container = Utils.newElem("div", "toolbar-container");
+  const onTopicSelect = (e) => setTopic(e.detail.topic);
 
-    const bottomToolbar = Utils.newElem("div", "bottom-toolbar");
-
-    const btnAdd = Utils.newElem("button", null, "add-new-chit");
-    btnAdd.addEventListener("click", onAddChit);
-    bottomToolbar.append(btnAdd);
-
-    const btnTopic = Utils.newElem("button", null, "add-new-topic");
-    btnTopic.addEventListener("click", onAddTopic);
-    bottomToolbar.append(btnTopic);
-
-    // create the container element
-    const container = Utils.newElem("div", null, "scale-container");
-
-    // create the left button
-    const leftButton = Utils.newElem("button", null, "left-button");
-    leftButton.addEventListener("click", (e) => zoomInHandler(0));
-    leftButton.innerHTML = "-";
-    container.appendChild(leftButton);
-
-    // create the middle text
-    var middleText = Utils.newElem("p", "scale", "middle-text");
-    middleText.innerHTML = "";
-    container.appendChild(middleText);
-
-    // create the right button
-    const rightButton = Utils.newElem("button", null, "right-button");
-    rightButton.addEventListener("click", (e) => zoomInHandler(1));
-    rightButton.innerHTML = "+";
-
-    container.appendChild(rightButton);
-    bottomToolbar.append(container);
-    toolbar_container.append(bottomToolbar);
-
-    const topicLabel = Utils.newElem("h2", "topic-label");
-    topicLabel.innerHTML = "";
-
-    toolbar_container.append(topicLabel);
-
-    return toolbar_container;
+  const prompt = (msg) => {
+    promptRef.current.innerHTML = msg;
+    Utils.blink(promptRef.current);
   };
 
-  const onTopicSelect = (e) => {
-    const topic = e.detail.topic;
-    container.querySelector("#topic-label").innerHTML = topic.topicName;
-  };
-  const zoomInHandler = (type) => {
-    if (percent % zoomFactor != 0) {
-      percent = type ? Math.ceil(percent / zoomFactor) * zoomFactor : Math.floor(percent / zoomFactor) * zoomFactor;
-    } else {
-      percent = type ? percent + zoomFactor : percent - zoomFactor;
-    }
+  return (
+    <div id="toolbar-container">
+      <div className="prompt-container">
+        {topic?.uid !== user?.uid && (
+          <p className="blink" ref={promptRef}>
+            {promptText}
+          </p>
+        )}
+      </div>
+      <div className="upper-container">
+        <UserComp />
+        <div id="bottom-toolbar">
+          <button className="add-new-chit" onClick={onAddChit}></button>
+          <button className="add-new-topic" onClick={onAddTopic}></button>
+          <ScaleComp />
+        </div>
+        <div className="tool-topic">
+          <h2 id="topic-label">{topic.topicName}</h2>
+        </div>
+      </div>
 
-    setPercent();
-    document.dispatchEvent(new CustomEvent(Events.ON_ZOOM, { detail: { percent } }));
-  };
-
-  const scaleHandler = (e) => {
-    percent = e.detail.scale * 100;
-    setPercent();
-  };
-
-  const setPercent = () => {
-    container.querySelector("#scale").innerHTML = `${percent % 1 === 0 ? percent : percent.toFixed(1)}%`;
-  };
-
-  const container = buildToolbar();
-  document.addEventListener(Events.UPDATE_ZOOM, scaleHandler);
-  document.addEventListener(Events.TOPIC_SELECT, onTopicSelect);
-  return container;
+      <DevOnly />
+    </div>
+  );
 }
 
 export default Toolbar;

@@ -1,132 +1,112 @@
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useChitContext } from "../chit-provider";
 import Events from "../utils/events";
-import { LoadTopics, UpdateTopic } from "../utils/save_chits";
-import Utils from "../utils/utils";
+import { LoadTopics, UpdateTopic, LoadTopicDetails } from "../utils/save_chits";
 
-function Topic({ topic, selectTopicHandler }) {
-  const topicDom = Utils.newElem("a");
-  topicDom.innerHTML = topic.topicName;
+function Topic({ topic, selected, selectTopicHandler }) {
+  const onTopicTap = (e) => {
+    e.currentTarget.classList.add("topic-select");
+    selectTopicHandler(topic);
+  };
 
-  const li = Utils.newElem("li", `topic-id-${topic.id}`, "topic-items");
-  li.addEventListener("click", selectTopicHandler);
-  li.dataset.id = topic.id;
-  li.append(topicDom);
-  return li;
+  return (
+    <li id={`topic-id-${topic.id}`} className={`topic-items ${selected ? "topic-select" : ""}`} onClick={onTopicTap}>
+      <a href="" onClick={(e) => e.preventDefault()}>
+        {topic.topicName}
+      </a>
+    </li>
+  );
 }
 
 function Topics(props) {
-  const all_topics = [];
-  let { topicId } = props;
+  const topic_ui_list = useRef(null);
+  const [all_topics, setAllTopics] = useState([]);
+  const [selectedTopic, setSelectedTopic] = useState(null);
 
-  const selectTopicHandler = (e) => {
-    unselectPrevious();
-    topicId = e.currentTarget.dataset.id;
-    e.currentTarget.classList.add("topic-select");
-    loadTopicChits();
-  };
+  const { topic_id } = useParams();
+  const { user } = useChitContext();
+  const navigate = useNavigate();
 
-  const loadTopicChits = () => {
-    if (topicId) {
-      history.pushState(null, null, `#?topic_id=${topicId}`);
+  useEffect(() => {
+    document.addEventListener(Events.RENDER_TOPIC, topicAddHandler);
+    return () => document.removeEventListener(Events.RENDER_TOPIC, topicAddHandler);
+  }, []);
 
-      let tp = all_topics.find((topic) => topic.topic.id === topicId);
-      if (!tp) return;
-      setTimeout(() => document.dispatchEvent(new CustomEvent(Events.TOPIC_SELECT, { detail: { topic: tp.topic } })), 100);
+  useEffect(() => {
+    (async () => {
+      if (topic_id) {
+        await loadTopicDetails();
+      }
+    })();
+  }, [topic_id]);
+
+  useEffect(() => {
+    init();
+  }, [user]);
+
+  useEffect(() => {
+    if (selectedTopic) {
+      if (topic_id !== selectedTopic.id) navigate(`/console/topic/${selectedTopic.id}`);
+      document.dispatchEvent(new CustomEvent(Events.TOPIC_SELECT, { detail: { topic: selectedTopic } }));
     }
+  }, [selectedTopic]);
+
+  const selectTopicHandler = (topic) => {
+    unselectPrevious();
+    setSelectedTopic(topic);
   };
 
   const unselectPrevious = () => {
-    const prevTopicNode = container.querySelector(`#topic-id-${topicId}`);
-    prevTopicNode.classList.remove("topic-select");
-  };
-
-  const renderTopics = () => {
-    const topics = LoadTopics();
-    if (topics.length > 0) {
-      all_topics.forEach((t) => {
-        topic_ui_list.removeChild(t.dom);
-      });
-      all_topics.splice(0, all_topics.length);
-
-      topics.forEach((topic) => {
-        appendTopic(topic);
-      });
-    } else {
-      setTimeout(() => document.dispatchEvent(new CustomEvent(Events.BTN_ADD_TOPIC)), 100);
+    if (selectedTopic) {
+      const prevTopicNode = topic_ui_list.current.querySelector(`#topic-id-${selectedTopic.id}`);
+      if (prevTopicNode) prevTopicNode.classList.remove("topic-select");
     }
-  };
-
-  const appendTopic = (topic) => {
-    const t = Topic({ topic, selectTopicHandler });
-    all_topics.push({
-      dom: t,
-      topic,
-    });
-    topic_ui_list.append(t);
-    return t;
   };
 
   const topicAddHandler = (e) => {
-    observer.disconnect();
     unselectPrevious();
-    if (e.detail.topic) {
-      const topic = e.detail.topic;
-      topicId = topic.id;
-      const newT = appendTopic(topic);
-      // Utils.blink(newT);
-      const prevTopicNode = container.querySelector(`#topic-id-${topicId}`);
-      prevTopicNode.classList.add("topic-select");
-      loadTopicChits();
+    const newTopic = e.detail.topic;
+    if (newTopic) {
+      setSelectedTopic(newTopic);
+      setAllTopics((prevTopics) => [...prevTopics, newTopic]);
     }
   };
 
-  const observer = new MutationObserver(function (mutations) {
-    let inc = 0;
-    console.log(`Selected Topic : ${topicId}`);
-    mutations.forEach((mutation) => {
-      mutation.addedNodes.forEach((node) => {
-        if (node.classList && node.classList.contains("topic-items")) {
-          if (all_topics.length > 0 && inc == all_topics.length - 1 && !topicId) {
-            topicId = all_topics[all_topics.length - 1].topic.id;
-            loadTopicChits();
-          }
-          if (topicId === node.dataset.id) node.classList.add("topic-select");
-          inc++;
-        }
-      });
-    });
-  });
-
-  const updateTopicHandler = (e) => {
-    const { id, scale } = e.detail;
-    UpdateTopic({ id, scale });
+  const loadTopicDetails = async () => {
+    if (topic_id) {
+      const { status, topic } = await LoadTopicDetails(topic_id);
+      if (status) setSelectedTopic(topic);
+    }
   };
 
-  const buildTopicDom = () => {
-    const topicsDom = Utils.newElem("div", "chit-topics", "chit-archive");
-    const topicsList = Utils.newElem("ul", "topics-list");
-    topicsDom.append(topicsList);
-    observer.observe(topicsList, { childList: true });
+  const loadAllTopics = async () => {
+    const topics = await LoadTopics();
 
-    return topicsDom;
+    if (!topic_id && !selectedTopic) {
+      if (topics.length > 0) {
+        setSelectedTopic(topics[topics.length - 1]);
+      } else {
+        document.dispatchEvent(new CustomEvent(Events.BTN_ADD_TOPIC));
+      }
+    }
+
+    setAllTopics((_) => [...topics]);
   };
 
-  const container = buildTopicDom();
-  const topic_ui_list = container.querySelector("#topics-list");
-  return { dom: container, renderTopics, topicAddHandler, loadTopicChits, updateTopicHandler };
+  const init = async () => {
+    await loadAllTopics();
+  };
+
+  return (
+    <div id="topics-list">
+      <ul id="topics-list" ref={topic_ui_list}>
+        {all_topics.map((topic, ind) => {
+          return <Topic key={`topic-${ind}`} selected={topic.id === selectedTopic?.id} topic={topic} selectTopicHandler={selectTopicHandler} />;
+        })}
+      </ul>
+    </div>
+  );
 }
 
-const TopicMgmt = () => {
-  const queryString = window.location.hash;
-  let topicId = queryString.split("=")[1];
-
-  const topic = Topics({ topicId });
-  topic.renderTopics();
-  topic.loadTopicChits();
-
-  document.addEventListener(Events.RENDER_TOPIC, topic.topicAddHandler);
-  document.addEventListener(Events.UPDATE_TOPIC, topic.updateTopicHandler);
-
-  return topic.dom;
-};
-
-export default TopicMgmt;
+export default Topics;

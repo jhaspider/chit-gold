@@ -1,3 +1,5 @@
+import "../firebase";
+import { getAuth } from "firebase/auth";
 const Utils = {
   getDomById: (id) => {
     return document.getElementById(id);
@@ -10,7 +12,19 @@ const Utils = {
     return dom;
   },
 
-  blink: (blinkElement) => blinkElement.classList.add("blink"),
+  blink: (blinkElement) => {
+    blinkElement.classList.add("blink");
+
+    setTimeout(() => {
+      blinkElement.classList.remove("blink");
+      blinkElement.style.display = "none";
+    }, 2000);
+  },
+
+  getUId: () => {
+    const auth = getAuth();
+    return auth.currentUser;
+  },
 };
 
 export default Utils;
