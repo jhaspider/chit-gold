@@ -25,7 +25,6 @@ router.get("/chits", async (request, response) => {
 
   // const topicId = request.params.topicId;
   const topicId = request.query["topicId"];
-  console.log(`Chits by Topic Id : ${topicId}`);
 
   const user_terms = await db.collection(CHITS);
   let query = user_terms.where("topicId", "==", topicId).where("archive", "==", false);

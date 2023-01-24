@@ -45,7 +45,6 @@ div {
 }
 
 a {
-  text-transform: uppercase;
   font-weight: 500;
   color: var(--color-action);
   text-decoration: none;
@@ -411,7 +410,7 @@ p {
   /* height: 100vh; */
   width: 100%;
 }
-.public-left {
+.public-intro {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -419,33 +418,90 @@ p {
   min-height: 600px;
   width: 100%;
 }
-.public-left h1 {
+.public-intro h1 {
   text-align: center;
 }
 
-.public-left a {
-  background-color: var(--bg-dialog);
+.public-intro .primary {
+  background-color: var(--color-action);
+  color: var(--bg-color);
   padding: 6px 24px;
   border-radius: 16px;
+  margin-bottom: 10px;
 }
 
-.public-right {
+.public-topics {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
   width: 100%;
-  margin-top: 50px;
+  padding-bottom: 100px;
 }
-
-.public-right h2 {
+.public-topics h2 {
   text-align: center;
 }
 
-.cheat-sheet {
-  width: 280px;
-  height: 320px;
-  background-color: var(--color-lightGrey);
-  margin: 10px;
+.public-topics .topics-container {
+  width: 75%;
+  max-width: 1024px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.public-topics .topics-container .cheat-sheet {
+  background-color: var(--bg-color);
+  border: 1px solid var(--color-lightGrey);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  height: 300px;
+  width: 240px;
+  justify-content: space-between;
+  border-radius: 8px;
+  padding: 10px 20px;
+  margin: 10px 10px 0px 0px;
+  overflow-wrap: break-word;
+}
+
+.public-topics .topics-container .cheat-sheet h3 {
+  font-size: 3rem;
+  margin: 0;
+}
+
+.public-faqs {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  min-height: 400px;
+  padding-bottom: 100px;
+}
+.public-faqs h2 {
+  text-align: center;
+}
+
+.public-footer {
+  border-top: 1px solid var(--color-grey);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.public-footer ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.public-footer ul li {
+  display: inline-block;
 }

@@ -100,10 +100,13 @@ function UpdateTopic(topic) {
   });
 }
 
-async function LoadTopics() {
+async function LoadTopics(type = "user") {
   return axios({
     method: "get",
     url: EndPoints.TOPICS,
+    params: {
+      type,
+    },
   }).then(function (response) {
     const { status, topics } = response.data;
     return status ? topics : [];

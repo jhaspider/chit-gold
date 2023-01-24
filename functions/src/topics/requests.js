@@ -16,7 +16,6 @@ router.get("/topics", async (request, response) => {
   }
 
   const sessionId = request.headers[X_SESSION_ID];
-
   try {
     await validateUser(sessionId);
   } catch (e) {
@@ -24,9 +23,14 @@ router.get("/topics", async (request, response) => {
     return;
   }
 
+  const type = request.query["type"];
+
   const user_terms = await db.collection(TOPICS);
-  let query = user_terms.where("uid", "==", sessionId).orderBy("createdAt", "asc");
+
+  let query = user_terms.orderBy("createdAt", "desc").limit(9);
+  if (type === "user") query = user_terms.where("uid", "==", sessionId);
   const snapshot = await query.get();
+
   if (snapshot.empty) {
     response.status(200).send({ status: false, topics: [] });
   } else {
