@@ -10,10 +10,7 @@ function Toolbar() {
 
   useEffect(() => {
     document.addEventListener(Events.TOPIC_SELECT, onTopicSelect);
-
-    return () => {
-      document.removeEventListener(Events.TOPIC_SELECT, onTopicSelect);
-    };
+    return () => document.removeEventListener(Events.TOPIC_SELECT, onTopicSelect);
   }, []);
 
   const onAddChit = (e) => document.dispatchEvent(new CustomEvent(Events.BTN_ADD_SELECT));

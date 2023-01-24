@@ -123,7 +123,7 @@ function Sheet() {
       });
       UpdateAllChits(updateChits);
 
-      UpdateTopic({ id: selected_topic.id, scale: selected_topic.scale });
+      if (selected_topic) UpdateTopic({ id: selected_topic.id, scale: selected_topic.scale });
     }, 700);
   };
 

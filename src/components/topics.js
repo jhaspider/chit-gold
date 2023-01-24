@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import Events from "../utils/events";
 import { LoadTopics, UpdateTopic, LoadTopicDetails } from "../utils/save_chits";
 
@@ -22,28 +23,31 @@ function Topics(props) {
   const [all_topics, setAllTopics] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState(null);
 
+  const { topic_id } = useParams();
+
   useEffect(() => {
     document.addEventListener(Events.RENDER_TOPIC, topicAddHandler);
-    // document.addEventListener(Events.UPDATE_TOPIC, topic.updateTopicHandler);
-
     init();
-
-    return () => {
-      document.removeEventListener(Events.RENDER_TOPIC, topicAddHandler);
-    };
+    return () => document.removeEventListener(Events.RENDER_TOPIC, topicAddHandler);
   }, []);
 
   useEffect(() => {
-    if (all_topics.length > 0 && !selectedTopic) {
+    (async () => {
+      if (topic_id) {
+        await loadTopicDetails();
+      }
+    })();
+  }, [topic_id]);
+
+  useEffect(() => {
+    if (all_topics.length > 0 && !topic_id && !selectedTopic) {
       setSelectedTopic(all_topics[all_topics.length - 1]);
     }
   }, [all_topics.length]);
 
   useEffect(() => {
     if (selectedTopic) {
-      const queryString = window.location.hash;
-      let topicId = queryString.split("=")[1];
-      if (topicId !== selectedTopic.id) history.pushState(null, null, `#?topic_id=${selectedTopic.id}`);
+      if (topic_id !== selectedTopic.id) history.pushState(null, null, `#?topic_id=${selectedTopic.id}`);
       document.dispatchEvent(new CustomEvent(Events.TOPIC_SELECT, { detail: { topic: selectedTopic } }));
     }
   }, [selectedTopic]);
@@ -69,16 +73,9 @@ function Topics(props) {
     }
   };
 
-  const updateTopicHandler = (e) => {
-    const { id, scale } = e.detail;
-    UpdateTopic({ id, scale });
-  };
-
   const loadTopicDetails = async () => {
-    const queryString = window.location.hash;
-    let topicId = queryString.split("=")[1];
-    if (topicId) {
-      const { status, topic } = await LoadTopicDetails(topicId);
+    if (topic_id) {
+      const { status, topic } = await LoadTopicDetails(topic_id);
       if (status) setSelectedTopic(topic);
     }
   };
@@ -89,7 +86,6 @@ function Topics(props) {
   };
 
   const init = async () => {
-    await loadTopicDetails();
     await loadAllTopics();
   };
 

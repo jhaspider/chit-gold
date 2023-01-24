@@ -390,3 +390,49 @@ p {
 .firebase-emulator-warning {
   display: none !important;
 }
+
+/* PUBLIC PAGE */
+.public-page {
+  display: flex;
+  flex-direction: column;
+  /* height: 100vh; */
+  width: 100%;
+}
+.public-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 600px;
+  width: 100%;
+}
+.public-left h1 {
+  text-align: center;
+}
+
+.public-left a {
+  background-color: var(--bg-dialog);
+  padding: 6px 24px;
+  border-radius: 16px;
+}
+
+.public-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.public-right h2 {
+  text-align: center;
+}
+
+.cheat-sheet {
+  width: 280px;
+  height: 320px;
+  background-color: var(--color-lightGrey);
+  margin: 10px;
+}

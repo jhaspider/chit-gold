@@ -19,12 +19,13 @@ module.exports = {
       writeToDisk: true,
     },
     port: 3000,
+    historyApiFallback: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
       title: "Chit Gold",
       filename: "../index.html",
-      publicPath: "./",
+      publicPath: "/js/",
       template: "public/index.html",
       inject: "body",
       chunks: ["index"],
