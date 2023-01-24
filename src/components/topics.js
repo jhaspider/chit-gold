@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useChitContext } from "../chit-provider";
 import Events from "../utils/events";
 import { LoadTopics, UpdateTopic, LoadTopicDetails } from "../utils/save_chits";
@@ -26,6 +26,7 @@ function Topics(props) {
 
   const { topic_id } = useParams();
   const { user } = useChitContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.addEventListener(Events.RENDER_TOPIC, topicAddHandler);
@@ -41,19 +42,12 @@ function Topics(props) {
   }, [topic_id]);
 
   useEffect(() => {
-    console.log(`Topic User`, user.uid);
     init();
   }, [user]);
 
   useEffect(() => {
-    if (all_topics.length > 0 && !topic_id && !selectedTopic) {
-      setSelectedTopic(all_topics[all_topics.length - 1]);
-    }
-  }, [all_topics.length]);
-
-  useEffect(() => {
     if (selectedTopic) {
-      if (topic_id !== selectedTopic.id) history.pushState(null, null, `#?topic_id=${selectedTopic.id}`);
+      if (topic_id !== selectedTopic.id) navigate(`/console/topic/${selectedTopic.id}`);
       document.dispatchEvent(new CustomEvent(Events.TOPIC_SELECT, { detail: { topic: selectedTopic } }));
     }
   }, [selectedTopic]);
@@ -88,6 +82,15 @@ function Topics(props) {
 
   const loadAllTopics = async () => {
     const topics = await LoadTopics();
+
+    if (!topic_id && !selectedTopic) {
+      if (topics.length > 0) {
+        setSelectedTopic(topics[topics.length - 1]);
+      } else {
+        document.dispatchEvent(new CustomEvent(Events.BTN_ADD_TOPIC));
+      }
+    }
+
     setAllTopics((_) => [...topics]);
   };
 

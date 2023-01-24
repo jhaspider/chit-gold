@@ -25,7 +25,7 @@ const ChitProvider = (props) => {
       }
     });
   }, []);
-  return <ChitContext.Provider value={{ user }}>{props.children}</ChitContext.Provider>;
+  return <ChitContext.Provider value={{ user, setUser }}>{props.children}</ChitContext.Provider>;
 };
 
 export default ChitProvider;

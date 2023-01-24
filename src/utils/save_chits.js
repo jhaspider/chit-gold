@@ -87,6 +87,7 @@ async function LoadTopicDetails(topicId) {
     return response.data;
   });
 }
+
 function UpdateTopic(topic) {
   return axios({
     method: "put",

@@ -9,6 +9,10 @@ const router = createBrowserRouter([
     element: <PublicPage />,
   },
   {
+    path: "/console",
+    element: <App />,
+  },
+  {
     path: "/console/topic/:topic_id",
     element: <App />,
   },

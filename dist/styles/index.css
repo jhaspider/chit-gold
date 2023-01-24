@@ -76,6 +76,7 @@ p {
   flex-grow: 2;
   margin-top: 46px;
   color: var(--color-lightGrey);
+  cursor: pointer;
 }
 
 .wrapper {
@@ -255,7 +256,17 @@ p {
   justify-content: space-between;
   align-items: center;
 }
+.prompt-container {
+  display: flex;
+  flex-direction: column;
+}
 
+.prompt-container p {
+  background-color: var(--bg-dialog);
+  border-radius: 10px;
+  padding: 0px 10px;
+  margin: 0px;
+}
 /* .upper-container :first-child {
   flex: 1 1 0;
   width: 0;
@@ -298,10 +309,11 @@ p {
 }
 
 .blink {
-  animation: blink 1.5s alternate 2;
+  animation: blink 0.5s alternate 4;
   border-radius: 10px;
-  margin: 0 10px;
-  padding: 2px 10px;
+  display: block !important;
+  /* margin: 0 10px; */
+  padding: 0px 10px;
 }
 
 @keyframes blink {
@@ -315,6 +327,7 @@ p {
   }
   100% {
     background-color: transparent;
+
     /* color: var(--color-action); */
   }
 }

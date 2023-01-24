@@ -13,8 +13,10 @@ function NewTopic(props) {
 
   useEffect(() => {
     document.addEventListener(Events.BTN_ADD_TOPIC, onTopicAdd);
+    document.addEventListener("keydown", onKeyPress);
     return () => {
       document.removeEventListener(Events.BTN_ADD_TOPIC, onTopicAdd);
+      document.removeEventListener("keydown", onKeyPress);
     };
   });
 
@@ -42,6 +44,13 @@ function NewTopic(props) {
     }
   };
 
+  const onKeyPress = (e) => {
+    if (e.code === "Escape") {
+      setMode((oldMode) => !oldMode);
+      close();
+    }
+  };
+
   const onContentChangeHandler = (e) => {
     topicName = e.target.value.toUpperCase();
     if (topicName.length > 2 && promptRef.current) {
@@ -62,7 +71,7 @@ function NewTopic(props) {
   return (
     <div id="bgcontainer" className="add-group-container" onClick={backgroundTap}>
       <div className="add-group">
-        <input id="topic_name" type={"text"} placeholder="Add a Topic" autoComplete={"off"} className="container" onInput={onContentChangeHandler} onKeyUp={onKeyUpHandler}></input>
+        <input id="topic_name" type={"text"} autoFocus placeholder="Add a Topic" autoComplete={"off"} className="container" onInput={onContentChangeHandler} onKeyUp={onKeyUpHandler}></input>
         <p id="enter-prompt" ref={promptRef}></p>
       </div>
     </div>

@@ -1,7 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { useChitContext } from "../chit-provider";
 
 const PublicPage = () => {
+  const { user } = useChitContext();
+
+  if (user && !user.isAnonymous) {
+    return <Navigate to="/console" replace={true} />;
+  }
+
   return (
     <div className="public-page">
       <div className="public-left">

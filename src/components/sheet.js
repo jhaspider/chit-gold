@@ -6,6 +6,7 @@ import Utils from "../utils/utils.js";
 import ChitMgmt, { ORDER } from "./chit.js";
 import TapHoldAnimation from "./tap-hold-animation.js";
 import NewTopic from "./add-topic";
+import { useChitContext } from "../chit-provider";
 
 let actionAddChit = false;
 let selected_chit;
@@ -19,6 +20,7 @@ function Sheet() {
   const topOffset = 48;
   const [selected_topic, setSelectedTopic] = useState(null);
   const sheetRef = useRef(null);
+  const { user } = useChitContext();
 
   useEffect(() => {
     if (sheetRef.current) {
@@ -94,9 +96,7 @@ function Sheet() {
           });
         }
       } else {
-        if (selected_chit) {
-          UpdateChit(selected_chit.chit.id, selected_chit.chit.props);
-        }
+        if (selected_chit) saveChit();
       }
     }
   };
@@ -112,19 +112,7 @@ function Sheet() {
       chit.drag(factor);
     });
 
-    if (timer) clearInterval(timer);
-    timer = setTimeout(() => {
-      const updateChits = [];
-      all_chits.forEach(({ chit }) => {
-        updateChits.push({
-          chitId: chit.id,
-          props: chit.props,
-        });
-      });
-      UpdateAllChits(updateChits);
-
-      if (selected_topic) UpdateTopic({ id: selected_topic.id, scale: selected_topic.scale });
-    }, 700);
+    save();
   };
 
   const cheetSheetMouseMove = (e) => {
@@ -148,25 +136,16 @@ function Sheet() {
     selected_chit.order(all_chits.length);
   };
 
-  const chitArchive = (e) => {
-    const { chit } = all_chits.find(({ chit }) => chit.id == e.detail.id);
-    UpdateChit(chit.id, { ...chit.props, archive: true });
-  };
-
   const addChit = (chitProps, callback) => {
-    const chit = ChitMgmt({ ...chitProps, scale: selected_topic.scale });
+    const editable = selected_topic.uid === user.uid;
+    const chit = ChitMgmt({ ...chitProps, scale: selected_topic.scale, editable });
 
     const { dom } = chit.chit;
     sheetRef.current.append(dom);
+
     cursorDefault();
     dom.addEventListener("mousedown", chitMouseDown);
-    dom.addEventListener(Events.CONTENT_SAVE, chitContentChange);
-    dom.addEventListener(Events.ARCHIVE, chitArchive);
     callback(chit);
-  };
-
-  const chitContentChange = () => {
-    UpdateChit(selected_chit.chit.id, selected_chit.chit.props);
   };
 
   const renderOldChits = async () => {
@@ -197,7 +176,6 @@ function Sheet() {
   const documentKeyPress = (e) => {
     if (e.code === "Escape") {
       cursorDefault();
-      removeGroupHandler();
     }
   };
 
@@ -211,29 +189,12 @@ function Sheet() {
     actionAddChit = true;
   };
 
-  const removeGroupHandler = (topic) => moveChits(false);
+  const closeTopicHandler = () => moveChits(false);
 
   const moveChits = (away = false) => {
     const sheetRect = sheetRef.current.getBoundingClientRect();
-
-    // Move all chits away
-    all_chits.forEach(({ chit }) => {
-      chit.dom.style.transition = "left .3s, top .3s";
-      if (away) {
-        let { left, top, width, height, bottom, right } = chit.dom.getBoundingClientRect();
-        bottom = sheetRect.height - bottom + topOffset;
-        right = sheetRect.width - right;
-
-        let lowestPath = Math.min(left, top - topOffset, bottom, right);
-
-        if (lowestPath === left) chit.dom.style.left = 0 - (width - topOffset) + "px";
-        if (lowestPath === top - topOffset) chit.dom.style.top = 0 - (height - topOffset) + "px";
-        if (lowestPath === right) chit.dom.style.left = sheetRect.width - topOffset + "px";
-        if (lowestPath === bottom) chit.dom.style.top = sheetRect.height - topOffset + "px";
-      } else {
-        chit.dom.style.left = chit.props.left;
-        chit.dom.style.top = chit.props.top;
-      }
+    all_chits.forEach((chit) => {
+      chit.move(away, sheetRect, topOffset);
     });
   };
 
@@ -248,19 +209,7 @@ function Sheet() {
         chit.scale({ clientX: e.clientX, clientY: e.clientY, new_scale: selected_topic.scale });
       });
 
-      if (timer) clearInterval(timer);
-      timer = setTimeout(() => {
-        const updateChits = [];
-        all_chits.forEach(({ chit }) => {
-          updateChits.push({
-            chitId: chit.id,
-            props: chit.props,
-          });
-        });
-        UpdateAllChits(updateChits);
-
-        UpdateTopic({ id: selected_topic.id, scale: selected_topic.scale });
-      }, 700);
+      save();
 
       // Updates zoom scale on the toolbar
       document.dispatchEvent(new CustomEvent(Events.UPDATE_ZOOM, { detail: { scale: selected_topic.scale } }));
@@ -279,26 +228,36 @@ function Sheet() {
         chit.scale({ clientX: width / 2, clientY: height / 2, new_scale, source: true });
       });
 
-      if (timer) clearInterval(timer);
-      timer = setTimeout(() => {
-        const updateChits = [];
-        all_chits.forEach(({ chit }) => {
-          updateChits.push({
-            chitId: chit.id,
-            props: chit.props,
-          });
-        });
-        UpdateAllChits(updateChits);
-
-        UpdateTopic({ id: selected_topic.id, scale: selected_topic.scale });
-      }, 700);
+      save();
     }
+  };
+
+  const save = () => {
+    if (selected_topic.uid !== user.uid) return;
+    if (timer) clearInterval(timer);
+    timer = setTimeout(() => {
+      const updateChits = [];
+      all_chits.forEach(({ chit }) => {
+        updateChits.push({
+          chitId: chit.id,
+          props: chit.props,
+        });
+      });
+      UpdateAllChits(updateChits);
+
+      if (selected_topic) UpdateTopic({ id: selected_topic.id, scale: selected_topic.scale });
+    }, 700);
+  };
+
+  const saveChit = () => {
+    if (selected_topic.uid !== user.uid) return;
+    if (selected_chit) UpdateChit(selected_chit.chit.id, selected_chit.chit.props);
   };
 
   return (
     <>
       <div id="sheet" ref={sheetRef} onMouseDown={sheetMouseDown} onMouseUp={sheetMouseUp}></div>
-      <NewTopic close={removeGroupHandler} />
+      <NewTopic close={closeTopicHandler} />
     </>
   );
 }

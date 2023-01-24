@@ -17,6 +17,7 @@ const Utils = {
 
     setTimeout(() => {
       blinkElement.classList.remove("blink");
+      blinkElement.style.display = "none";
     }, 2000);
   },
 

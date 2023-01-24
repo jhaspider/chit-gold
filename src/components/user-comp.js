@@ -6,14 +6,17 @@ import "../firebase";
 import { getAuth, GoogleAuthProvider, linkWithPopup, signInWithCredential } from "firebase/auth";
 import EndPoints from "../utils/endpoints";
 import { Register } from "../utils/save_chits";
+import { useNavigate } from "react-router-dom";
+import { useChitContext } from "../chit-provider";
 
 function UserComp() {
-  const auth = getAuth();
-  auth.languageCode = "it";
-  const [user, setUser] = useState(auth.currentUser);
+  const { user, setUser } = useChitContext();
+  const navigate = useNavigate();
 
   const userClick = (e) => {
     e.preventDefault();
+    const auth = getAuth();
+    auth.languageCode = "it";
     if (auth.currentUser.isAnonymous) {
       var provider = new GoogleAuthProvider();
       provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
@@ -44,11 +47,19 @@ function UserComp() {
           }
         });
     } else {
-      auth.signOut();
-      window.location = "/";
+      setUser(null);
+      auth
+        .signOut()
+        .then(() => {
+          navigate("/");
+        })
+        .catch((error) => {
+          // An error happened.
+        });
     }
   };
 
+  if (!user) return null;
   return (
     <div className="tool-user">
       <div className="user-avatar"></div>
