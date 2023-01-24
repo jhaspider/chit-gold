@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useChitContext } from "../chit-provider";
 import Events from "../utils/events";
 import { LoadTopics, UpdateTopic, LoadTopicDetails } from "../utils/save_chits";
 
@@ -24,10 +25,10 @@ function Topics(props) {
   const [selectedTopic, setSelectedTopic] = useState(null);
 
   const { topic_id } = useParams();
+  const { user } = useChitContext();
 
   useEffect(() => {
     document.addEventListener(Events.RENDER_TOPIC, topicAddHandler);
-    init();
     return () => document.removeEventListener(Events.RENDER_TOPIC, topicAddHandler);
   }, []);
 
@@ -38,6 +39,11 @@ function Topics(props) {
       }
     })();
   }, [topic_id]);
+
+  useEffect(() => {
+    console.log(`Topic User`, user.uid);
+    init();
+  }, [user]);
 
   useEffect(() => {
     if (all_topics.length > 0 && !topic_id && !selectedTopic) {
@@ -82,7 +88,7 @@ function Topics(props) {
 
   const loadAllTopics = async () => {
     const topics = await LoadTopics();
-    setAllTopics((prevTopics) => [...prevTopics, ...topics]);
+    setAllTopics((_) => [...topics]);
   };
 
   const init = async () => {
