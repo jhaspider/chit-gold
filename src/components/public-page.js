@@ -3,6 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import { useChitContext } from "../chit-provider";
 import useFirebaseLogin from "../firebase-login";
 import { LoadTopics } from "../utils/save_chits";
+import Logo from "./logo";
 
 const Intro = () => {
   const { login } = useFirebaseLogin();
@@ -53,7 +54,10 @@ const PublicChits = () => {
           return (
             <div key={`topic-${ind}`} className="cheat-sheet" style={{ backgroundColor: colors[ind] }}>
               <h3>{topic.topicName}</h3>
-              <Link to={`console/topic/${topic.id}`}>Take a peek</Link>
+              <div>
+                {topic.count > 0 && <p>{topic.count} chits</p>}
+                <Link to={`console/topic/${topic.id}`}>Take a peek</Link>
+              </div>
             </div>
           );
         })}
@@ -96,6 +100,10 @@ const PublicPage = () => {
 
   return (
     <div className="public-page">
+      <Logo />
+      <div id="topics-list">
+        <p></p>
+      </div>
       <Intro />
       {user && <PublicChits />}
       <FAQs />

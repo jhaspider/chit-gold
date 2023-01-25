@@ -100,7 +100,7 @@ function Topics(props) {
 
   return (
     <div id="topics-list">
-      <ul id="topics-list" ref={topic_ui_list}>
+      <ul className="user-topics" ref={topic_ui_list}>
         {all_topics.map((topic, ind) => {
           return <Topic key={`topic-${ind}`} selected={topic.id === selectedTopic?.id} topic={topic} selectTopicHandler={selectTopicHandler} />;
         })}

@@ -42,11 +42,7 @@ function Toolbar() {
       </div>
       <div className="upper-container">
         <UserComp />
-        <div id="bottom-toolbar">
-          <button className="add-new-chit" onClick={onAddChit}></button>
-          <button className="add-new-topic" onClick={onAddTopic}></button>
-          <ScaleComp />
-        </div>
+        <ScaleComp onAddChit={onAddChit} onAddTopic={onAddTopic} />
         <div className="tool-topic">
           <h2 id="topic-label">{topic.topicName}</h2>
         </div>

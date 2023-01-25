@@ -103,7 +103,7 @@ router.post("/chits/add", async (request, response) => {
   const topicDoc = await topicsCol.doc(topicId);
   const topicData = await topicDoc.get();
   if (topicData.exists) {
-    let { count } = data.data();
+    let { count } = topicData.data();
     count = count ? count + 1 : 1;
     topicDoc.update({ count });
   }

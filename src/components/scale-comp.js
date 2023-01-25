@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import Events from "../utils/events";
 import Utils from "../utils/utils";
 
-function ScaleComp() {
+function ScaleComp(props) {
+  const { onAddChit, onAddTopic } = props;
   const [percent, setPercent] = useState(0);
   const zoomFactor = 10;
 
@@ -36,16 +37,16 @@ function ScaleComp() {
   };
 
   return (
-    <div className="scale-container">
-      <button className="left-button" onClick={(e) => zoomInHandler(0)}>
-        -
-      </button>
-      <p id="scale" className="middle-text">
-        {scale}
-      </p>
-      <button className="left-button" onClick={(e) => zoomInHandler(1)}>
-        +
-      </button>
+    <div id="bottom-toolbar">
+      <img className="btn-class" onClick={onAddChit} src="/icons/new-chit.png" />
+      <img className="btn-class" onClick={onAddTopic} src="/icons/topics.png" />
+      <div className="scale-container">
+        <img className="btn-class" onClick={(e) => zoomInHandler(0)} src="/icons/scale-down.png" />
+        <p id="scale" className="middle-text">
+          {scale}
+        </p>
+        <img className="btn-class" onClick={(e) => zoomInHandler(1)} src="/icons/scale-up.png" />
+      </div>
     </div>
   );
 }
