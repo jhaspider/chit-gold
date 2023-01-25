@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useChitContext } from "../chit-provider";
+import useFirebaseLogin from "../firebase-login";
 import { LoadTopics } from "../utils/save_chits";
 
 const Intro = () => {
+  const { login } = useFirebaseLogin();
+
+  const onLoginTap = (e) => {
+    e.preventDefault();
+    login();
+  };
   return (
     <div className="public-intro">
       <h1>
@@ -13,7 +20,9 @@ const Intro = () => {
       <Link to="console" className="primary">
         Author a sheet
       </Link>
-      <Link to="console">Take me to my board</Link>
+      <Link to="" onClick={onLoginTap}>
+        Take me to my board
+      </Link>
     </div>
   );
 };

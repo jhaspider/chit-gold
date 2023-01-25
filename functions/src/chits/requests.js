@@ -86,8 +86,8 @@ router.post("/chits/add", async (request, response) => {
     response.status(400).send(err.session_key_missing);
     return;
   }
-  // Save the topics in db
 
+  // Save the topics in db
   const topics_col = await db.collection(CHITS);
   const topics_col_doc_ref = topics_col.doc();
   const data = {
@@ -96,6 +96,17 @@ router.post("/chits/add", async (request, response) => {
   };
   await topics_col_doc_ref.set(data);
   const new_chit_id = topics_col_doc_ref.id;
+
+  // Update chit count in the table
+  const { topicId } = chit;
+  const topicsCol = await db.collection(TOPICS);
+  const topicDoc = await topicsCol.doc(topicId);
+  const topicData = await topicDoc.get();
+  if (topicData.exists) {
+    let { count } = data.data();
+    count = count ? count + 1 : 1;
+    topicDoc.update({ count });
+  }
 
   response.status(200).send({ new_chit_id });
   return;
