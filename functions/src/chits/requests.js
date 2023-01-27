@@ -142,7 +142,6 @@ router.post("/chits/update_all", async (request, response) => {
   const chits_col = await db.collection(CHITS);
   all_chits.forEach((chit) => {
     const chitDocRef = chits_col.doc(chit.chitId);
-    console.log(chit.props);
     batch.update(chitDocRef, chit.props);
   });
   await batch.commit();

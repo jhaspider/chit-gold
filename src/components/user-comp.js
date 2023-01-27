@@ -21,7 +21,6 @@ function UserComp() {
 
   if (!user) return null;
 
-  console.log(user);
   return (
     <div className="tool-user">
       <div className="user-avatar"></div>

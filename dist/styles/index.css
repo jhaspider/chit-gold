@@ -10,21 +10,20 @@
   --color-lightGrey: #f2f2f2;
   --color-grey: #dbdbdb;
   --color-darkGrey: #3f4144;
+  --color-black: #050d02;
   --color-error: #d43939;
   --color-success: #7fffd4;
   --grid-maxWidth: 120rem;
   --grid-gutter: 2rem;
-  --font-size: 1.6rem;
 
-  --font-family-sans: sans-serif;
-  --font-family-mono: "Poppins", sans-serif;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
   margin: 0;
   border: 0;
   border: 0;
-  font-family: var(--font-family-mono);
 }
 
 h1 {
@@ -73,7 +72,7 @@ p {
 
 #toolbar h1 {
   flex-grow: 2;
-  margin-top: 46px;
+  margin-top: 38px;
   color: var(--color-lightGrey);
   cursor: pointer;
 }
@@ -104,18 +103,26 @@ p {
 .chit {
   background-color: var(--bg-color);
   border: 1px solid var(--color-lightGrey);
-  overflow: hidden;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   position: absolute;
 
-  min-height: 300px;
-  min-width: 240px;
+  min-height: 240px;
+  min-width: 200px;
   max-width: 480px;
+  width: max-content;
   justify-content: flex-start;
   border-radius: 8px;
   padding: 10px 20px;
+
+  /* transform: scale(1);
+  transition: transform 0.5s ease-out; */
 }
+
+/* .chit:hover {
+  transform: scale(1.05);
+} */
 
 .chit-title {
   padding: 0;
@@ -127,15 +134,19 @@ p {
   width: 100%;
   height: 100%;
 
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   flex-grow: 1;
+}
+.chit-inner div {
+  /* white-space: nowrap; */
 }
 
 .chit-archive {
+  padding-top: 10px;
 }
 
 .chit-archive a {
-  font-size: 0.8rem;
+  font-size: 1rem;
   text-decoration: none;
 }
 
@@ -408,6 +419,7 @@ p {
   /* height: 100vh; */
   width: 100%;
 }
+
 .public-intro {
   display: flex;
   flex-direction: column;
@@ -420,7 +432,7 @@ p {
   text-align: center;
 }
 
-.public-intro .primary {
+.primary-button {
   background-color: var(--color-action);
   color: var(--bg-color);
   padding: 6px 24px;
@@ -452,8 +464,8 @@ p {
 }
 
 .public-topics .topics-container .cheat-sheet {
-  background-color: var(--bg-color);
-  border: 1px solid var(--color-lightGrey);
+  background-color: var(--color-black);
+  /* border: 1px solid var(--color-lightGrey); */
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -465,11 +477,29 @@ p {
   padding: 10px 20px;
   margin: 10px 10px 0px 0px;
   overflow-wrap: break-word;
+
+  transform: scale(1);
+  transition: transform 0.3s ease-out;
+}
+
+.public-topics .topics-container .cheat-sheet:hover {
+  transform: scale(1.05);
+  cursor: pointer;
 }
 
 .public-topics .topics-container .cheat-sheet h3 {
   font-size: 2.8rem;
-  margin: 0;
+  color: var(--bg-color);
+  line-height: 40px;
+  margin-top: 16px;
+}
+
+.public-topics .topics-container .cheat-sheet p {
+  color: var(--bg-color);
+}
+
+.public-topics .topics-container .cheat-sheet a {
+  color: var(--color-success);
 }
 
 .public-faqs {
@@ -482,8 +512,41 @@ p {
   min-height: 400px;
   padding-bottom: 100px;
 }
+
 .public-faqs h2 {
   text-align: center;
+}
+
+.public-faqs .content {
+  width: 50%;
+  max-width: 768px;
+  text-align: center;
+}
+
+.public-faqs .content ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  align-items: center;
+}
+
+.public-faqs .content ul li {
+  display: inline-block;
+  background: var(--color-lightGrey);
+  padding: 20px 20px;
+  margin-top: 10px;
+  border-radius: 10px;
+  width: max-content;
+}
+
+.public-faqs .link-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  width: 100%;
 }
 
 .public-footer {
@@ -491,6 +554,11 @@ p {
   width: 100%;
   display: flex;
   justify-content: center;
+}
+.public-footer .content {
+  width: 50%;
+  max-width: 768px;
+  text-align: center;
 }
 
 .public-footer ul {
@@ -502,4 +570,30 @@ p {
 
 .public-footer ul li {
   display: inline-block;
+}
+
+@media only screen and (max-width: 600px) {
+  :root {
+    font-size: 12px;
+  }
+
+  .public-topics .topics-container {
+    width: 80%;
+  }
+
+  .public-topics .topics-container .cheat-sheet {
+    margin: 10px 0px;
+  }
+
+  .public-faqs .content {
+    width: 80%;
+  }
+
+  .public-faqs .content ul {
+    padding-inline-start: 0px;
+  }
+
+  .public-footer .content {
+    width: 80%;
+  }
 }

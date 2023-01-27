@@ -10,6 +10,7 @@ const promptText = "Read only sheet. You can play around but the edits don't sav
 function Toolbar() {
   const [topic, setTopic] = useState("");
   const { user } = useChitContext();
+  const [prompt, setPrompt] = useState("");
   const promptRef = useRef(null);
 
   useEffect(() => {
@@ -17,32 +18,40 @@ function Toolbar() {
     return () => document.removeEventListener(Events.TOPIC_SELECT, onTopicSelect);
   }, []);
 
+  useEffect(() => {
+    if (topic && topic?.uid !== user?.uid) setPrompt(promptText);
+  }, [topic]);
+
+  useEffect(() => {
+    if (promptRef.current) {
+      Utils.blink(promptRef.current);
+      setTimeout(() => {
+        setPrompt("");
+      }, 1000);
+    }
+  }, [prompt]);
+
   const onAddChit = (e) => {
     if (topic.uid === user.uid) document.dispatchEvent(new CustomEvent(Events.BTN_ADD_SELECT));
-    else prompt(promptText);
+    else setPrompt(promptText);
   };
 
   const onAddTopic = (e) => document.dispatchEvent(new CustomEvent(Events.BTN_ADD_TOPIC));
 
   const onTopicSelect = (e) => setTopic(e.detail.topic);
 
-  const prompt = (msg) => {
-    promptRef.current.innerHTML = msg;
-    Utils.blink(promptRef.current);
-  };
-
   return (
     <div id="toolbar-container">
       <div className="prompt-container">
-        {topic?.uid !== user?.uid && (
+        {prompt && (
           <p className="blink" ref={promptRef}>
-            {promptText}
+            {prompt}
           </p>
         )}
       </div>
       <div className="upper-container">
         <UserComp />
-        <ScaleComp onAddChit={onAddChit} onAddTopic={onAddTopic} />
+        <ScaleComp onAddChit={onAddChit} onAddTopic={onAddTopic} onPrompt={setPrompt} />
         <div className="tool-topic">
           <h2 id="topic-label">{topic.topicName}</h2>
         </div>

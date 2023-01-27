@@ -18,8 +18,8 @@ const Intro = () => {
         Crux of the story <br />
         in the form of chits
       </h1>
-      <Link to="console" className="primary">
-        Author a sheet
+      <Link to="console" className="primary-button">
+        Author a chit sheet
       </Link>
       <Link to="" onClick={onLoginTap}>
         Take me to my board
@@ -47,12 +47,12 @@ const PublicChits = () => {
     <div className="public-topics">
       <h2>
         Top Chits <br />
-        Authored by not so genuises
+        Authored by not so geniuses
       </h2>
       <div className="topics-container">
         {all_topics.map((topic, ind) => {
           return (
-            <div key={`topic-${ind}`} className="cheat-sheet" style={{ backgroundColor: colors[ind] }}>
+            <div key={`topic-${ind}`} className="cheat-sheet">
               <h3>{topic.topicName}</h3>
               <div>
                 {topic.count > 0 && <p>{topic.count} chits</p>}
@@ -69,10 +69,30 @@ const PublicChits = () => {
 const FAQs = () => {
   return (
     <div className="public-faqs">
-      <h2>
-        Frequently Asked Questions <br />
-      </h2>
-      <div className="topics-container"></div>
+      <h2>What is ChitGold?</h2>
+      <div className="content">
+        ChitGold is a unique content publishing platform that allows users to share and discover quick notes, also known as "chits." These chits can include a wide range of information. Whether you're
+        looking to share your own knowledge with others or discover new information. Every chit is gold.
+        <br />
+        <br />
+        You may have one of the following plausible use cases to author the chits
+        <ul>
+          <li>You just read a book and want to note down the excerpts and share the key findings</li>
+          <li>Write the key terminal commands that is useful for Git operations</li>
+          <li>Doing an online course? You might want to write down the key learnings</li>
+          <li>Setup a birthday wishes wall</li>
+          <li>Write farewell wishes for the out-going collegue</li>
+          <li>Explain the key finding of public policies</li>
+          <li>Write the options available for tax exemption and investments </li>
+        </ul>
+        <br />
+        Give it a try. Author your first chit sheet.
+        <div className="link-container">
+          <Link to="console" className="primary-button">
+            Author a chit sheet
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };
@@ -80,13 +100,15 @@ const FAQs = () => {
 const Footer = () => {
   return (
     <div className="public-footer">
-      <ul>
-        <li>Option 1</li>
-        <li>Option 2</li>
-        <li>Option 3</li>
-        <li>Option 4</li>
-        <li>Option 5</li>
-      </ul>
+      <div className="content">
+        <p>Version : 1.0.0</p>
+        <p>
+          "The content on this website is for general informational purposes only and is not intended to be a substitute for professional advice, diagnosis, or treatment. Any opinions expressed on
+          this website are solely those of the authors and do not necessarily reflect the views of the website or its owners. The website and its owners make no representations or warranties of any
+          kind, express or implied, about the completeness, accuracy, reliability, suitability or availability with respect to the website or the information, products, services, or related graphics
+          contained on the website for any purpose. Any reliance you place on such information is therefore strictly at your own risk."
+        </p>
+      </div>
     </div>
   );
 };

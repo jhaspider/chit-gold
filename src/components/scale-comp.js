@@ -3,7 +3,7 @@ import Events from "../utils/events";
 import Utils from "../utils/utils";
 
 function ScaleComp(props) {
-  const { onAddChit, onAddTopic } = props;
+  const { onAddChit, onAddTopic, onPrompt } = props;
   const [percent, setPercent] = useState(0);
   const zoomFactor = 10;
 
@@ -38,8 +38,8 @@ function ScaleComp(props) {
 
   return (
     <div id="bottom-toolbar">
-      <img className="btn-class" onClick={onAddChit} src="/icons/new-chit.png" />
-      <img className="btn-class" onClick={onAddTopic} src="/icons/topics.png" />
+      <img className="btn-class" onClick={onAddChit} src="/icons/new-chit.png" onMouseOver={(e) => onPrompt(`Add a chit`)} />
+      <img className="btn-class" onClick={onAddTopic} src="/icons/topics.png" onMouseOver={(e) => onPrompt(`Add a topic`)} />
       <div className="scale-container">
         <img className="btn-class" onClick={(e) => zoomInHandler(0)} src="/icons/scale-down.png" />
         <p id="scale" className="middle-text">

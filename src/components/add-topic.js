@@ -46,7 +46,7 @@ function NewTopic(props) {
 
   const onKeyPress = (e) => {
     if (e.code === "Escape") {
-      setMode((oldMode) => !oldMode);
+      setMode(false);
       close();
     }
   };
