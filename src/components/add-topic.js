@@ -3,10 +3,12 @@ import Utils from "../utils/utils";
 import { v4 as uuidv4 } from "uuid";
 import Events from "../utils/events";
 import { AddTopic } from "../utils/save_chits";
+import { useChitContext } from "../chit-provider";
 
 function NewTopic(props) {
   let { close } = props;
   let topicName;
+  const { user } = useChitContext();
 
   const [mode, setMode] = useState(false);
   const promptRef = useRef(null);
@@ -30,7 +32,7 @@ function NewTopic(props) {
       return;
     }
 
-    const newTopic = { topicName, scale: 1 };
+    const newTopic = { topicName, scale: 1, mode: "private", uid: user.uid };
     const id = await AddTopic(newTopic);
     setMode((oldMode) => !oldMode);
     document.dispatchEvent(new CustomEvent(Events.RENDER_TOPIC, { detail: { topic: { ...newTopic, id } } }));

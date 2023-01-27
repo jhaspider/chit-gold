@@ -18,12 +18,16 @@ const Utils = {
     setTimeout(() => {
       blinkElement.classList.remove("blink");
       blinkElement.style.display = "none";
-    }, 2000);
+    }, 2100);
   },
 
   getUId: () => {
     const auth = getAuth();
     return auth.currentUser;
+  },
+
+  capitalize: (string) => {
+    if (string) return string.charAt(0).toUpperCase() + string.slice(1);
   },
 };
 

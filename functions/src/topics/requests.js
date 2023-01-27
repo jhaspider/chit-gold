@@ -27,8 +27,9 @@ router.get("/topics", async (request, response) => {
 
   const user_terms = await db.collection(TOPICS);
 
-  let query = user_terms.orderBy("createdAt", "desc").limit(9);
-  if (type === "user") query = user_terms.where("uid", "==", sessionId);
+  let query = user_terms.limit(9);
+  if (type === "user") query = user_terms.where("uid", "==", sessionId).orderBy("createdAt", "asc");
+  if (type === "public") query = user_terms.where("mode", "==", "public").orderBy("createdAt", "desc");
   const snapshot = await query.get();
 
   if (snapshot.empty) {
@@ -167,12 +168,13 @@ router.put("/topics/update", async (request, response) => {
     return;
   }
 
-  const { id, scale } = topic;
+  const { id, scale, mode } = topic;
 
   // Save the topics in db
   const topicsCol = await db.collection(TOPICS);
   const topicDoc = await topicsCol.doc(id);
-  topicDoc.update({ scale });
+  if (scale) topicDoc.update({ scale });
+  if (mode) topicDoc.update({ mode });
 
   response.status(200).send("Update");
   return;

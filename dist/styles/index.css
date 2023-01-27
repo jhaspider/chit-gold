@@ -300,6 +300,12 @@ p {
   padding: 2px 20px;
 }
 
+#bottom-toolbar .divider {
+  height: 100%;
+  width: 2px;
+  background: var(--color-lightGrey);
+}
+
 .tool-topic {
   flex: 1 1 0;
   width: 0;
@@ -316,8 +322,14 @@ p {
   cursor: pointer;
 }
 
+.btn-visibility {
+  height: 28px;
+  width: 28px;
+  cursor: pointer;
+}
+
 .blink {
-  animation: blink 0.5s alternate 4;
+  animation: blink 0.7s alternate 4;
   border-radius: 10px;
   display: block !important;
   /* margin: 0 10px; */
@@ -343,7 +355,7 @@ p {
 .scale-container {
   display: flex;
   align-items: center;
-  margin-left: 20px;
+  padding: 0px 10px;
 }
 .left-button {
   margin-right: 5px;

@@ -7,6 +7,7 @@ import ScaleComp from "./scale-comp";
 import UserComp from "./user-comp";
 
 const promptText = "Read only sheet. You can play around but the edits don't save.";
+
 function Toolbar() {
   const [topic, setTopic] = useState("");
   const { user } = useChitContext();
@@ -20,6 +21,7 @@ function Toolbar() {
 
   useEffect(() => {
     if (topic && topic?.uid !== user?.uid) setPrompt(promptText);
+    else setPrompt("");
   }, [topic]);
 
   useEffect(() => {
@@ -27,7 +29,7 @@ function Toolbar() {
       Utils.blink(promptRef.current);
       setTimeout(() => {
         setPrompt("");
-      }, 1000);
+      }, 2100);
     }
   }, [prompt]);
 
@@ -51,7 +53,7 @@ function Toolbar() {
       </div>
       <div className="upper-container">
         <UserComp />
-        <ScaleComp onAddChit={onAddChit} onAddTopic={onAddTopic} onPrompt={setPrompt} />
+        <ScaleComp onAddChit={onAddChit} onAddTopic={onAddTopic} onPrompt={setPrompt} topic={topic} />
         <div className="tool-topic">
           <h2 id="topic-label">{topic.topicName}</h2>
         </div>

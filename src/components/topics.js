@@ -47,14 +47,13 @@ function Topics(props) {
 
   useEffect(() => {
     if (selectedTopic) {
-      if (topic_id !== selectedTopic.id) navigate(`/console/topic/${selectedTopic.id}`);
       document.dispatchEvent(new CustomEvent(Events.TOPIC_SELECT, { detail: { topic: selectedTopic } }));
     }
   }, [selectedTopic]);
 
   const selectTopicHandler = (topic) => {
     unselectPrevious();
-    setSelectedTopic(topic);
+    if (topic_id !== topic.id) navigate(`/console/topic/${topic.id}`);
   };
 
   const unselectPrevious = () => {
@@ -68,7 +67,8 @@ function Topics(props) {
     unselectPrevious();
     const newTopic = e.detail.topic;
     if (newTopic) {
-      setSelectedTopic(newTopic);
+      if (topic_id !== newTopic.id) navigate(`/console/topic/${newTopic.id}`);
+      // setSelectedTopic(newTopic);
       setAllTopics((prevTopics) => [...prevTopics, newTopic]);
     }
   };
