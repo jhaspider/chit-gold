@@ -16,8 +16,12 @@ function Toolbar() {
 
   useEffect(() => {
     document.addEventListener(Events.TOPIC_SELECT, onTopicSelect);
-    return () => document.removeEventListener(Events.TOPIC_SELECT, onTopicSelect);
-  }, []);
+    document.addEventListener(Events.KEYPRESS, onKeypress);
+    return () => {
+      document.removeEventListener(Events.TOPIC_SELECT, onTopicSelect);
+      document.removeEventListener(Events.KEYPRESS, onKeypress);
+    };
+  });
 
   useEffect(() => {
     if (topic && topic?.uid !== user?.uid) setPrompt(promptText);
@@ -33,12 +37,18 @@ function Toolbar() {
     }
   }, [prompt]);
 
-  const onAddChit = (e) => {
+  const onKeypress = (e) => {
+    if (e.target.tagName.toUpperCase() !== "BODY") return;
+    if (e.key.toUpperCase() === "A") onAddChit();
+    else if (e.key.toUpperCase() === "T") onAddTopic();
+  };
+
+  const onAddChit = () => {
     if (topic.uid === user.uid) document.dispatchEvent(new CustomEvent(Events.BTN_ADD_SELECT));
     else setPrompt(promptText);
   };
 
-  const onAddTopic = (e) => document.dispatchEvent(new CustomEvent(Events.BTN_ADD_TOPIC));
+  const onAddTopic = () => document.dispatchEvent(new CustomEvent(Events.BTN_ADD_TOPIC));
 
   const onTopicSelect = (e) => setTopic(e.detail.topic);
 

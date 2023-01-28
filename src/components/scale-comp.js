@@ -70,8 +70,8 @@ function ScaleComp(props) {
 
   return (
     <div id="bottom-toolbar">
-      <img className="btn-class" onClick={onAddChit} src="/icons/new-chit.png" onMouseOver={(e) => onPrompt(`Add a chit`)} />
-      <img className="btn-class" onClick={onAddTopic} src="/icons/topics.png" onMouseOver={(e) => onPrompt(`Add a topic`)} />
+      <img className="btn-class" onClick={onAddChit} src="/icons/new-chit.png" onMouseOver={(e) => onPrompt(`Click to add a Chit or press "A"`)} />
+      <img className="btn-class" onClick={onAddTopic} src="/icons/topics.png" onMouseOver={(e) => onPrompt(`Click to add a Topic or press "T"`)} />
       <Divider />
 
       <div className="scale-container">

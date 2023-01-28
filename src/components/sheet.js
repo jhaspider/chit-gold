@@ -32,17 +32,19 @@ function Sheet() {
     document.addEventListener(Events.TOPIC_SELECT, onTopicSelect);
     document.addEventListener(Events.BTN_ADD_SELECT, btnAddSelect);
     document.addEventListener(Events.BTN_ADD_TOPIC, onTopicAdd);
-    document.addEventListener("keydown", documentKeyPress);
-    document.addEventListener("mousewheel", onScroll, { passive: false });
+    document.addEventListener(Events.KEYDOWN, documentKeyPress);
+    document.addEventListener(Events.MOUSEWHEEL, onScroll, { passive: false });
     document.addEventListener(Events.ON_ZOOM, onZoom);
+    document.addEventListener(Events.CONTEXTMENU, onContextMenu);
 
     return () => {
       document.removeEventListener(Events.TOPIC_SELECT, onTopicSelect);
       document.removeEventListener(Events.BTN_ADD_SELECT, btnAddSelect);
       document.removeEventListener(Events.BTN_ADD_TOPIC, onTopicAdd);
-      document.removeEventListener("keydown", documentKeyPress);
-      document.removeEventListener("mousewheel", onScroll, { passive: false });
+      document.removeEventListener(Events.KEYDOWN, documentKeyPress);
+      document.removeEventListener(Events.MOUSEWHEEL, onScroll, { passive: false });
       document.removeEventListener(Events.ON_ZOOM, onZoom);
+      document.removeEventListener(Events.CONTEXTMENU, onContextMenu);
     };
   });
 
@@ -177,6 +179,10 @@ function Sheet() {
     if (e.code === "Escape") {
       cursorDefault();
     }
+  };
+
+  const onContextMenu = (e) => {
+    if (process.env.NODE_ENV !== "development") e.preventDefault();
   };
 
   const cursorDefault = () => {

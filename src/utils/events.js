@@ -10,6 +10,10 @@ const Events = {
   RENDER_TOPIC: "render_topics",
   UPDATE_TOPIC: "update_topic",
   USER_LOGGED_IN: "user_logged_in",
+  KEYPRESS: "keypress",
+  KEYDOWN: "keydown",
+  MOUSEWHEEL: "mousewheel",
+  CONTEXTMENU: "contextmenu",
 };
 
 export default Events;
