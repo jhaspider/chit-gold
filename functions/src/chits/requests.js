@@ -3,11 +3,11 @@ const admin = require("firebase-admin");
 const router = require("express").Router(); // eslint-disable-line
 const db = admin.firestore();
 
-const { validateUser, deleteUser } = require("../utils/session");
+const { validateUser } = require("../utils/session");
 const { TOPICS, CHITS } = require("../utils/collections");
 const { err } = require("../utils/helpers");
 
-const X_SESSION_ID = "x-cheat-user-id";
+const X_SESSION_ID = require("../utils/constants").X_SESSION_ID;
 
 router.get("/chits", async (request, response) => {
   if (request.method !== "GET") {
@@ -30,7 +30,9 @@ router.get("/chits", async (request, response) => {
   let query = user_terms.where("topicId", "==", topicId).where("archive", "==", false);
   const snapshot = await query.get();
   if (snapshot.empty) {
-    response.status(200).send({ status: false });
+    functions.logger.info(`Chits: 0 returned for topic_id : ${topicId}`);
+    response.status(200).send({ status: false, msg: "No chits found" });
+    return;
   } else {
     const data = [];
     snapshot.forEach((doc) => {
@@ -52,13 +54,13 @@ router.get("/chits", async (request, response) => {
     //   nextFlag = doc.id;
     // }
 
+    functions.logger.info(`Chits: ${data.length}, Topic Id : ${topicId}`);
     response.status(200).send({
       status: true,
       chits: data,
     });
     return;
   }
-
   return;
 });
 
@@ -88,28 +90,55 @@ router.post("/chits/add", async (request, response) => {
   }
 
   // Save the topics in db
-  const topics_col = await db.collection(CHITS);
-  const topics_col_doc_ref = topics_col.doc();
-  const data = {
-    ...chit,
-    uid: sessionId,
-  };
-  await topics_col_doc_ref.set(data);
-  const new_chit_id = topics_col_doc_ref.id;
+  try {
+    let new_chit_id;
+    try {
+      const topics_col = await db.collection(CHITS);
+      const topics_col_doc_ref = topics_col.doc();
+      const data = {
+        ...chit,
+        uid: sessionId,
+      };
+      await topics_col_doc_ref.set(data);
+      new_chit_id = topics_col_doc_ref.id;
+    } catch (e) {
+      functions.logger.error(e);
+      response.status(500).send(err.unknown_error);
+      return;
+    }
 
-  // Update chit count in the table
-  const { topicId } = chit;
-  const topicsCol = await db.collection(TOPICS);
-  const topicDoc = await topicsCol.doc(topicId);
-  const topicData = await topicDoc.get();
-  if (topicData.exists) {
-    let { count } = topicData.data();
-    count = count ? count + 1 : 1;
-    topicDoc.update({ count });
+    // Update chit count in the topic collection for the topic id
+    try {
+      if (new_chit_id) {
+        const { topicId } = chit;
+        const topicsCol = await db.collection(TOPICS);
+        const topicDoc = await topicsCol.doc(topicId);
+        const topicData = await topicDoc.get();
+        if (topicData.exists) {
+          let { count } = topicData.data();
+          count = count ? count + 1 : 1;
+          topicDoc.update({ count });
+          functions.logger.info(`Topic Id count updated: ${topicId}`);
+        }
+      }
+    } catch (e) {
+      functions.logger.error(e, `Chit saved, but topic: ${topicId} count could not be updated.`);
+    }
+
+    if (new_chit_id) {
+      functions.logger.info(`Chit added: ${new_chit_id}`);
+      response.status(200).send({ status: true, new_chit_id });
+      return;
+    } else {
+      functions.logger.info(`Chit not added`);
+      response.status(200).send({ status: false, new_chit_id: null });
+      return;
+    }
+  } catch (e) {
+    functions.logger.error(e);
+    response.status(500).send(err.not_valid_session);
+    return;
   }
-
-  response.status(200).send({ new_chit_id });
-  return;
 });
 
 router.post("/chits/update_all", async (request, response) => {
@@ -136,17 +165,24 @@ router.post("/chits/update_all", async (request, response) => {
     response.status(400).send(err.session_key_missing);
     return;
   }
-  // Save the topics in db
-  const batch = db.batch();
 
-  const chits_col = await db.collection(CHITS);
-  all_chits.forEach((chit) => {
-    const chitDocRef = chits_col.doc(chit.chitId);
-    batch.update(chitDocRef, chit.props);
-  });
-  await batch.commit();
+  try {
+    const batch = db.batch();
+    const chits_col = await db.collection(CHITS);
+    all_chits.forEach((chit) => {
+      const chitDocRef = chits_col.doc(chit.chitId);
+      batch.update(chitDocRef, chit.props);
+    });
+    await batch.commit();
 
-  response.status(200).send(true);
+    functions.logger.info(`Chits updated: ${all_chits.length}`);
+    response.status(200).send({ status: true });
+    return;
+  } catch (e) {
+    functions.logger.error(e);
+    response.status(500).send(err.unknown_error);
+    return;
+  }
   return;
 });
 
@@ -182,12 +218,19 @@ router.put("/chits/update", async (request, response) => {
   }
 
   // Save the topics in db
-  const chitsCol = await db.collection(CHITS);
-  const chitDoc = await chitsCol.doc(chitId);
-  chitDoc.update({ ...chit });
+  try {
+    const chitsCol = await db.collection(CHITS);
+    const chitDoc = await chitsCol.doc(chitId);
+    chitDoc.update({ ...chit });
 
-  response.status(200).send("Update");
-  return;
+    functions.logger.info(`Chit updated: ${chitId}`);
+    response.status(200).send("Update");
+    return;
+  } catch (e) {
+    functions.logger.error(e);
+    response.status(500).send(err.unknown_error);
+    return;
+  }
 });
 
 module.exports = router;

@@ -3,7 +3,7 @@ const admin = require("firebase-admin");
 const router = require("express").Router(); // eslint-disable-line
 const db = admin.firestore();
 
-const { validateUser, deleteUser } = require("../utils/session");
+const { validateUser } = require("../utils/session");
 const { USERS } = require("../utils/collections");
 const { err } = require("../utils/helpers");
 

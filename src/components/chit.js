@@ -68,13 +68,15 @@ function Chit(props) {
     const cellarchive = Utils.newElem("div", null, "chit-archive");
     div.append(cellarchive);
 
-    const archivelink = Utils.newElem("a");
-    archivelink.setAttribute("href", "javascript:void(0)");
-    archivelink.innerHTML = "Archive";
-    cellarchive.append(archivelink);
-    archivelink.addEventListener("click", onArchiveTap);
-    archivelink.addEventListener("mousedown", (e) => e.stopPropagation());
-    archivelink.addEventListener("mouseup", (e) => e.stopPropagation());
+    if (editable) {
+      const archivelink = Utils.newElem("a");
+      archivelink.setAttribute("href", "javascript:void(0)");
+      archivelink.innerHTML = "Archive";
+      cellarchive.append(archivelink);
+      archivelink.addEventListener("click", onArchiveTap);
+      archivelink.addEventListener("mousedown", (e) => e.stopPropagation());
+      archivelink.addEventListener("mouseup", (e) => e.stopPropagation());
+    }
 
     return div;
   };
