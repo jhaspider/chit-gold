@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useChitContext } from "../chit-provider";
 import useFirebaseLogin from "../firebase-login";
 import { LoadTopics } from "../utils/save_chits";
@@ -30,7 +30,7 @@ const Intro = () => {
 
 const PublicChits = () => {
   const [all_topics, setAllTopics] = useState([]);
-  const colors = ["FBF8CC", "FDE4CF", "FFCFD2", "F1C0E8", "CFBAF0", "A3C4F3", "90DBF4", "8EECF5", "98F5E1", "B9FBC0"];
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -40,8 +40,11 @@ const PublicChits = () => {
 
   const loadAllTopics = async () => {
     const topics = await LoadTopics("public");
-
     setAllTopics((_) => [...topics]);
+  };
+
+  const onCardTap = (topic_id) => {
+    navigate(`/console/topic/${topic_id}`);
   };
 
   return (
@@ -53,7 +56,7 @@ const PublicChits = () => {
       <div className="topics-container">
         {all_topics.map((topic, ind) => {
           return (
-            <div key={`topic-${ind}`} className="cheat-sheet">
+            <div key={`topic-${ind}`} onClick={(e) => onCardTap(topic.id)} className="cheat-sheet">
               <h3>{topic.topicName}</h3>
               <div>
                 {topic.count > 0 && <p>{topic.count} chits</p>}

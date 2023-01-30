@@ -2,7 +2,7 @@ import { useChitContext } from "../chit-provider";
 import axios from "../utils/axios";
 import EndPoints from "./endpoints";
 
-function Register(currentUser) {
+async function Register(currentUser) {
   const data = {
     uid: currentUser.uid,
     displayName: currentUser.displayName,
@@ -10,11 +10,29 @@ function Register(currentUser) {
     metadata: currentUser.metadata,
     provider: currentUser.providerData.length > 0 ? currentUser.providerData[0] : null,
   };
-  axios({
+  return axios({
     method: "post",
     url: EndPoints.REGISTER,
     data,
-  }).then(function (response) {});
+  }).then(function (response) {
+    const { status } = response.data;
+    return status;
+  });
+}
+
+// Function to copy a topic and all its chits
+async function CopyTopic(topicId) {
+  const endpoint = EndPoints.COPY_TOPICS_BY_ID(topicId);
+
+  return axios({
+    method: "get",
+    url: endpoint,
+  })
+    .then(function (response) {
+      const { status, topic } = response.data;
+      return status ? topic : null;
+    })
+    .finally(() => {});
 }
 
 async function AddChit(chit) {
@@ -112,21 +130,6 @@ async function LoadTopics(type = "user") {
     const { status, topics } = response.data;
     return status ? topics : [];
   });
-}
-
-// Function to copy a topic and all its chits
-async function CopyTopic(topicId) {
-  const endpoint = EndPoints.COPY_TOPICS_BY_ID(topicId);
-
-  return axios({
-    method: "get",
-    url: endpoint,
-  })
-    .then(function (response) {
-      const { status, topic } = response.data;
-      return status ? topic : null;
-    })
-    .finally(() => {});
 }
 
 export { Register, AddChit, LoadChits, UpdateChit, UpdateAllChits, AddTopic, LoadTopics, UpdateTopic, LoadTopicDetails, CopyTopic };

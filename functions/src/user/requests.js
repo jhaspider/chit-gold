@@ -7,8 +7,7 @@ const { validateUser } = require("../utils/session");
 const { USERS } = require("../utils/collections");
 const { err } = require("../utils/helpers");
 
-const X_SESSION_ID = "x-cheat-user-id";
-
+const { X_SESSION_ID } = require("../utils/constants");
 /**
  * USER
  * - Userful from chrome extendion
@@ -40,25 +39,36 @@ router.post("/register", async (request, response) => {
   }
 
   // Save the user in db
-  const user_ref = await db.collection(USERS);
-  const query = user_ref.where("uid", "==", uid);
-  const user_snapshot = await query.get();
-  if (user_snapshot.empty) {
-    const user_col = await db.collection(USERS);
-    const user_col_doc_ref = user_col.doc();
-    const user = {
-      uid,
-      displayName,
-      created_at: new Date().getTime(),
-      email,
-      metadata,
-      provider,
-    };
-    await user_col_doc_ref.set(user);
-  }
+  try {
+    const user_ref = await db.collection(USERS);
+    const query = user_ref.where("uid", "==", uid);
+    const user_snapshot = await query.get();
+    if (user_snapshot.empty) {
+      const user_col = await db.collection(USERS);
+      const user_col_doc_ref = user_col.doc();
+      const user = {
+        uid,
+        displayName,
+        created_at: new Date().getTime(),
+        email,
+        metadata,
+        provider,
+      };
+      await user_col_doc_ref.set(user);
 
-  response.status(200).send("Done");
-  return;
+      functions.logger.info(`User: ${uid} added`);
+      response.status(200).send({ status: true, msg: `Registerd` });
+      return;
+    } else {
+      functions.logger.info(`User: ${uid} already registered`);
+      response.status(200).send("Already registered");
+      return;
+    }
+  } catch (e) {
+    functions.logger.error(`User: ${e}`);
+    response.status(500).send(err.unknown_error);
+    return;
+  }
 });
 
 module.exports = router;

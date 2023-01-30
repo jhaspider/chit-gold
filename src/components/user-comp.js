@@ -1,17 +1,23 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useChitContext } from "../chit-provider";
 import useFirebaseLogin from "../firebase-login";
 
 function UserComp() {
-  const { user } = useChitContext();
+  const { user, setUser } = useChitContext();
   const navigate = useNavigate();
   const { login, logout } = useFirebaseLogin();
   const profileRef = useRef(null);
+  const [flag, setFlag] = useState(false);
 
-  const onLoginTap = (e) => {
+  const onLoginTap = async (e) => {
     e.preventDefault();
-    login();
+    const user = await login();
+    if (user) {
+      console.log(`User-Comp`, user);
+      setUser(user);
+      // setFlag(true);
+    }
   };
 
   const onLogoutTap = async (e) => {

@@ -6,38 +6,48 @@ import { useChitContext } from "./chit-provider";
 function useFirebaseLogin() {
   const { setUser } = useChitContext();
   const auth = getAuth();
+
   const login = async () => {
-    auth.languageCode = "it";
-    if (auth.currentUser.isAnonymous) {
-      var provider = new GoogleAuthProvider();
-      provider.addScope("https://www.googleapis.com/auth/userinfo.profile.readonly");
-      provider.setCustomParameters({
-        login_hint: "user@example.com",
-      });
-
-      linkWithPopup(auth.currentUser, provider)
-        .then(function (result) {
-          var user = result.user;
-          Register(user);
-        })
-        .catch(function (error) {
-          if (error.code === "auth/credential-already-in-use") {
-            const credential = GoogleAuthProvider.credentialFromError(error);
-
-            signInWithCredential(auth, credential)
-              .then(function (result) {
-                var user = result.user;
-                setUser(user);
-              })
-              .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                const email = error.email;
-                const credential = GoogleAuthProvider.credentialFromError(error);
-              });
-          }
+    return new Promise(async (resolve, reject) => {
+      auth.languageCode = "it";
+      if (auth.currentUser.isAnonymous) {
+        var provider = new GoogleAuthProvider();
+        provider.addScope("https://www.googleapis.com/auth/userinfo.profile.readonly");
+        provider.setCustomParameters({
+          login_hint: "user@example.com",
         });
-    }
+
+        linkWithPopup(auth.currentUser, provider)
+          .then((result) => {
+            var user = result.user;
+            setTimeout(() => {
+              // Register(user);
+              resolve(user);
+            }, 2000);
+            // console.log("status", status);
+          })
+          .catch(function (error) {
+            if (error.code === "auth/credential-already-in-use") {
+              const credential = GoogleAuthProvider.credentialFromError(error);
+
+              signInWithCredential(auth, credential)
+                .then(function (result) {
+                  var user = result.user;
+                  resolve(user);
+                })
+                .catch((error) => {
+                  const errorCode = error.code;
+                  const errorMessage = error.message;
+                  const email = error.email;
+                  const credential = GoogleAuthProvider.credentialFromError(error);
+                  reject(null);
+                });
+            } else {
+              reject(null);
+            }
+          });
+      }
+    });
   };
 
   const logout = async () => {

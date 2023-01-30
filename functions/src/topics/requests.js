@@ -30,7 +30,7 @@ router.get("/topics", async (request, response) => {
   let query = user_terms.limit(LIMIT_TOPIC);
   try {
     if (type === "user") query = user_terms.where("uid", "==", sessionId).orderBy("createdAt", "asc");
-    if (type === "public") query = user_terms.where("mode", "==", "public").orderBy("createdAt", "desc");
+    if (type === "public") query = user_terms.where("mode", "==", "public").where("cloned", "==", false).orderBy("createdAt", "desc");
     const snapshot = await query.get();
 
     if (snapshot.empty) {
@@ -149,6 +149,7 @@ router.post("/topics/add", async (request, response) => {
     const data = {
       ...topic,
       uid: sessionId,
+      cloned: false,
       createdAt: new Date().getTime(),
     };
     await topics_col_doc_ref.set(data);
@@ -255,6 +256,7 @@ router.get("/topics/:id/copy", async (request, response) => {
         ...topic,
         uid: sessionId,
         id: newTopicId,
+        cloned: true,
         createdAt: new Date().getTime(),
       };
       await newTopicDoc.set(newTopic);

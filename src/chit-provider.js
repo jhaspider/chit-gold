@@ -12,6 +12,10 @@ const ChitProvider = (props) => {
   const [spinner, setSpinner] = useState(false);
 
   useEffect(() => {
+    console.log(user);
+  }, [user?.uid]);
+
+  useEffect(() => {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       if (user) {

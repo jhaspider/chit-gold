@@ -42,7 +42,9 @@ function Topics(props) {
   }, [topic_id]);
 
   useEffect(() => {
-    init();
+    (async () => {
+      await loadAllTopics();
+    })();
   }, [user]);
 
   useEffect(() => {
@@ -68,7 +70,6 @@ function Topics(props) {
     const newTopic = e.detail.topic;
     if (newTopic) {
       if (topic_id !== newTopic.id) navigate(`/console/topic/${newTopic.id}`);
-      // setSelectedTopic(newTopic);
       setAllTopics((prevTopics) => [...prevTopics, newTopic]);
     }
   };
@@ -85,17 +86,14 @@ function Topics(props) {
 
     if (!topic_id && !selectedTopic) {
       if (topics.length > 0) {
-        setSelectedTopic(topics[topics.length - 1]);
+        const newTopic = topics[topics.length - 1];
+        navigate(`/console/topic/${newTopic.id}`);
       } else {
         document.dispatchEvent(new CustomEvent(Events.BTN_ADD_TOPIC));
       }
     }
 
     setAllTopics((_) => [...topics]);
-  };
-
-  const init = async () => {
-    await loadAllTopics();
   };
 
   return (

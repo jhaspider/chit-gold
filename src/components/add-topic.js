@@ -32,7 +32,7 @@ function NewTopic(props) {
       return;
     }
 
-    const newTopic = { topicName, scale: 1, mode: "private", uid: user.uid };
+    const newTopic = { topicName, scale: 0.7, mode: "private", uid: user.uid };
     const id = await AddTopic(newTopic);
     setMode((oldMode) => !oldMode);
     document.dispatchEvent(new CustomEvent(Events.RENDER_TOPIC, { detail: { topic: { ...newTopic, id } } }));
