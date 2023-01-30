@@ -4,7 +4,7 @@ const router = require("express").Router(); // eslint-disable-line
 const db = admin.firestore();
 
 const { validateUser } = require("../utils/session");
-const { TOPICS } = require("../utils/collections");
+const { TOPICS, CHITS } = require("../utils/collections");
 const { err } = require("../utils/helpers");
 
 const { X_SESSION_ID, LIMIT_TOPIC } = require("../utils/constants");
@@ -207,6 +207,89 @@ router.put("/topics/update", async (request, response) => {
     response.status(500).send({ status: false });
     return;
   }
+});
+
+router.get("/topics/:id/copy", async (request, response) => {
+  if (request.method !== "GET") {
+    response.status(400).send(err.post_method_only);
+    return;
+  }
+
+  const sessionId = request.headers[X_SESSION_ID];
+  if (!sessionId) {
+    response.status(400).send(err.session_key_missing);
+    return;
+  }
+
+  try {
+    await validateUser(sessionId);
+  } catch (e) {
+    response.status(400).send(err.not_valid_session);
+    return;
+  }
+
+  const topicId = request.params.id;
+  if (!topicId) {
+    response.status(400).send(err.topic_id_missing);
+    return;
+  }
+
+  try {
+    const topicsCol = await db.collection(TOPICS);
+    const topicDoc = await topicsCol.doc(topicId);
+    const topicData = await topicDoc.get();
+    if (!topicData.exists) {
+      functions.logger.error(`Topic: ${topicId} not found`);
+      response.status(400).send({
+        status: false,
+        msg: `Topic: ${topicId} not found`,
+      });
+      return;
+    } else {
+      const topic = topicData.data();
+
+      // Copy the topic
+      const newTopicDoc = await topicsCol.doc();
+      const newTopicId = newTopicDoc.id;
+      const newTopic = {
+        ...topic,
+        uid: sessionId,
+        id: newTopicId,
+        createdAt: new Date().getTime(),
+      };
+      await newTopicDoc.set(newTopic);
+
+      // Copy all the chits of this topic from the CHITS collection
+      const chitsCol = await db.collection(CHITS);
+      const chitsQuery = await chitsCol.where("topicId", "==", topicId);
+      const chitsQuerySnapshot = await chitsQuery.get();
+      if (chitsQuerySnapshot.empty) {
+        functions.logger.info(`No chits found for topic: ${topicId}`);
+      }
+      chitsQuerySnapshot.forEach(async (doc) => {
+        const chit = doc.data();
+        const newChitDoc = await chitsCol.doc();
+        const newChitId = newChitDoc.id;
+        const data = {
+          ...chit,
+          topicId: newTopicId,
+          uid: sessionId,
+          createdAt: new Date().getTime(),
+        };
+        await newChitDoc.set(data);
+      });
+
+      functions.logger.info(`Topic: ${topicId} copied`);
+      response.status(200).send({ status: true, topic: newTopic });
+      return;
+    }
+  } catch (e) {
+    functions.logger.error(`Topic: ${e}`);
+    response.status(500).send(err.internal_error);
+    return;
+  }
+
+  return;
 });
 
 module.exports = router;

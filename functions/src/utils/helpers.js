@@ -12,6 +12,7 @@ const helpers = {
     delete_method_only: { status: false, msg: "Only Delete method allowed" },
     not_authorised: { status: false, msg: "Not authorised for collection creation" },
     unknown_error: { status: false, msg: "Something broke. We are looking into it " },
+    topic_id_missing: { status: false, msg: "Topic Id is missing" },
   },
   capsFirstLetter: (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);

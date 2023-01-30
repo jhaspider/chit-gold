@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useChitContext } from "../chit-provider";
 import Events from "../utils/events";
-import { UpdateTopic } from "../utils/save_chits";
+import { CopyTopic, UpdateTopic } from "../utils/save_chits";
 import Utils from "../utils/utils";
 
 const Divider = () => {
@@ -18,12 +18,13 @@ function ScaleComp(props) {
   const [percent, setPercent] = useState(0);
   const [modeInd, setModeInd] = useState(0);
   const [scale, setScale] = useState(0);
-  const { user } = useChitContext();
+  const { user, setSpinner } = useChitContext();
+  const [isCopiable, setIsCopiable] = useState(false);
 
   useEffect(() => {
     document.addEventListener(Events.UPDATE_ZOOM, scaleHandler);
     return () => document.removeEventListener(Events.UPDATE_ZOOM, scaleHandler);
-  }, []);
+  });
 
   useEffect(() => {
     document.dispatchEvent(new CustomEvent(Events.ON_ZOOM, { detail: { percent } }));
@@ -38,6 +39,8 @@ function ScaleComp(props) {
     if (topic) {
       const existingInd = Modes.findIndex((md) => md === topic.mode);
       setModeInd(existingInd > 0 ? existingInd : 0);
+
+      setIsCopiable(topic.uid !== user.uid ? true : false);
     }
   }, [topic]);
 
@@ -66,6 +69,18 @@ function ScaleComp(props) {
     }
   };
 
+  // Copy the topic using the topic id
+  const copytheTopic = async (e) => {
+    const topicId = topic.id;
+    setSpinner(true);
+    const newTopic = await CopyTopic(topicId);
+    if (newTopic) {
+      setSpinner(false);
+      document.dispatchEvent(new CustomEvent(Events.RENDER_TOPIC, { detail: { topic: newTopic } }));
+      onPrompt(`Topic copied successfully`);
+    }
+  };
+
   const mode = Modes[modeInd];
 
   return (
@@ -75,16 +90,23 @@ function ScaleComp(props) {
       <Divider />
 
       <div className="scale-container">
-        <img className="btn-class" onMouseOver={(e) => onPrompt(`Zoom In`)} onClick={(e) => zoomInHandler(0)} src="/icons/scale-down.png" />
+        <img className="btn-class" onMouseOver={(e) => onPrompt(`Zoom Out`)} onClick={(e) => zoomInHandler(0)} src="/icons/scale-down.png" />
         <p id="scale" className="middle-text">
           {scale}
         </p>
-        <img className="btn-class" onMouseOver={(e) => onPrompt(`Zoom Out`)} onClick={(e) => zoomInHandler(1)} src="/icons/scale-up.png" />
+        <img className="btn-class" onMouseOver={(e) => onPrompt(`Zoom In`)} onClick={(e) => zoomInHandler(1)} src="/icons/scale-up.png" />
       </div>
 
       <Divider />
 
       <img className="btn-visibility" onMouseOver={(e) => onPrompt(`Mode : ${Utils.capitalize(mode)}`)} onClick={changeMode} src={`/icons/${mode}.png`} />
+
+      {isCopiable && (
+        <>
+          <Divider />
+          <img className="btn-class" src="/icons/clone-action.png" onClick={copytheTopic} onMouseOver={(e) => onPrompt(`Clone`)} />
+        </>
+      )}
     </div>
   );
 }

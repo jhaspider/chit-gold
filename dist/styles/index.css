@@ -134,7 +134,7 @@ p {
   width: 100%;
   height: 100%;
 
-  font-size: 1.3rem;
+  font-size: 2rem;
   flex-grow: 1;
 }
 .chit-inner div {
@@ -381,14 +381,26 @@ p {
 }
 
 .user-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 20px;
-  background-color: var(--color-action);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--color-lightGrey);
+  border: 3px solid var(--color-grey);
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  position: relative;
+}
+
+.user-avatar img {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .user-details {
@@ -623,5 +635,65 @@ p {
 
   .public-footer .content {
     width: 80%;
+  }
+}
+
+/* Spherical loader animation in css */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.double-bounce1,
+.double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: hsl(var(--random), 100%, 50%);
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  -webkit-animation: sk-bounce 2s infinite ease-in-out;
+  animation: sk-bounce 2s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s;
+}
+
+@-webkit-keyframes sk-bounce {
+  0%,
+  100% {
+    -webkit-transform: scale(0);
+  }
+  50% {
+    -webkit-transform: scale(1);
+  }
+}
+
+@keyframes sk-bounce {
+  0%,
+  100% {
+    transform: scale(0);
+    -webkit-transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+    -webkit-transform: scale(1);
   }
 }

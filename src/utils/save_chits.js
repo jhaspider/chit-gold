@@ -1,3 +1,4 @@
+import { useChitContext } from "../chit-provider";
 import axios from "../utils/axios";
 import EndPoints from "./endpoints";
 
@@ -113,4 +114,19 @@ async function LoadTopics(type = "user") {
   });
 }
 
-export { Register, AddChit, LoadChits, UpdateChit, UpdateAllChits, AddTopic, LoadTopics, UpdateTopic, LoadTopicDetails };
+// Function to copy a topic and all its chits
+async function CopyTopic(topicId) {
+  const endpoint = EndPoints.COPY_TOPICS_BY_ID(topicId);
+
+  return axios({
+    method: "get",
+    url: endpoint,
+  })
+    .then(function (response) {
+      const { status, topic } = response.data;
+      return status ? topic : null;
+    })
+    .finally(() => {});
+}
+
+export { Register, AddChit, LoadChits, UpdateChit, UpdateAllChits, AddTopic, LoadTopics, UpdateTopic, LoadTopicDetails, CopyTopic };
