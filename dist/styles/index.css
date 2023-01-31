@@ -654,6 +654,7 @@ p {
   position: absolute;
   top: 50%;
   left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .double-bounce1,
@@ -695,5 +696,27 @@ p {
   50% {
     transform: scale(1);
     -webkit-transform: scale(1);
+  }
+}
+
+.api-error {
+  position: absolute;
+  top: 44px;
+  left: 50%;
+  background: #ecbaba;
+  padding: 4px 16px;
+  border-radius: 6px;
+  animation: show-hide 1s ease-in-out forwards;
+  animation-fill-mode: forwards;
+  opacity: 0;
+  transform: translate(-50%, 0);
+}
+
+@keyframes show-hide {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

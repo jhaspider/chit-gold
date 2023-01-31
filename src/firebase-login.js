@@ -1,10 +1,13 @@
 import React from "react";
 import { getAuth, GoogleAuthProvider, linkWithPopup, signInWithCredential } from "firebase/auth";
-import { Register } from "./utils/save_chits";
+
 import { useChitContext } from "./chit-provider";
+import useApi from "./utils/save_chits";
 
 function useFirebaseLogin() {
   const { setUser } = useChitContext();
+  const { Register } = useApi();
+
   const auth = getAuth();
 
   const login = async () => {
@@ -20,11 +23,8 @@ function useFirebaseLogin() {
         linkWithPopup(auth.currentUser, provider)
           .then((result) => {
             var user = result.user;
-            setTimeout(() => {
-              // Register(user);
-              resolve(user);
-            }, 2000);
-            // console.log("status", status);
+            Register(user);
+            resolve(user); // Why this is not working? but the "resolve" below is working?
           })
           .catch(function (error) {
             if (error.code === "auth/credential-already-in-use") {

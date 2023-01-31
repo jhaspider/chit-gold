@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useChitContext } from "../chit-provider";
+import Events from "./events";
 import Utils from "./utils";
 
 const instance = axios.create({
@@ -16,4 +18,15 @@ instance.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+// Add a response interceptor
+instance.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
+
 export default instance;

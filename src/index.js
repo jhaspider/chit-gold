@@ -6,6 +6,7 @@ import { getAuth, connectAuthEmulator } from "firebase/auth";
 import ChitRouter from "./chit-router";
 import ChitProvider from "./chit-provider";
 import Spinner from "./components/spinner";
+import Error from "./components/error";
 
 const auth = getAuth();
 if (process.env.NODE_ENV === "development") connectAuthEmulator(auth, "http://127.0.0.1:9099");
@@ -15,7 +16,10 @@ document.documentElement.style.setProperty("--random", Math.floor(Math.random() 
 const root = ReactDOM.createRoot(document.getElementById("workarea"));
 root.render(
   <ChitProvider>
-    <ChitRouter />
-    <Spinner />
+    <>
+      <ChitRouter />
+      <Spinner />
+      <Error />
+    </>
   </ChitProvider>
 );

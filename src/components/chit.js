@@ -1,9 +1,4 @@
 import Utils from "../utils/utils";
-import { v4 as uuidv4 } from "uuid";
-import Events from "../utils/events";
-import { UpdateChit } from "../utils/save_chits";
-import { remove } from "lodash";
-import { useChitContext } from "../chit-provider";
 
 export const ORDER = {
   TOP: "top",
@@ -11,7 +6,7 @@ export const ORDER = {
 };
 
 function Chit(props) {
-  let { left, top, title, scale = 1, topicId, text = "", id, editable } = props;
+  let { left, top, title, scale = 1, topicId, text = "", id, editable, onChitUpdate } = props;
   let timer;
   let chit;
 
@@ -36,14 +31,14 @@ function Chit(props) {
     if (!editable) return;
     if (timer) clearInterval(timer);
     timer = setTimeout(() => {
-      UpdateChit(chit.id, chit.props);
+      onChitUpdate({ ...chit.props, id: chit.id });
     }, 500);
   };
 
   const onArchiveTap = (e) => {
     e.stopPropagation();
     if (!editable) return;
-    UpdateChit(chit.id, { ...chit.props, archive: true });
+    onChitUpdate({ ...chit.props, id: chit.id, archive: true });
     removeChit();
   };
 

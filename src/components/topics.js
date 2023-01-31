@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useChitContext } from "../chit-provider";
 import Events from "../utils/events";
-import { LoadTopics, UpdateTopic, LoadTopicDetails } from "../utils/save_chits";
+import useApi from "../utils/save_chits";
 
 function Topic({ topic, selected, selectTopicHandler }) {
   const onTopicTap = (e) => {
@@ -26,6 +26,7 @@ function Topics(props) {
 
   const { topic_id } = useParams();
   const { user } = useChitContext();
+  const { LoadTopics, LoadTopicDetails } = useApi();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,6 +37,7 @@ function Topics(props) {
   useEffect(() => {
     (async () => {
       if (topic_id) {
+        console.log("Topic details", topic_id);
         await loadTopicDetails();
       }
     })();
@@ -43,6 +45,7 @@ function Topics(props) {
 
   useEffect(() => {
     (async () => {
+      console.log("Load all topics");
       await loadAllTopics();
     })();
   }, [user]);
@@ -76,8 +79,8 @@ function Topics(props) {
 
   const loadTopicDetails = async () => {
     if (topic_id) {
-      const { status, topic } = await LoadTopicDetails(topic_id);
-      if (status) setSelectedTopic(topic);
+      const topic = await LoadTopicDetails(topic_id);
+      if (topic) setSelectedTopic(topic);
     }
   };
 

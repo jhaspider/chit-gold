@@ -10,9 +10,10 @@ export const useChitContext = () => {
 const ChitProvider = (props) => {
   const [user, setUser] = useState(null);
   const [spinner, setSpinner] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log(user);
+    // console.log(user);
   }, [user?.uid]);
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const ChitProvider = (props) => {
       }
     });
   }, []);
-  return <ChitContext.Provider value={{ user, setUser, spinner, setSpinner }}>{props.children}</ChitContext.Provider>;
+  return <ChitContext.Provider value={{ user, setUser, spinner, setSpinner, error, setError }}>{props.children}</ChitContext.Provider>;
 };
 
 export default ChitProvider;

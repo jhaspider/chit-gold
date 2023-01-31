@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useChitContext } from "../chit-provider";
 import useFirebaseLogin from "../firebase-login";
-import { LoadTopics } from "../utils/save_chits";
+import useApi from "../utils/save_chits";
+
 import Logo from "./logo";
 
 const Intro = () => {
@@ -31,6 +32,7 @@ const Intro = () => {
 const PublicChits = () => {
   const [all_topics, setAllTopics] = useState([]);
   const navigate = useNavigate();
+  const { LoadTopics } = useApi();
 
   useEffect(() => {
     (async () => {

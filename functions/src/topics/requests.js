@@ -35,7 +35,7 @@ router.get("/topics", async (request, response) => {
 
     if (snapshot.empty) {
       functions.logger.info(`Topics: 0, ${type}`);
-      response.status(200).send({ status: false, topics: [] });
+      response.status(200).send({ status: false, msg: "No topics found" });
     } else {
       const data = [];
       snapshot.forEach((doc) => {
@@ -88,10 +88,8 @@ router.get(`/topics/:id`, async (request, response) => {
   try {
     const topicId = request.params.id;
 
-    const topics_col = await db.collection(TOPICS);
-    const topicDoc = await topics_col.doc(topicId);
-    const data = await topicDoc.get();
-    if (!data.exists) {
+    const topicDoc = await db.collection(TOPICS).doc(topicId).get();
+    if (!topicDoc.exists) {
       functions.logger.error(`Topic: ${topicId} not found`);
       response.status(400).send({
         status: false,
@@ -99,11 +97,16 @@ router.get(`/topics/:id`, async (request, response) => {
       });
       return;
     } else {
+      const topic = topicDoc.data();
+      if (topic.mode === "private" && topic.uid !== sessionId) {
+        response.status(400).send(err.not_authorised_topic);
+        return;
+      }
       functions.logger.info(`Topic: ${topicId} found`);
       response.status(200).send({
         status: true,
         topic: {
-          ...data.data(),
+          ...topic,
           id: topicId,
         },
       });
@@ -201,17 +204,17 @@ router.put("/topics/update", async (request, response) => {
     if (mode) topicDoc.update({ mode });
 
     functions.logger.info(`Topic: ${id} updated`);
-    response.status(200).send("Update");
+    response.status(200).send({ status: true });
     return;
   } catch (e) {
     functions.logger.error(`Topic: ${e}`);
-    response.status(500).send({ status: false });
+    response.status(500).send(err.unknown_error);
     return;
   }
 });
 
-router.get("/topics/:id/copy", async (request, response) => {
-  if (request.method !== "GET") {
+router.post("/topics/:id/copy", async (request, response) => {
+  if (request.method !== "POST") {
     response.status(400).send(err.post_method_only);
     return;
   }

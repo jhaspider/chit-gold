@@ -13,6 +13,8 @@ const helpers = {
     not_authorised: { status: false, msg: "Not authorised for collection creation" },
     unknown_error: { status: false, msg: "Something broke. We are looking into it " },
     topic_id_missing: { status: false, msg: "Topic Id is missing" },
+    not_valid_topic: { status: false, msg: "Not a valid topic" },
+    not_authorised_topic: { status: false, msg: "Not authorised to access this topic" },
   },
   capsFirstLetter: (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);

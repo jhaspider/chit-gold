@@ -9,7 +9,7 @@ import UserComp from "./user-comp";
 const promptText = "Read only sheet. You can play around but the edits don't save.";
 
 function Toolbar() {
-  const [topic, setTopic] = useState("");
+  const [topic, setTopic] = useState(null);
   const { user } = useChitContext();
   const [prompt, setPrompt] = useState("");
   const promptRef = useRef(null);
@@ -44,7 +44,7 @@ function Toolbar() {
   };
 
   const onAddChit = () => {
-    if (topic.uid === user.uid) document.dispatchEvent(new CustomEvent(Events.BTN_ADD_SELECT));
+    if (topic && topic.uid === user.uid) document.dispatchEvent(new CustomEvent(Events.BTN_ADD_SELECT));
     else setPrompt(promptText);
   };
 
@@ -64,9 +64,8 @@ function Toolbar() {
       <div className="upper-container">
         <UserComp />
         <ScaleComp onAddChit={onAddChit} onAddTopic={onAddTopic} onPrompt={setPrompt} topic={topic} />
-        <div className="tool-topic">
-          <h2 id="topic-label">{topic.topicName}</h2>
-        </div>
+
+        <div className="tool-topic">{topic && <h2 id="topic-label">{topic?.topicName}</h2>}</div>
       </div>
 
       <DevOnly />

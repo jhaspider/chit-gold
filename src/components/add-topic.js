@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import Utils from "../utils/utils";
-import { v4 as uuidv4 } from "uuid";
 import Events from "../utils/events";
-import { AddTopic } from "../utils/save_chits";
+
 import { useChitContext } from "../chit-provider";
+import useApi from "../utils/save_chits";
 
 function NewTopic(props) {
   let { close } = props;
   let topicName;
   const { user } = useChitContext();
+  const { AddTopic } = useApi();
 
   const [mode, setMode] = useState(false);
   const promptRef = useRef(null);
@@ -33,10 +34,13 @@ function NewTopic(props) {
     }
 
     const newTopic = { topicName, scale: 0.7, mode: "private", uid: user.uid };
-    const id = await AddTopic(newTopic);
-    setMode((oldMode) => !oldMode);
-    document.dispatchEvent(new CustomEvent(Events.RENDER_TOPIC, { detail: { topic: { ...newTopic, id } } }));
-    close({ ...newTopic, id });
+    try {
+      const id = await AddTopic(newTopic);
+      if (!id) throw new Error("Error adding topic");
+      setMode((oldMode) => !oldMode);
+      document.dispatchEvent(new CustomEvent(Events.RENDER_TOPIC, { detail: { topic: { ...newTopic, id } } }));
+      close({ ...newTopic, id });
+    } catch (e) {}
   };
 
   const backgroundTap = (e) => {

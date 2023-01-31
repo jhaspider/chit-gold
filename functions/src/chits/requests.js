@@ -23,9 +23,22 @@ router.get("/chits", async (request, response) => {
     return;
   }
 
-  // const topicId = request.params.topicId;
   const topicId = request.query["topicId"];
 
+  // Check if the chit is not private and the owner is not the current user
+  const topicCol = await db.collection(TOPICS).doc(topicId).get();
+  if (!topicCol.exists) {
+    response.status(400).send(err.not_valid_topic);
+    return;
+  } else {
+    const topic = topicCol.data();
+    if (topic.mode === "private" && topic.uid !== sessionId) {
+      response.status(400).send(err.not_authorised_topic);
+      return;
+    }
+  }
+
+  // Load and return all the chits
   const user_terms = await db.collection(CHITS);
   let query = user_terms.where("topicId", "==", topicId).where("archive", "==", false);
   const snapshot = await query.get();
@@ -205,12 +218,6 @@ router.put("/chits/update", async (request, response) => {
     return;
   }
 
-  const chitId = request.body["chitId"];
-  if (!chitId) {
-    response.status(400).send(err.session_key_missing);
-    return;
-  }
-
   const chit = request.body["chit"];
   if (!chit) {
     response.status(400).send(err.session_key_missing);
@@ -219,12 +226,11 @@ router.put("/chits/update", async (request, response) => {
 
   // Save the topics in db
   try {
-    const chitsCol = await db.collection(CHITS);
-    const chitDoc = await chitsCol.doc(chitId);
+    const chitDoc = await db.collection(CHITS).doc(chit.id);
     chitDoc.update({ ...chit });
 
-    functions.logger.info(`Chit updated: ${chitId}`);
-    response.status(200).send("Update");
+    functions.logger.info(`Chit updated: ${chit.id}`);
+    response.status(200).send({ status: true });
     return;
   } catch (e) {
     functions.logger.error(e);

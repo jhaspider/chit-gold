@@ -14,7 +14,6 @@ function UserComp() {
     e.preventDefault();
     const user = await login();
     if (user) {
-      console.log(`User-Comp`, user);
       setUser(user);
       // setFlag(true);
     }

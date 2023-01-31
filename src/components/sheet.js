@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import _ from "lodash";
 import Events from "../utils/events.js";
-import { LoadChits, AddChit, UpdateChit, UpdateAllChits, UpdateTopic } from "../utils/save_chits.js";
+
 import Utils from "../utils/utils.js";
 import ChitMgmt, { ORDER } from "./chit.js";
 import TapHoldAnimation from "./tap-hold-animation.js";
 import NewTopic from "./add-topic";
 import { useChitContext } from "../chit-provider";
+import useApi from "../utils/save_chits.js";
 
 let actionAddChit = false;
 let selected_chit;
@@ -21,6 +22,7 @@ function Sheet() {
   const [selected_topic, setSelectedTopic] = useState(null);
   const sheetRef = useRef(null);
   const { user } = useChitContext();
+  const { LoadChits, AddChit, UpdateChit, UpdateAllChits, UpdateTopic } = useApi();
 
   useEffect(() => {
     if (sheetRef.current) {
@@ -92,9 +94,11 @@ function Sheet() {
           addChit(chitProps, async (element) => {
             element.focus();
             const newChitId = await AddChit(element.chit.props);
-            element.setId(newChitId);
-            all_chits.push(element);
-            selected_chit = element;
+            if (newChitId) {
+              element.setId(newChitId);
+              all_chits.push(element);
+              selected_chit = element;
+            }
           });
         }
       } else {
@@ -140,7 +144,7 @@ function Sheet() {
 
   const addChit = (chitProps, callback) => {
     const editable = selected_topic.uid === user.uid;
-    const chit = ChitMgmt({ ...chitProps, scale: selected_topic.scale, editable });
+    const chit = ChitMgmt({ ...chitProps, scale: selected_topic.scale, editable, onChitUpdate });
 
     const { dom } = chit.chit;
     sheetRef.current.append(dom);
@@ -148,6 +152,11 @@ function Sheet() {
     cursorDefault();
     dom.addEventListener("mousedown", chitMouseDown);
     callback(chit);
+  };
+
+  // Handler chit updates
+  const onChitUpdate = async (chit) => {
+    const status = await UpdateChit(chit);
   };
 
   const renderOldChits = async () => {
@@ -241,7 +250,7 @@ function Sheet() {
   const save = () => {
     if (selected_topic.uid !== user.uid) return;
     if (timer) clearInterval(timer);
-    timer = setTimeout(() => {
+    timer = setTimeout(async () => {
       const updateChits = [];
       all_chits.forEach(({ chit }) => {
         updateChits.push({
@@ -249,15 +258,17 @@ function Sheet() {
           props: chit.props,
         });
       });
-      UpdateAllChits(updateChits);
+      await UpdateAllChits(updateChits);
 
       if (selected_topic) UpdateTopic({ id: selected_topic.id, scale: selected_topic.scale });
     }, 700);
   };
 
-  const saveChit = () => {
+  const saveChit = async () => {
     if (selected_topic.uid !== user.uid) return;
-    if (selected_chit) UpdateChit(selected_chit.chit.id, selected_chit.chit.props);
+    if (selected_chit) {
+      await UpdateChit({ id: selected_chit.chit.id, ...selected_chit.chit.props });
+    }
   };
 
   return (
