@@ -1,10 +1,9 @@
 import axios from "axios";
-import { useChitContext } from "../chit-provider";
-import Events from "./events";
+
 import Utils from "./utils";
 
 const instance = axios.create({
-  baseURL: "http://127.0.0.1:5001/cheat-sheet-62dad/asia-south1/",
+  baseURL: process.env.API_BASE_URL,
   timeout: 3 * 1000,
 });
 

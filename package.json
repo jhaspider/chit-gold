@@ -5,9 +5,9 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "build": "webpack --config ./webpack/webpack.production.js",
     "watch": "webpack --watch",
-    "start": "rm ./dist/js/* | webpack serve"
+    "start": "rm -rf ./dist/js/* | webpack serve --config ./webpack/webpack.develop.js"
   },
   "repository": {
     "type": "git",
