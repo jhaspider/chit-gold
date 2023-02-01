@@ -56,6 +56,7 @@ function Sheet() {
 
   const sheetMouseDown = (e) => {
     if (e.currentTarget.id === "sheet") {
+      sheetRef.current.addEventListener(Events.MOUSEUP, sheetMouseUp);
       if (actionAddChit) {
         if (!tapHoldAni) {
           tapHoldAni = TapHoldAnimation({ left: e.clientX, top: e.clientY - topOffset });
@@ -65,7 +66,6 @@ function Sheet() {
       } else {
         initCord = { x: e.clientX, y: e.clientY };
         sheetRef.current.addEventListener(Events.MOUSEMOVE, sheetMouseMove);
-        sheetRef.current.addEventListener(Events.MOUSEUP, sheetMouseUp);
       }
     }
   };

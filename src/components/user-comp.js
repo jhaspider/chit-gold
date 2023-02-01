@@ -8,14 +8,12 @@ function UserComp() {
   const navigate = useNavigate();
   const { login, logout } = useFirebaseLogin();
   const profileRef = useRef(null);
-  const [flag, setFlag] = useState(false);
 
   const onLoginTap = async (e) => {
     e.preventDefault();
     const user = await login();
     if (user) {
       setUser(user);
-      // setFlag(true);
     }
   };
 

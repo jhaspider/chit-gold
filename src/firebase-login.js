@@ -24,7 +24,7 @@ function useFirebaseLogin() {
           .then((result) => {
             var user = result.user;
             Register(user);
-            resolve(user); // Why this is not working? but the "resolve" below is working?
+            resolve(user);
           })
           .catch(function (error) {
             if (error.code === "auth/credential-already-in-use") {

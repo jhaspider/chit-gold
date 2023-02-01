@@ -13,10 +13,6 @@ const ChitProvider = (props) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // console.log(user);
-  }, [user?.uid]);
-
-  useEffect(() => {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       if (user) {
