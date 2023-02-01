@@ -14,6 +14,9 @@ const Events = {
   KEYDOWN: "keydown",
   MOUSEWHEEL: "mousewheel",
   CONTEXTMENU: "contextmenu",
+  MOUSEDOWN: "mousedown",
+  MOUSEUP: "mouseup",
+  MOUSEMOVE: "mousemove",
 };
 
 export default Events;

@@ -25,9 +25,7 @@ function Sheet() {
   const { LoadChits, AddChit, UpdateChit, UpdateAllChits, UpdateTopic } = useApi();
 
   useEffect(() => {
-    if (sheetRef.current) {
-      sheetRef.current.style.height = window.innerHeight - topOffset;
-    }
+    sheetRef.current.style.height = window.innerHeight - topOffset;
   }, []);
 
   useEffect(() => {
@@ -38,6 +36,7 @@ function Sheet() {
     document.addEventListener(Events.MOUSEWHEEL, onScroll, { passive: false });
     document.addEventListener(Events.ON_ZOOM, onZoom);
     document.addEventListener(Events.CONTEXTMENU, onContextMenu);
+    if (sheetRef.current) sheetRef.current.addEventListener(Events.MOUSEDOWN, sheetMouseDown);
 
     return () => {
       document.removeEventListener(Events.TOPIC_SELECT, onTopicSelect);
@@ -47,13 +46,12 @@ function Sheet() {
       document.removeEventListener(Events.MOUSEWHEEL, onScroll, { passive: false });
       document.removeEventListener(Events.ON_ZOOM, onZoom);
       document.removeEventListener(Events.CONTEXTMENU, onContextMenu);
+      sheetRef?.current?.removeEventListener(Events.MOUSEDOWN, sheetMouseDown);
     };
   });
 
   useEffect(() => {
-    if (selected_topic) {
-      renderOldChits();
-    }
+    if (selected_topic) renderOldChits();
   }, [selected_topic]);
 
   const sheetMouseDown = (e) => {
@@ -66,7 +64,8 @@ function Sheet() {
         new_sheet_start_time = new Date().getTime();
       } else {
         initCord = { x: e.clientX, y: e.clientY };
-        sheetRef.current.addEventListener("mousemove", sheetMouseMove);
+        sheetRef.current.addEventListener(Events.MOUSEMOVE, sheetMouseMove);
+        sheetRef.current.addEventListener(Events.MOUSEUP, sheetMouseUp);
       }
     }
   };
@@ -74,8 +73,9 @@ function Sheet() {
   const sheetMouseUp = (e) => {
     if (e.currentTarget.id === "sheet") {
       // Remove listener
-      sheetRef.current.removeEventListener("mousemove", cheetSheetMouseMove);
-      sheetRef.current.removeEventListener("mousemove", sheetMouseMove);
+      sheetRef.current.removeEventListener(Events.MOUSEMOVE, cheetSheetMouseMove);
+      sheetRef.current.removeEventListener(Events.MOUSEMOVE, sheetMouseMove);
+      sheetRef.current.removeEventListener(Events.MOUSEUP, sheetMouseUp);
 
       // Remove animation
       if (tapHoldAni) {
@@ -123,16 +123,18 @@ function Sheet() {
 
   const cheetSheetMouseMove = (e) => {
     e.stopPropagation();
+
     if (selected_chit) {
       const cords = { left: e.clientX - initCord.offsetLeft, top: e.clientY - initCord.offsetTop - topOffset };
       selected_chit.position(cords);
     }
   };
 
-  const chitMouseDown = (e) => {
+  const onChitMouseDown = (e) => {
     e.stopPropagation();
 
-    sheetRef.current.addEventListener("mousemove", cheetSheetMouseMove);
+    sheetRef.current.addEventListener(Events.MOUSEMOVE, cheetSheetMouseMove);
+    sheetRef.current.addEventListener(Events.MOUSEUP, sheetMouseUp);
 
     const orgCord = e.currentTarget.getBoundingClientRect();
     initCord = { offsetLeft: e.clientX - orgCord.x, offsetTop: e.clientY - orgCord.y };
@@ -144,13 +146,12 @@ function Sheet() {
 
   const addChit = (chitProps, callback) => {
     const editable = selected_topic.uid === user.uid;
-    const chit = ChitMgmt({ ...chitProps, scale: selected_topic.scale, editable, onChitUpdate });
+    const chit = ChitMgmt({ ...chitProps, scale: selected_topic.scale, editable, onChitUpdate, onChitMouseDown });
 
     const { dom } = chit.chit;
     sheetRef.current.append(dom);
 
     cursorDefault();
-    dom.addEventListener("mousedown", chitMouseDown);
     callback(chit);
   };
 
@@ -164,7 +165,6 @@ function Sheet() {
       all_chits.forEach(({ chit }) => {
         chit.dom.remove();
       });
-
       all_chits.splice(0, all_chits.length);
 
       const chits = await LoadChits(selected_topic.id);
@@ -273,7 +273,7 @@ function Sheet() {
 
   return (
     <>
-      <div id="sheet" ref={sheetRef} onMouseDown={sheetMouseDown} onMouseUp={sheetMouseUp}></div>
+      <div id="sheet" ref={sheetRef}></div>
       <NewTopic close={closeTopicHandler} />
     </>
   );

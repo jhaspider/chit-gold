@@ -6,7 +6,7 @@ export const ORDER = {
 };
 
 function Chit(props) {
-  let { left, top, title, scale = 1, topicId, text = "", id, editable, onChitUpdate } = props;
+  let { left, top, title, scale = 1, topicId, text = "", id, editable, onChitUpdate, onChitMouseDown } = props;
   let timer;
   let chit;
 
@@ -72,7 +72,7 @@ function Chit(props) {
       archivelink.addEventListener("mousedown", (e) => e.stopPropagation());
       archivelink.addEventListener("mouseup", (e) => e.stopPropagation());
     }
-
+    div.addEventListener("mousedown", onChitMouseDown);
     return div;
   };
 
