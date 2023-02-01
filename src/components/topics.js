@@ -36,19 +36,12 @@ function Topics(props) {
 
   useEffect(() => {
     (async () => {
-      if (topic_id) {
-        console.log("Topic details", topic_id);
-        await loadTopicDetails();
+      if (user) {
+        await loadAllTopics();
+        if (topic_id) await loadTopicDetails();
       }
     })();
-  }, [topic_id]);
-
-  useEffect(() => {
-    (async () => {
-      console.log("Load all topics");
-      await loadAllTopics();
-    })();
-  }, [user]);
+  }, [user, topic_id]);
 
   useEffect(() => {
     if (selectedTopic) {
@@ -80,15 +73,16 @@ function Topics(props) {
   const loadTopicDetails = async () => {
     if (topic_id) {
       const topic = await LoadTopicDetails(topic_id);
-      if (topic) setSelectedTopic(topic);
+      if (topic) {
+        setSelectedTopic(topic);
+      }
     }
   };
 
   const loadAllTopics = async () => {
     const topics = await LoadTopics();
-
     if (!topic_id && !selectedTopic) {
-      if (topics.length > 0) {
+      if (topics && topics.length > 0) {
         const newTopic = topics[topics.length - 1];
         navigate(`/console/topic/${newTopic.id}`);
       } else {
@@ -96,7 +90,7 @@ function Topics(props) {
       }
     }
 
-    setAllTopics((_) => [...topics]);
+    if (topics) setAllTopics((_) => [...topics]);
   };
 
   return (

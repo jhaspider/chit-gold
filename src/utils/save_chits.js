@@ -26,7 +26,7 @@ export function useApi() {
         return status;
       })
       .catch((err) => {
-        const { status, msg } = err.response.data;
+        const { status, msg } = err;
         setError(msg);
         return status;
       })
@@ -47,7 +47,7 @@ export function useApi() {
         return status ? topic : null;
       })
       .catch((err) => {
-        const { status, msg } = err.response.data;
+        const { status, msg } = err;
         setError(msg);
         return null;
       })
@@ -69,7 +69,7 @@ export function useApi() {
         return status ? new_chit_id : null;
       })
       .catch((err) => {
-        const { status, msg } = err.response.data;
+        const { status, msg } = err;
         setError(msg);
         return null;
       })
@@ -89,7 +89,7 @@ export function useApi() {
         return status;
       })
       .catch((err) => {
-        const { status, msg } = err.response.data;
+        const { status, msg } = err;
         return status;
       })
       .finally(() => {});
@@ -108,7 +108,7 @@ export function useApi() {
         return status;
       })
       .catch((err) => {
-        const { status, msg } = err.response.data;
+        const { status, msg } = err;
         return status;
       })
       .finally(() => {});
@@ -128,7 +128,7 @@ export function useApi() {
         return status ? chits : [];
       })
       .catch((err) => {
-        const { status, msg } = err.response.data;
+        const { status, msg } = err;
         setError(msg);
         return null;
       })
@@ -150,7 +150,7 @@ export function useApi() {
         return status ? new_topics_id : null;
       })
       .catch((err) => {
-        const { status, msg } = err.response.data;
+        const { status, msg } = err;
         setError(msg);
         return null;
       })
@@ -168,7 +168,7 @@ export function useApi() {
         return status ? topic : null;
       })
       .catch((err) => {
-        const { status, msg } = err.response.data;
+        const { status, msg } = err;
         setError(msg);
         return null;
       });
@@ -187,7 +187,7 @@ export function useApi() {
         return status;
       })
       .catch((err) => {
-        const { status, msg } = err.response.data;
+        const { status, msg } = err;
         return status;
       })
       .finally(() => {});
@@ -207,7 +207,7 @@ export function useApi() {
         return status ? topics : [];
       })
       .catch((err) => {
-        const { status, msg } = err.response.data;
+        const { status, msg } = err;
         return null;
       })
       .finally(() => {

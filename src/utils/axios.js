@@ -25,7 +25,13 @@ instance.interceptors.response.use(
     return response;
   },
   function (error) {
-    return Promise.reject(error);
+    let data = null;
+    try {
+      data = error.response.data;
+    } catch (e) {
+      data = { status: false, msg: "Network Error" };
+    }
+    return Promise.reject(data);
   }
 );
 
