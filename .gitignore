@@ -6,3 +6,4 @@ dist/js/*.js
 dist/js/*.json
 firebase-config.js
 .env*
+*.log
