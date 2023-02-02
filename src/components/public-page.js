@@ -42,7 +42,7 @@ const PublicChits = () => {
 
   const loadAllTopics = async () => {
     const topics = await LoadTopics("public");
-    setAllTopics((_) => [...topics]);
+    if (topics) setAllTopics((_) => [...topics]);
   };
 
   const onCardTap = (topic_id) => {
