@@ -41,8 +41,12 @@ const PublicChits = () => {
   }, []);
 
   const loadAllTopics = async () => {
-    const topics = await LoadTopics("public");
-    if (topics) setAllTopics((_) => [...topics]);
+    try {
+      const topics = await LoadTopics("public");
+      if (topics) setAllTopics((_) => [...topics]);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onCardTap = (topic_id) => {
