@@ -16,7 +16,7 @@ app.use("/", requests); // add routes to the express app.
 const runtimeOpts = {
   memory: "4GB",
   maxInstances: 10,
-  minInstance: 1,
+  minInstances: 1,
 };
 
 exports.user = functions.runWith(runtimeOpts).region("asia-south1").https.onRequest(app);
