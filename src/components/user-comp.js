@@ -34,6 +34,7 @@ function UserComp() {
 
   if (!user) return null;
 
+  console.log(user);
   const displayName = user.isAnonymous ? "Guest" : user.displayName ? user.displayName : user.email;
   return (
     <div className="tool-user">
