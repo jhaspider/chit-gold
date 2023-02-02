@@ -34,11 +34,19 @@ function UserComp() {
 
   if (!user) return null;
 
-  console.log(user);
-  const displayName = user.isAnonymous ? "Guest" : user.displayName ? user.displayName : user.email;
+  let displayName = user.isAnonymous ? "Guest" : user.displayName ? user.displayName : user.email;
+  const provider = user.providerData.length > 0 ? user.providerData[0] : null;
+  if (provider?.displayName) {
+    displayName = provider.displayName;
+  }
+
+  let userPhoto = user.photoURL;
+  if (provider?.photoURL) {
+    userPhoto = provider.photoURL;
+  }
   return (
     <div className="tool-user">
-      <div className="user-avatar">{user.photoURL && <img ref={profileRef} src={user.photoURL} alt={displayName} />}</div>
+      <div className="user-avatar">{userPhoto && <img ref={profileRef} src={userPhoto} alt={displayName} />}</div>
       <div className="user-details">
         <p>{displayName}</p>
         {user.isAnonymous ? (
