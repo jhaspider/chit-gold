@@ -18,6 +18,7 @@ module.exports = {
       template: "./public/index.html",
       inject: "body",
       chunks: ["index"],
+      hash: true,
     }),
   ],
   module: {
