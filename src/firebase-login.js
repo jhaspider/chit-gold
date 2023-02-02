@@ -15,7 +15,7 @@ function useFirebaseLogin() {
       auth.languageCode = "it";
       if (auth.currentUser.isAnonymous) {
         var provider = new GoogleAuthProvider();
-        provider.addScope("https://www.googleapis.com/auth/userinfo.profile.readonly");
+        provider.addScope("https://www.googleapis.com/auth/userinfo.profile");
         provider.setCustomParameters({
           login_hint: "user@example.com",
         });
