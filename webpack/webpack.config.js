@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   entry: {
@@ -11,6 +12,9 @@ module.exports = {
     clean: true,
   },
   plugins: [
+    new Dotenv({
+      path: ".env",
+    }),
     new HtmlWebpackPlugin({
       title: "Chit Gold",
       filename: "../index.html",
