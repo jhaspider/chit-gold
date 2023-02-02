@@ -71,10 +71,18 @@ p {
 }
 
 #toolbar h1 {
-  flex-grow: 2;
-  margin-top: 38px;
+  margin-top: 37px;
   color: var(--color-lightGrey);
   cursor: pointer;
+}
+
+#toolbar p {
+  font-size: 0.6rem;
+  border: 1px solid var(--color-lightGrey);
+  color: var(--color-lightGrey);
+  font-weight: 500;
+  padding: 0px 8px;
+  border-radius: 10px;
 }
 
 .wrapper {
@@ -525,7 +533,7 @@ p {
 }
 
 .public-topics .topics-container .cheat-sheet h3 {
-  font-size: 2.8rem;
+  font-size: 2.7rem;
   color: var(--bg-color);
   line-height: 40px;
   margin-top: 16px;
@@ -635,6 +643,10 @@ p {
 
   .public-footer .content {
     width: 80%;
+  }
+
+  .public-faqs .content ul li {
+    width: 100%;
   }
 }
 

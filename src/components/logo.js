@@ -13,6 +13,7 @@ const Logo = () => {
       <h1 id="title" onClick={logoTap}>
         ChitGold
       </h1>
+      <p>Beta</p>
     </div>
   );
 };

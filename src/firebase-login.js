@@ -21,9 +21,9 @@ function useFirebaseLogin() {
         });
 
         linkWithPopup(auth.currentUser, provider)
-          .then((result) => {
+          .then(async (result) => {
             var user = result.user;
-            Register(user);
+            await Register(user);
             resolve(user);
           })
           .catch(function (error) {

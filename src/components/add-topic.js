@@ -58,8 +58,9 @@ function NewTopic(props) {
   };
 
   const onContentChangeHandler = (e) => {
-    topicName = e.target.value.toUpperCase();
-    if (topicName.length > 2 && promptRef.current) {
+    topicName = e.target.value;
+
+    if (topicName.length == 2 && promptRef.current) {
       prompt(`Hit "Enter" to save`);
     }
   };
