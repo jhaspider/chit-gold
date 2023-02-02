@@ -60,17 +60,21 @@ const PublicChits = () => {
         Authored by not so geniuses
       </h2>
       <div className="topics-container">
-        {all_topics.map((topic, ind) => {
-          return (
-            <div key={`topic-${ind}`} onClick={(e) => onCardTap(topic.id)} className="cheat-sheet">
-              <h3>{topic.topicName}</h3>
-              <div>
-                {topic.count > 0 && <p>{topic.count} chits</p>}
-                <Link to={`console/topic/${topic.id}`}>Take a peek</Link>
+        {all_topics.length > 0 ? (
+          all_topics.map((topic, ind) => {
+            return (
+              <div key={`topic-${ind}`} onClick={(e) => onCardTap(topic.id)} className="cheat-sheet">
+                <h3>{topic.topicName}</h3>
+                <div>
+                  {topic.count > 0 && <p>{topic.count} chits</p>}
+                  <Link to={`console/topic/${topic.id}`}>Take a peek</Link>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        ) : (
+          <p>Waiting for the first topic</p>
+        )}
       </div>
     </div>
   );
