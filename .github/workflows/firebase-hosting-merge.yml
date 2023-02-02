@@ -12,8 +12,8 @@ jobs:
     env:
       FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
     steps:
-      - uses: actions/checkout@v2
-      - run: echo "$FIREBASE_API_KEY"
+      # - uses: actions/checkout@v2
+      - run: echo "Fuck - $FIREBASE_API_KEY"
       # - run: npm i && npm run build
       # - uses: FirebaseExtended/action-hosting-deploy@v0
       #   with:
