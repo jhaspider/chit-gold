@@ -4,6 +4,5 @@ developer_note.md
 package-lock.json
 dist/js/*.js
 dist/js/*.json
-firebase-config.js
 .env*
 *.log
