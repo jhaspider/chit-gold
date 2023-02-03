@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import * as ReactDOM from "react-dom/client";
 
-import "./firebase";
-import { getAuth, connectAuthEmulator } from "firebase/auth";
-import ChitRouter from "./chit-router";
+import { connectAuthEmulator, getAuth } from "firebase/auth";
 import ChitProvider from "./chit-provider";
-import Spinner from "./components/spinner";
+import ChitRouter from "./chit-router";
 import Error from "./components/error";
+import Spinner from "./components/spinner";
+import "./firebase";
 
 const auth = getAuth();
 if (process.env.NODE_ENV === "development") connectAuthEmulator(auth, "http://127.0.0.1:9099");
