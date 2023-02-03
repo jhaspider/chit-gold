@@ -1,7 +1,6 @@
 import React from "react";
-import "../firebase";
 import { getAuth } from "firebase/auth";
-import Utils from "../utils/utils";
+import "../firebase";
 
 const auth = getAuth();
 
