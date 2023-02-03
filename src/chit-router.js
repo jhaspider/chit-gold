@@ -6,16 +6,16 @@ import NewPage from "./components/new-page";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <NewPage />,
-  },
-  {
     path: "/console",
     element: <App />,
   },
   {
     path: "/console/topic/:topic_id",
     element: <App />,
+  },
+  {
+    path: "/",
+    element: <NewPage />,
   },
 ]);
 
