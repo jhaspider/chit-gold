@@ -1,12 +1,14 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Route, Link } from "react-router-dom";
 import PublicPage from "./components/public-page";
+
 import App from "./components/app";
+import NewPage from "./components/new-page";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <PublicPage />,
+    element: <NewPage />,
   },
   {
     path: "/console",
