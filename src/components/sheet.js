@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import _ from "lodash";
 import Events from "../utils/events.js";
 
-import Utils from "../utils/utils.js";
-import ChitMgmt, { ORDER } from "./chit.js";
-import TapHoldAnimation from "./tap-hold-animation.js";
-import NewTopic from "./add-topic";
 import { useChitContext } from "../chit-provider";
 import useApi from "../utils/save_chits.js";
+import NewTopic from "./add-topic";
+import ChitMgmt from "./chit.js";
+import TapHoldAnimation from "./tap-hold-animation.js";
 
 let actionAddChit = false;
 let selected_chit;
