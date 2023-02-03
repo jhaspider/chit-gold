@@ -747,7 +747,6 @@ p {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 100%;
   width: 100%;
   min-height: 400px;
   padding-bottom: 100px;
