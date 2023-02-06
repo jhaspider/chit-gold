@@ -16,7 +16,7 @@ app.use("/", requests);
 const runtimeOpts = {
   memory: "4GB",
   maxInstances: 10,
-  minInstances: 0,
+  minInstances: 1,
 };
 
 exports.topics = functions.runWith(runtimeOpts).region("asia-south1").https.onRequest(app);
