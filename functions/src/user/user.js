@@ -15,7 +15,7 @@ app.use("/", requests); // add routes to the express app.
 
 const runtimeOpts = {
   memory: "4GB",
-  maxInstances: 10,
+  maxInstances: 5,
   minInstances: 0,
 };
 
