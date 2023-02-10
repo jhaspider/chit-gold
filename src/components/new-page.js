@@ -38,18 +38,19 @@ function NewPage() {
         </div>
 
         <div className="divider vert" />
-        <div className="public-footer">
-          <p>Version : 1.0.0-beta</p>
-          <div className="content">
-            <p>"The content on this website is for general informational purposes only and is not intended to be a substitute for professional advice, diagnosis, or treatment. </p>
+      </div>
 
-            <p>Any opinions expressed on this website are solely those of the authors and do not necessarily reflect the views of the website or its owners. </p>
-            <p>
-              The website and its owners make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability or availability with respect
-              to the website or the information, products, services, or related graphics contained on the website for any purpose.
-            </p>
-            <p>Any reliance you place on such information is therefore strictly at your own risk.</p>
-          </div>
+      <div className="public-footer">
+        <p>Version : 1.0.0-beta</p>
+        <div className="content">
+          <p>"The content on this website is for general informational purposes only and is not intended to be a substitute for professional advice, diagnosis, or treatment. </p>
+
+          <p>Any opinions expressed on this website are solely those of the authors and do not necessarily reflect the views of the website or its owners. </p>
+          <p>
+            The website and its owners make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability or availability with respect to
+            the website or the information, products, services, or related graphics contained on the website for any purpose.
+          </p>
+          <p>Any reliance you place on such information is therefore strictly at your own risk.</p>
         </div>
       </div>
     </div>

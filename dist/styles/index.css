@@ -471,11 +471,10 @@ p {
   justify-content: center;
   align-items: center;
   min-height: 500px;
-  width: 60%;
   padding: 0px 10%;
   background-color: var(--color-success);
   border-radius: 14px;
-  margin-top: 10px;
+  margin: 20px 10px;
 }
 .public-intro h1 {
   text-align: center;
@@ -612,7 +611,7 @@ p {
   align-items: center;
 }
 .public-footer .content {
-  max-width: 768px;
+  max-width: 1024px;
   text-align: center;
   color: var(--color-darkGrey);
 }
@@ -780,7 +779,7 @@ p {
 .divider {
   background: linear-gradient(to bottom, var(--color-action) 70%, var(--color-success) 30%);
   opacity: 0.5;
-  margin-top: 10px;
+  margin: 10px 0px;
 }
 
 .vert {
@@ -794,7 +793,6 @@ p {
 }
 
 .new-page .waitlist {
-  margin-top: 80px;
   padding: 0px 10%;
 }
 .new-page .waitlist h2 {
