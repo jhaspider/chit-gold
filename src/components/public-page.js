@@ -15,12 +15,9 @@ const Intro = () => {
   };
   return (
     <div className="public-intro">
-      <h1>
-        Crux of the story <br />
-        in the form of chits
-      </h1>
+      <h1>Headline goes here.</h1>
       <Link to="console" className="primary-button">
-        Author a chit sheet
+        CTA goes here
       </Link>
       <Link to="" onClick={onLoginTap}>
         Take me to my board
@@ -79,10 +76,10 @@ const PublicChits = () => {
 const FAQs = () => {
   return (
     <div className="public-faqs">
-      <h2>What is ChitGold?</h2>
+      <h2>What is Summize?</h2>
       <div className="content">
-        ChitGold is a unique content publishing platform that allows users to share and discover quick notes, also known as "chits." These chits can include a wide range of information. Whether you're
-        looking to share your own knowledge with others or discover new information. Every chit is gold.
+        Summize is a unique content publishing platform that allows users to share and discover quick notes, also known as "chits." These chits can include a wide range of information. Whether you're
+        looking to share your own knowledge with others or discover new information. Every summary is a gold.
         <br />
         <br />
         You may have one of the following plausible use cases to author the chits
@@ -96,10 +93,10 @@ const FAQs = () => {
           <li>Write the options available for tax exemption and investments </li>
         </ul>
         <br />
-        Give it a try. Author your first chit sheet.
+        Give it a try.
         <div className="link-container">
           <Link to="console" className="primary-button">
-            Author a chit sheet
+            CTA goes here
           </Link>
         </div>
       </div>

@@ -16,7 +16,7 @@ module.exports = {
       path: ".env",
     }),
     new HtmlWebpackPlugin({
-      title: "Chit Gold",
+      title: "Summize",
       filename: "../index.html",
       publicPath: "/js/",
       template: "./public/index.html",

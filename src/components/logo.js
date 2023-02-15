@@ -11,7 +11,7 @@ const Logo = () => {
   return (
     <div id="toolbar">
       <h1 id="title" onClick={logoTap}>
-        ChitGold
+        Summize
       </h1>
       <p>Beta</p>
     </div>

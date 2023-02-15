@@ -1,12 +1,19 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
+import { useChitContext } from "../chit-provider";
 
 function NewPage() {
+  const { user } = useChitContext();
+
+  if (user && !user.isAnonymous) {
+    return <Navigate to="/console" replace={true} />;
+  }
+
   return (
     <div className="new-page">
       <div className="container">
         <h1>
-          <span className="first">Chit</span>
-          <span className="last">Gold</span>
+          <span>Summize</span>
         </h1>
 
         <div className="divider vert" />

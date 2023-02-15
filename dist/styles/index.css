@@ -6,7 +6,7 @@
   --bg-dialog: #fee440;
   --font-color: #333333;
   --color-action: #6615c6;
-
+  --title-color: #1e2899;
   --color-lightGrey: #f2f2f2;
   --color-grey: #dbdbdb;
   --color-darkGrey: #3f4144;
@@ -105,7 +105,7 @@ p {
   height: calc(100vh - 24px);
   position: relative;
   overflow: hidden;
-  background-color: var(--bg-secondary-color);
+  background-color: var(--color-lightGrey);
 }
 
 .chit {
@@ -134,7 +134,9 @@ p {
 
 .chit-title {
   padding: 0;
+  font-size: 2.8rem;
   margin: 16px 0px;
+  color: var(--title-color);
 }
 
 .chit-inner {
