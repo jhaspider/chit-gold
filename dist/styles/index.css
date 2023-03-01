@@ -98,6 +98,7 @@ p {
   padding: 0;
   margin: 0;
   z-index: 1;
+  background-color: var(--color-lightGrey);
 }
 
 #sheet {
@@ -629,36 +630,6 @@ p {
   display: inline-block;
 }
 
-@media only screen and (max-width: 600px) {
-  :root {
-    font-size: 12px;
-  }
-
-  .public-topics .topics-container {
-    width: 80%;
-  }
-
-  .public-topics .topics-container .cheat-sheet {
-    margin: 10px 0px;
-  }
-
-  .public-faqs .content {
-    width: 80%;
-  }
-
-  .public-faqs .content ul {
-    padding-inline-start: 0px;
-  }
-
-  .public-footer .content {
-    width: 80%;
-  }
-
-  .public-faqs .content ul li {
-    width: 100%;
-  }
-}
-
 /* Spherical loader animation in css */
 @keyframes spin {
   0% {
@@ -802,4 +773,194 @@ p {
   font-weight: 400;
   line-height: 40px;
   margin-top: 16px;
+}
+
+@media only screen and (max-width: 600px) {
+  :root {
+    font-size: 12px;
+  }
+
+  .public-topics .topics-container {
+    width: 80%;
+  }
+
+  .public-topics .topics-container .cheat-sheet {
+    margin: 10px 0px;
+  }
+
+  .public-faqs .content {
+    width: 80%;
+  }
+
+  .public-faqs .content ul {
+    padding-inline-start: 0px;
+  }
+
+  .public-footer .content {
+    width: 80%;
+  }
+
+  .public-faqs .content ul li {
+    width: 100%;
+  }
+
+  /* MOBILE DESIGN CSS STARTS HERE */
+  .mobile-root {
+  }
+
+  .mobile-header {
+    background-color: var(--color-lightGrey);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .mobile-header h1 {
+    padding: 0;
+    font-size: 3rem;
+    color: var(--title-color);
+  }
+
+  .user-comp-mobile {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    overflow-y: scroll;
+
+    background: var(--color-action);
+    border-radius: 50%;
+  }
+
+  .sheet-mobile {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: var(--color-lightGrey);
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .chit-mobile {
+    position: relative;
+    background-color: var(--bg-color);
+    border: 1px solid var(--color-lightGrey);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 160px;
+    height: max-content;
+
+    justify-content: flex-start;
+    border-radius: 8px;
+    padding: 10px 20px;
+
+    margin-top: 10px;
+  }
+
+  .chit-mobile .title {
+    padding: 0;
+    font-size: 2rem;
+    margin: 16px 0px;
+    color: var(--title-color);
+  }
+
+  .chit-mobile .inner {
+    background-color: var(--bg-color);
+    width: 100%;
+
+    height: max-content;
+    font-size: 1.2rem;
+    flex-grow: 1;
+  }
+  .chit-mobile .inner div {
+    /* white-space: nowrap; */
+  }
+
+  .mobile-bottom-container {
+    display: flex;
+    flex-direction: row;
+    left: 0px;
+    right: 0px;
+    bottom: 10px;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 20px;
+  }
+
+  .selected-topic {
+    background: var(--color-action);
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 200px;
+    border-radius: 20px;
+  }
+
+  .selected-topic h3 {
+    color: var(--bg-color);
+  }
+
+  .blur {
+    opacity: 0.3;
+  }
+
+  .hide {
+    display: none;
+  }
+
+  .mobile-topics-list {
+    position: absolute;
+    bottom: 44px;
+    left: 0px;
+    right: 0px;
+    height: 100vh;
+    /* background-color: #fee440; */
+  }
+
+  .mobile-user-topics {
+    padding: 0px 20px;
+    height: 24px;
+    overflow-x: scroll;
+    white-space: nowrap;
+    display: block;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    align-items: center;
+  }
+
+  .mobile-user-topics li {
+    padding: 6px 16px;
+    margin-left: 6px;
+    display: inline-block;
+    cursor: pointer;
+    background-color: var(--bg-color);
+    /* add box shadow which would support all browsers */
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+
+  .mobile-user-topics li a {
+    color: var(--color-action);
+  }
+
+  .mobile-root .logo {
+    margin: 10px;
+    padding: 40px 0px 60px 0px;
+    color: var(--color-grey);
+    text-align: center;
+  }
 }
