@@ -8,6 +8,7 @@ const UserCompMobile = () => {
   const navigate = useNavigate();
   const { login, logout } = useFirebaseLogin();
   const profileRef = useRef(null);
+  const userDetailsRef = useRef(null);
 
   const onLoginTap = async (e) => {
     e.preventDefault();
@@ -32,6 +33,11 @@ const UserCompMobile = () => {
     }
   }, [profileRef]);
 
+  const onAvatarTap = (e) => {
+    e.preventDefault();
+    userDetailsRef.current.classList.toggle("hide");
+  };
+
   if (!user) return null;
 
   let displayName = user.isAnonymous ? "Guest" : user.displayName ? user.displayName : user.email;
@@ -47,14 +53,30 @@ const UserCompMobile = () => {
 
   if (user.isAnonymous) {
     return (
-      <div className="user-avatar" onClick={onLoginTap}>
-        <img style={{ marginTop: 4 }} src="/icons/anonymous.png" />
+      <div className="avatar">
+        <div className="user-avatar" onClick={onLoginTap}>
+          <img style={{ marginTop: 4 }} src="/icons/anonymous.png" />
+        </div>
       </div>
     );
   }
 
   const displayChar = displayName && displayName.length > 0 ? displayName.charAt(0).toUpperCase() : " ";
-  return <div className={`user-avatar avatar active`}>{userPhoto ? <img ref={profileRef} src={userPhoto} alt={displayName} /> : <span>{displayChar}</span>}</div>;
+  return (
+    <div className="avatar">
+      <div className={`user-avatar active`} onClick={onAvatarTap}>
+        {userPhoto ? <img ref={profileRef} src={userPhoto} alt={displayName} /> : <span>{displayChar}</span>}
+      </div>
+      {!user.isAnonymous && (
+        <div className="user-details hide" ref={userDetailsRef}>
+          <p>{displayName}</p>
+          <a href="" onClick={onLogoutTap}>
+            Logout
+          </a>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default UserCompMobile;

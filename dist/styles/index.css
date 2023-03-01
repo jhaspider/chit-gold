@@ -837,6 +837,9 @@ p {
   .mobile-header .avatar {
     align-self: flex-end;
     margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
   }
 
   .sheet-mobile {
