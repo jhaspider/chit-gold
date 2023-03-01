@@ -621,6 +621,7 @@ p {
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 60px;
 }
 .public-footer .content {
   max-width: 1024px;
@@ -730,7 +731,6 @@ p {
   align-items: center;
   width: 100%;
   min-height: 400px;
-  padding-bottom: 100px;
 }
 
 .container {
@@ -784,7 +784,7 @@ p {
   margin-top: 16px;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
   :root {
     font-size: 12px;
   }

@@ -5,7 +5,7 @@ import { useChitContext } from "../chit-provider";
 function NewPage() {
   const { user } = useChitContext();
 
-  if (user) {
+  if (user && !user.isAnonymous) {
     return <Navigate to="/console" replace={true} />;
   }
 
