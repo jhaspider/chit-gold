@@ -60,18 +60,17 @@ function App() {
       <>
         <div className="mobile-root" ref={sheet_mobile_ref}>
           <div className="mobile-header">
-            {selected_topic && <h1>{Utils.capitalize(selected_topic.topicName)}</h1>}
             <UserCompMobile />
+            {selected_topic && <h1>{Utils.capitalize(selected_topic.topicName)}</h1>}
           </div>
           <SheetMobile />
-          <h1 className="logo" onClick={logoTap}>
-            Summize
-          </h1>
+          <h1 className="logo">Summize</h1>
         </div>
 
         <div className="mobile-bottom-container">
           <TopicsMobile />
         </div>
+        {/* <Toolbar /> */}
       </>
     );
   }

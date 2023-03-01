@@ -47,7 +47,7 @@ function TopicsMobile() {
   }, [selectedTopic]);
 
   const selectTopicHandler = (topic) => {
-    unselectPrevious();
+    // unselectPrevious();
     if (topic_id !== topic.id) navigate(`/console/topic/${topic.id}`);
   };
 
@@ -71,18 +71,21 @@ function TopicsMobile() {
       }
     }
 
-    if (topics) setAllTopics((_) => [...topics]);
+    if (topics) {
+      console.log(TAG, topics);
+      setAllTopics((_) => [...topics]);
+    }
   };
 
   // Hide and show with the the refrence variable topic_ui_list
-  const selectFromList = () => {
+  const toggleMenu = () => {
     topic_ui_list.current.classList.toggle("hide");
     document.dispatchEvent(new CustomEvent(Events.TOGGLE_BG));
   };
 
   return (
     <>
-      <div className={`mobile-topics-list hide`} ref={topic_ui_list}>
+      <div className={`mobile-topics-list hide`} ref={topic_ui_list} onClick={toggleMenu}>
         <ul className="mobile-user-topics">
           {all_topics.map((topic, ind) => {
             return <Topic key={`topic-${ind}`} selected={topic.id === selectedTopic?.id} topic={topic} selectTopicHandler={selectTopicHandler} />;
@@ -90,7 +93,7 @@ function TopicsMobile() {
         </ul>
       </div>
       {selectedTopic && (
-        <div className="selected-topic" onClick={selectFromList}>
+        <div className="selected-topic" onClick={toggleMenu}>
           <h3>{selectedTopic.topicName}</h3>
         </div>
       )}

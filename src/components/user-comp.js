@@ -44,9 +44,12 @@ function UserComp() {
   if (provider?.photoURL) {
     userPhoto = provider.photoURL;
   }
+
+  const displayChar = displayName && displayName.length > 0 ? displayName.charAt(0).toUpperCase() : " ";
   return (
     <div className="tool-user">
-      <div className="user-avatar">{userPhoto && <img ref={profileRef} src={userPhoto} alt={displayName} />}</div>
+      {/* <div className="user-avatar">{userPhoto && <img ref={profileRef} src={userPhoto} alt={displayName} />}</div> */}
+      <div className={`user-avatar active`}>{userPhoto ? <img ref={profileRef} src={userPhoto} alt={displayName} /> : <span>{displayChar}</span>}</div>
       <div className="user-details">
         <p>{displayName}</p>
         {user.isAnonymous ? (

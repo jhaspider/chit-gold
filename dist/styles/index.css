@@ -404,6 +404,15 @@ p {
   cursor: pointer;
   position: relative;
 }
+.user-avatar span {
+  font-size: 1.4rem;
+  color: var(--color-lightGrey);
+}
+
+.active {
+  border: 3px solid var(--color-action) !important;
+  background-color: var(--color-action) !important;
+}
 
 .user-avatar img {
   width: 100%;
@@ -806,14 +815,15 @@ p {
 
   /* MOBILE DESIGN CSS STARTS HERE */
   .mobile-root {
+    min-height: 100vh;
   }
 
   .mobile-header {
     background-color: var(--color-lightGrey);
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-left: 10px;
     margin-right: 10px;
   }
@@ -821,19 +831,12 @@ p {
     padding: 0;
     font-size: 3rem;
     color: var(--title-color);
+    margin: 10px 0 0 5px;
   }
 
-  .user-comp-mobile {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    width: 48px;
-    height: 48px;
-    overflow-y: scroll;
-
-    background: var(--color-action);
-    border-radius: 50%;
+  .mobile-header .avatar {
+    align-self: flex-end;
+    margin-top: 10px;
   }
 
   .sheet-mobile {
