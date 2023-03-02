@@ -2,7 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const devMode = process.env.NODE_ENV !== "production";
+
 const publicPath = path.resolve(__dirname, "../dist");
 
 module.exports = {
@@ -43,14 +43,12 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [
-          devMode
-            ? "style-loader"
-            : {
-                loader: MiniCssExtractPlugin.loader,
-                options: {
-                  publicPath: "/",
-                },
-              },
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: "/",
+            },
+          },
           "css-loader",
         ],
       },
