@@ -10,7 +10,7 @@ import "./firebase";
 import "./index.css";
 
 const auth = getAuth();
-console.log(process.env.NODE_ENV);
+
 if (process.env.NODE_ENV === "development") connectAuthEmulator(auth, "http://127.0.0.1:9099");
 
 document.documentElement.style.setProperty("--random", Math.floor(Math.random() * 360));
