@@ -76,9 +76,9 @@ const PublicChits = () => {
 const FAQs = () => {
   return (
     <div className="public-faqs">
-      <h2>What is Summize?</h2>
+      <h2>What is ChitGold?</h2>
       <div className="content">
-        Summize is a unique content publishing platform that allows users to share and discover quick notes, also known as "chits." These chits can include a wide range of information. Whether you're
+        ChitGold is a unique content publishing platform that allows users to share and discover quick notes, also known as "chits." These chits can include a wide range of information. Whether you're
         looking to share your own knowledge with others or discover new information. Every summary is a gold.
         <br />
         <br />

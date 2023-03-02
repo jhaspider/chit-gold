@@ -1,26 +1,50 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useChitContext } from "../chit-provider";
 
+import Utils from "../utils/utils";
 import Logo from "./logo";
 import Sheet from "./sheet";
 import SheetMobile from "./sheet-mobile";
 import Toolbar from "./Toolbar";
 import Topics from "./topics";
-import Utils from "../utils/utils";
 
-import { BrowserView, MobileView, isBrowser, isMobile } from "react-device-detect";
-import TopicsMobile from "./topics-mobile";
+import { isMobile } from "react-device-detect";
 import Events from "../utils/events";
+import TopicsMobile from "./topics-mobile";
 import UserCompMobile from "./user-comp-mobile";
-import { useNavigate } from "react-router-dom";
 
 const TAG = "App - ";
-function App() {
-  const sheet_mobile_ref = useRef(null);
-  const { user } = useChitContext();
-  const [selected_topic, setSelectedTopic] = useState(null);
 
-  const navigate = useNavigate();
+function App() {
+  const { user } = useChitContext();
+  if (!user) return null;
+
+  if (isMobile) return <MobileScreen />;
+  else return <LargeScreen />;
+}
+
+/**
+ * On screen above 768px
+ * @returns LargeScreen
+ */
+function LargeScreen() {
+  return (
+    <>
+      <Logo />
+      <Topics />
+      <Sheet />
+      <Toolbar />
+    </>
+  );
+}
+
+/**
+ * On screen below 768px
+ * @returns MobileScreen
+ */
+function MobileScreen() {
+  const sheet_mobile_ref = useRef(null);
+  const [selected_topic, setSelectedTopic] = useState(null);
 
   useEffect(() => {
     document.addEventListener(Events.TOPIC_SELECT, onTopicSelect);
@@ -31,10 +55,6 @@ function App() {
     };
   }, []);
 
-  const logoTap = (e) => {
-    if (user.isAnonymous) navigate("/");
-  };
-
   const onTopicSelect = (e) => {
     setSelectedTopic(e.detail.topic);
   };
@@ -43,37 +63,23 @@ function App() {
     sheet_mobile_ref.current.classList.toggle("blur");
   };
 
-  isMobile = true;
-  if (!user) return null;
-
-  if (!isMobile)
-    return (
-      <>
-        <Logo />
-        <Topics />
-        <Sheet />
-        <Toolbar />
-      </>
-    );
-  else {
-    return (
-      <>
-        <div className="mobile-root" ref={sheet_mobile_ref}>
-          <div className="mobile-header">
-            <UserCompMobile />
-            {selected_topic && <h1>{Utils.capitalize(selected_topic.topicName)}</h1>}
-          </div>
-          <SheetMobile />
-          <h1 className="logo">Summize</h1>
+  return (
+    <>
+      <div className="mobile-root" ref={sheet_mobile_ref}>
+        <div className="mobile-header">
+          <UserCompMobile />
+          {selected_topic && <h1>{Utils.capitalize(selected_topic.topicName)}</h1>}
         </div>
+        <SheetMobile />
+        <h1 className="logo">ChitGold</h1>
+      </div>
 
-        <div className="mobile-bottom-container">
-          <TopicsMobile />
-        </div>
-        {/* <Toolbar /> */}
-      </>
-    );
-  }
+      <div className="mobile-bottom-container">
+        <TopicsMobile />
+      </div>
+      {/* <Toolbar /> */}
+    </>
+  );
 }
 
 export default App;

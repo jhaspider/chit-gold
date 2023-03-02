@@ -17,7 +17,6 @@ const ChitProvider = (props) => {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log(TAG, "user", user);
         setUser(user);
       } else {
         signInAnonymously(auth)

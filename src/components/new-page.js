@@ -13,13 +13,13 @@ function NewPage() {
     <div className="new-page">
       <div className="container">
         <h1>
-          <span>Summize</span>
+          <span>ChitGold</span>
         </h1>
 
         <div className="divider vert" />
         <div className="waitlist">
           <h2>
-            Discover the power of condensed information with our unique content publishing platform.
+            Discover the power of condensed information with this unique content publishing platform.
             <br />
             <br />
             <br />
@@ -27,7 +27,7 @@ function NewPage() {
             <br />
             <br />
             <br />
-            With a focus on clarity and brevity, our platform is the ultimate tool for retaining and recalling important information.
+            With a focus on clarity and brevity, this platform is the ultimate tool for retaining and recalling important information.
           </h2>
         </div>
 

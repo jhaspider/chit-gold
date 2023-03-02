@@ -71,10 +71,7 @@ function TopicsMobile() {
       }
     }
 
-    if (topics) {
-      console.log(TAG, topics);
-      setAllTopics((_) => [...topics]);
-    }
+    if (topics) setAllTopics((_) => [...topics]);
   };
 
   // Hide and show with the the refrence variable topic_ui_list
