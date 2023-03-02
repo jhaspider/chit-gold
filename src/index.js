@@ -7,6 +7,7 @@ import ChitRouter from "./chit-router";
 import Error from "./components/error";
 import Spinner from "./components/spinner";
 import "./firebase";
+import "./index.css";
 
 const auth = getAuth();
 if (process.env.NODE_ENV === "development") connectAuthEmulator(auth, "http://127.0.0.1:9099");

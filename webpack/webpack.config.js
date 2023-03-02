@@ -1,24 +1,32 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const devMode = process.env.NODE_ENV !== "production";
+const publicPath = path.resolve(__dirname, "../dist");
 
 module.exports = {
   entry: {
     index: "./src/index.js",
   },
   output: {
-    filename: "[name].bundle.js",
-    path: path.resolve(__dirname, "../dist/js/"),
+    filename: "js/[name].bundle.js",
+    path: publicPath,
+    publicPath: "/",
     clean: true,
   },
   plugins: [
     new Dotenv({
       path: ".env",
     }),
+    new MiniCssExtractPlugin({
+      linkType: "text/css",
+      filename: "styles/[name].css",
+      insert: "head",
+    }),
     new HtmlWebpackPlugin({
       title: "ChitGold - Condensed chits which worth the gold",
-      filename: "../index.html",
-      publicPath: "/js/",
+      filename: "index.html",
       template: "./public/index.html",
       inject: "body",
       chunks: ["index"],
@@ -34,7 +42,17 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: [
+          devMode
+            ? "style-loader"
+            : {
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  publicPath: "/",
+                },
+              },
+          "css-loader",
+        ],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -47,6 +65,8 @@ module.exports = {
     ],
   },
   optimization: {
-    runtimeChunk: "single",
+    runtimeChunk: {
+      name: (entrypoint) => `runtime~${entrypoint.name}`,
+    },
   },
 };
