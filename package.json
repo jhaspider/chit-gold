@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf ./dist/js/* | rm -rf ./dist/styles/* | webpack --config ./webpack/webpack.production.js",
+    "build": "rm -rf ./dist/js/* ./dist/styles/* | webpack --config ./webpack/webpack.production.js",
     "watch": "webpack --watch",
     "start": "rm -rf ./dist/js/* ./dist/styles/* | webpack serve --config ./webpack/webpack.develop.js"
   },
