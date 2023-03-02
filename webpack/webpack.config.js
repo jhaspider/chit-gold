@@ -13,7 +13,6 @@ module.exports = {
     filename: "js/[name].bundle.js",
     path: publicPath,
     publicPath: "/",
-    clean: true,
   },
   plugins: [
     new Dotenv({
