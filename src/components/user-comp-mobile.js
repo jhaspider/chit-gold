@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { useChitContext } from "../chit-provider";
 import useFirebaseLogin from "../firebase-login";
 
-function UserComp() {
+const UserCompMobile = () => {
   const { user, setUser } = useChitContext();
   const navigate = useNavigate();
   const { login, logout } = useFirebaseLogin();
   const profileRef = useRef(null);
+  const userDetailsRef = useRef(null);
 
   const onLoginTap = async (e) => {
     e.preventDefault();
@@ -32,6 +33,11 @@ function UserComp() {
     }
   }, [profileRef]);
 
+  const onAvatarTap = (e) => {
+    e.preventDefault();
+    userDetailsRef.current.classList.toggle("hide");
+  };
+
   if (!user) return null;
 
   let displayName = user.isAnonymous ? "Guest" : user.displayName ? user.displayName : user.email;
@@ -45,25 +51,32 @@ function UserComp() {
     userPhoto = provider.photoURL;
   }
 
+  if (user.isAnonymous) {
+    return (
+      <div className="avatar">
+        <div className="user-avatar" onClick={onLoginTap}>
+          <img style={{ marginTop: 4 }} src="/icons/anonymous.png" />
+        </div>
+      </div>
+    );
+  }
+
   const displayChar = displayName && displayName.length > 0 ? displayName.charAt(0).toUpperCase() : " ";
   return (
-    <div className="tool-user">
-      {/* <div className="user-avatar">{userPhoto && <img ref={profileRef} src={userPhoto} alt={displayName} />}</div> */}
-      <div className={`user-avatar active`}>{userPhoto ? <img ref={profileRef} src={userPhoto} alt={displayName} /> : <span>{displayChar}</span>}</div>
-      <div className="user-details">
-        <p>{displayName}</p>
-        {user.isAnonymous ? (
-          <a href="" onClick={onLoginTap}>
-            Login using Google
-          </a>
-        ) : (
+    <div className="avatar">
+      <div className={`user-avatar active`} onClick={onAvatarTap}>
+        {userPhoto ? <img ref={profileRef} src={userPhoto} alt={displayName} /> : <span>{displayChar}</span>}
+      </div>
+      {!user.isAnonymous && (
+        <div className="user-details hide" ref={userDetailsRef}>
+          <p>{displayName}</p>
           <a href="" onClick={onLogoutTap}>
             Logout
           </a>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
-}
+};
 
-export default UserComp;
+export default UserCompMobile;

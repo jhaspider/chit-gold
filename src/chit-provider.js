@@ -7,6 +7,7 @@ export const useChitContext = () => {
   return useContext(ChitContext);
 };
 
+const TAG = "ChitProvider - ";
 const ChitProvider = (props) => {
   const [user, setUser] = useState(null);
   const [spinner, setSpinner] = useState(false);
@@ -27,6 +28,8 @@ const ChitProvider = (props) => {
       }
     });
   }, []);
+  if (!user) return null;
+
   return <ChitContext.Provider value={{ user, setUser, spinner, setSpinner, error, setError }}>{props.children}</ChitContext.Provider>;
 };
 

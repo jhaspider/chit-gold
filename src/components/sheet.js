@@ -88,7 +88,7 @@ function Sheet() {
         new_sheet_start_time = 0;
 
         if (diff >= 500) {
-          const chitProps = { left: e.clientX, top: e.clientY - topOffset, title: `Chit ${all_chits.length + 1}`, topicId: selected_topic?.id };
+          const chitProps = { left: e.clientX, top: e.clientY - topOffset, title: `Note ${all_chits.length + 1}`, topicId: selected_topic?.id };
           addChit(chitProps, async (element) => {
             element.focus();
             const newChitId = await AddChit(element.chit.props);

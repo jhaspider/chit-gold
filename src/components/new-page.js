@@ -1,18 +1,25 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
+import { useChitContext } from "../chit-provider";
 
 function NewPage() {
+  const { user } = useChitContext();
+
+  if (user && !user.isAnonymous) {
+    return <Navigate to="/console" replace={true} />;
+  }
+
   return (
     <div className="new-page">
       <div className="container">
         <h1>
-          <span className="first">Chit</span>
-          <span className="last">Gold</span>
+          <span>ChitGold</span>
         </h1>
 
         <div className="divider vert" />
         <div className="waitlist">
           <h2>
-            Discover the power of condensed information with our unique content publishing platform.
+            Discover the power of condensed information with this unique content publishing platform.
             <br />
             <br />
             <br />
@@ -20,7 +27,7 @@ function NewPage() {
             <br />
             <br />
             <br />
-            With a focus on clarity and brevity, our platform is the ultimate tool for retaining and recalling important information.
+            With a focus on clarity and brevity, this platform is the ultimate tool for retaining and recalling important information.
           </h2>
         </div>
 
@@ -38,18 +45,19 @@ function NewPage() {
         </div>
 
         <div className="divider vert" />
-        <div className="public-footer">
-          <p>Version : 1.0.0-beta</p>
-          <div className="content">
-            <p>"The content on this website is for general informational purposes only and is not intended to be a substitute for professional advice, diagnosis, or treatment. </p>
+      </div>
 
-            <p>Any opinions expressed on this website are solely those of the authors and do not necessarily reflect the views of the website or its owners. </p>
-            <p>
-              The website and its owners make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability or availability with respect
-              to the website or the information, products, services, or related graphics contained on the website for any purpose.
-            </p>
-            <p>Any reliance you place on such information is therefore strictly at your own risk.</p>
-          </div>
+      <div className="public-footer">
+        <p>Version : 1.0.0-beta</p>
+        <div className="content">
+          <p>"The content on this website is for general informational purposes only and is not intended to be a substitute for professional advice, diagnosis, or treatment. </p>
+
+          <p>Any opinions expressed on this website are solely those of the authors and do not necessarily reflect the views of the website or its owners. </p>
+          <p>
+            The website and its owners make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability or availability with respect to
+            the website or the information, products, services, or related graphics contained on the website for any purpose.
+          </p>
+          <p>Any reliance you place on such information is therefore strictly at your own risk.</p>
         </div>
       </div>
     </div>

@@ -17,6 +17,7 @@ const Events = {
   MOUSEDOWN: "mousedown",
   MOUSEUP: "mouseup",
   MOUSEMOVE: "mousemove",
+  TOGGLE_BG: "toggle_bg",
 };
 
 export default Events;
