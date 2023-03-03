@@ -3,5 +3,8 @@ developer_note.md
 .DS_Store
 dist/js/*.js
 dist/js/*.json
+dist/js/*.txt
+dist/styles/*.css
+dist/index.html
 .env*
 *.log
