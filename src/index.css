@@ -640,6 +640,13 @@ p {
   display: inline-block;
 }
 
+.public-footer .links {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  font-weight: normal;
+}
+
 /* Spherical loader animation in css */
 @keyframes spin {
   0% {
