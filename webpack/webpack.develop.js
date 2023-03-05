@@ -7,9 +7,9 @@ module.exports = merge(common, {
   devtool: "inline-source-map",
   devServer: {
     static: "./dist/",
-    devMiddleware: {
-      writeToDisk: true,
-    },
+    // devMiddleware: {
+    //   writeToDisk: true,
+    // },
     port: 3000,
     historyApiFallback: true,
   },

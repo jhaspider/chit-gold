@@ -68,7 +68,7 @@ function MobileScreen() {
       <div className="mobile-root" ref={sheet_mobile_ref}>
         <div className="mobile-header">
           <UserCompMobile />
-          {selected_topic && <h1>{Utils.capitalize(selected_topic.topicName)}</h1>}
+          {selected_topic && <h1>Git Essential Commands</h1>}
         </div>
         <SheetMobile />
         <h1 className="logo">ChitGold</h1>

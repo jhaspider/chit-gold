@@ -78,7 +78,16 @@ function NewTopic(props) {
   return (
     <div id="bgcontainer" className="add-group-container" onClick={backgroundTap}>
       <div className="add-group">
-        <input id="topic_name" type={"text"} autoFocus placeholder="Add a Topic" autoComplete={"off"} className="container" onInput={onContentChangeHandler} onKeyUp={onKeyUpHandler}></input>
+        <input
+          id="topic_name"
+          type={"text"}
+          maxLength="40"
+          autoFocus
+          placeholder="Add a Topic"
+          autoComplete={"off"}
+          className="container"
+          onInput={onContentChangeHandler}
+          onKeyUp={onKeyUpHandler}></input>
         <p id="enter-prompt" ref={promptRef}></p>
       </div>
     </div>

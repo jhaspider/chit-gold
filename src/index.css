@@ -640,6 +640,13 @@ p {
   display: inline-block;
 }
 
+.public-footer .links {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  font-weight: normal;
+}
+
 /* Spherical loader animation in css */
 @keyframes spin {
   0% {
@@ -849,6 +856,7 @@ p {
     background-color: var(--color-lightGrey);
     margin-left: 10px;
     margin-right: 10px;
+    margin-top: 40px;
   }
 
   .chit-mobile {
@@ -902,7 +910,8 @@ p {
 
   .selected-topic {
     background: var(--color-action);
-    height: 32px;
+    min-height: 32px;
+    max-height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -912,6 +921,8 @@ p {
 
   .selected-topic h3 {
     color: var(--bg-color);
+    margin: 6px 16px;
+    text-align: center;
   }
 
   .blur {
@@ -946,9 +957,8 @@ p {
   }
 
   .mobile-user-topics li {
-    padding: 6px 16px;
-    margin-left: 6px;
-    display: inline-block;
+    padding: 0px 8px;
+    display: flex;
     cursor: pointer;
     background-color: var(--bg-color);
     /* add box shadow which would support all browsers */
@@ -956,11 +966,20 @@ p {
     -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     border-radius: 20px;
+    min-height: 32px;
+    max-height: 60px;
+    max-width: 98%;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 10px;
   }
 
   .mobile-user-topics li a {
     color: var(--color-action);
+    margin: 6px 16px;
+    text-align: center;
+    word-wrap: break-word;
   }
 
   .mobile-root .logo {

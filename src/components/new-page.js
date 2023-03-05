@@ -59,6 +59,14 @@ function NewPage() {
           </p>
           <p>Any reliance you place on such information is therefore strictly at your own risk.</p>
         </div>
+        <div className="links">
+          <a href="/tou.html" target={"_blank"}>
+            Terms of Use
+          </a>
+          <a href="/privacy.html" target={"_blank"}>
+            Privacy Policy
+          </a>
+        </div>
       </div>
     </div>
   );
