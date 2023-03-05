@@ -14,8 +14,8 @@ app.use(cors(corsOptions));
 app.use("/", requests);
 
 const runtimeOpts = {
-  memory: "4GB",
-  maxInstances: 10,
+  memory: "2GB",
+  maxInstances: 5,
   minInstances: 1,
 };
 
